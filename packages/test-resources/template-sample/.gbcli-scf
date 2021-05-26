@@ -1,0 +1,8 @@
+{
+  "name": "sample-template",
+  "description": "This is a sample template",
+  "version": "1.2.3.4",
+  "templates": [
+    "./templates/*"
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "name": "plugin",
+  "engines": {
+    "node": ">=15.0.0"
+  },
+  "dependencies": {
+    "@oclif/command": "^1.8.0",
+    "@oclif/config": "^1",
+    "@oclif/plugin-autocomplete": "^0.3.0",
+    "chalk": "^4.1.1",
+    "chalk-table": "^1.0.2",
+    "templates": "workspace:*"
+  },
+  "devDependencies": {
+    "@oclif/dev-cli": "^1",
+    "@oclif/plugin-help": "^3"
+  },
+  "files": [
+    "/commands"
+  ],
+  "oclif": {
+    "commands": "./commands",
+    "bin": "gbcli-scf",
+    "plugins": [
+      "@oclif/plugin-autocomplete"
+    ],
+    "devPlugins": [
+      "@oclif/plugin-help"
+    ],
+    "topics": {
+      "scf": {
+        "description": "Scafflater CLI"
+      }
+    }
+  },
+  "scripts": {
+    "postpack": "rm -f oclif.manifest.json",
+    "posttest": "eslint .",
+    "prepack": "oclif-dev manifest && oclif-dev readme",
+    "test": "echo NO TESTS",
+    "version": "oclif-dev readme && git add README.md"
+  }
+}
