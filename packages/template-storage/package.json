@@ -1,0 +1,10 @@
+{
+  "name": "template-storage",
+  "main": "template-storage.js",
+  "engines": {
+    "node": ">=15.0.0"
+  },
+  "dependencies": {
+    "fs-util": "workspace:*"
+  }
+}

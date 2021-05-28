@@ -1,5 +1,6 @@
 {
   "name": "templates",
+  "main": "template-manager",
   "engines": {
     "node": ">=15.0.0"
   },
@@ -7,6 +8,7 @@
     "directory-tree": "^2.2.9",
     "fs-extra": "^10.0.0",
     "git-util": "workspace:*",
+    "template-source": "workspace:*",
     "version-sort": "^0.1.1"
   }
 }

@@ -7,6 +7,7 @@ const path = require('path')
 const os = require('os')
 const fs = require('fs-extra')
 const constants = require('./constants')
+const FileSystemTemplateManager = require('./file-system-template-manager')
 
 jest.mock('../../packages/git-util/git-util')
 
@@ -15,6 +16,33 @@ describe('Template Manager tests', () => {
     jest.clearAllMocks()
     jest.restoreAllMocks()
   })
+
+  test('Throws an exception when the manager does not exists', () => {
+    // ARRANJE
+    const config = {manager: 'bla'}
+    const tm = new TemplateManager()
+
+    // ACT and ASSERT
+    expect(() => {
+      tm.getTemplateManager(config)
+    }).toThrowError("There's no module for manager 'bla'")
+  })
+
+  test('Gets the Template Manager in config', () => {
+    // ARRANJE
+    const config = {manager: 'fileSystem'}
+    const ts = new TemplateManager(config)
+
+    // ACT
+    const result = ts.getTemplateManager(config)
+
+    // ASSERT
+    // eslint-disable-next-line no-proto
+    expect(result.__proto__ instanceof TemplateManager).toBe(true)
+    expect(result instanceof FileSystemTemplateManager).toBe(true)
+  })
+
+  // OLD \/
 
   test('Get Template from url', async () => {
     // ARRANJE
