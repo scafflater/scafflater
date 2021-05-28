@@ -2,14 +2,14 @@
 const defaultConfig = {
   storage: 'local',
   storages: {
-    local: './local-template-storage',
+    local: './local-template-cache',
   },
 }
 
 /**
 * TemplateStorage factory.
 */
-class TemplateStorage {
+class TemplateCache {
   /**
   * Template Source constructor.
   * @param {?object} config - Scafflater configuration. If null, will get the default configuration.
@@ -22,9 +22,9 @@ class TemplateStorage {
   * Returns the template source instance to be used to get templates.
   * @param {?object} config - Scafflater configuration. If null, will get the default configuration.
   * @param {?string} storage - Storage to be used. If null, will use local as default.
-  * @return {TemplateStorage} An specialized instance of TemplateStorage.
+  * @return {TemplateCache} An specialized instance of TemplateStorage.
   */
-  getTemplateStorage(config = {}, storage = null) {
+  getTemplateCache(config = {}, storage = null) {
     const c = {...defaultConfig, ...config}
     const s = storage ? storage : c.storage
 
@@ -42,7 +42,7 @@ class TemplateStorage {
   */
   async storeTemplate(path) {
     return this
-    .getTemplateStorage()
+    .getTemplateCache()
     .storeTemplate(path)
   }
 
@@ -55,7 +55,7 @@ class TemplateStorage {
   */
   async getTemplateToPath(templateName, templateVersion = null, path = null) {
     return this
-    .getTemplateStorage()
+    .getTemplateCache()
     .getTemplateToPath(templateName, templateVersion, path)
   }
 
@@ -65,11 +65,11 @@ class TemplateStorage {
   * @param {string} templateVersion - Template Version. If null, the latest stored version is returned.
   * @param {string} path - Path to output the template If null, will store the template in a temp folder.
   */
-  async listStoredTemplates() {
+  async listCachedTemplates() {
     return this
-    .getTemplateStorage()
-    .listStoredTemplates()
+    .getTemplateCache()
+    .listCachedTemplates()
   }
 }
 
-module.exports = TemplateStorage
+module.exports = TemplateCache

@@ -11,7 +11,7 @@ describe('Template Manager tests', () => {
     jest.restoreAllMocks()
   })
 
-  test('Load inexisting config, creating an default', async () => {
+  test('Load inexisting config, create an default', async () => {
     // ARRANJE
     jest.spyOn(fs, 'pathExists').mockImplementation(async () => {
       return false

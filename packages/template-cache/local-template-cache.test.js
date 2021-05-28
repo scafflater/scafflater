@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const LocalTemplateStorage = require('./local-template-storage')
+const LocalTemplateCache = require('./local-template-cache')
 const FileSystemUtils = require('fs-util')
 const path = require('path')
 
@@ -17,12 +17,12 @@ describe('Github template source', () => {
       templateConfigFileName: 'the_template_condig.json',
       localStorageTemplatesPath: '/path/to/store/templates',
     }
-    const localTemplateStorage = new LocalTemplateStorage(config)
+    const localTemplateCache = new LocalTemplateCache(config)
 
     FileSystemUtils.getJson.mockReturnValue({name: 'some-name', version: 'some-version'})
 
     // ACT
-    await localTemplateStorage.storeTemplate(path)
+    await localTemplateCache.storeTemplate(path)
 
     // ASSERT
     expect(FileSystemUtils.copy.mock.calls[0][0]).toBe(path)
@@ -34,7 +34,7 @@ describe('Github template source', () => {
     const config = {
       localStorageTemplatesPath: path.join(__dirname, '.test-resources/templates'),
     }
-    const localTemplateStorage = new LocalTemplateStorage(config)
+    const localTemplateCache = new LocalTemplateCache(config)
 
     FileSystemUtils.getDirTree.mockReturnValue({
       name: 'templates',
@@ -61,7 +61,7 @@ describe('Github template source', () => {
       ]})
 
     // ACT
-    const out = await localTemplateStorage.listStoredTemplates(path)
+    const out = await localTemplateCache.listCachedTemplates(path)
 
     // ASSERT
     expect(out.length).toBe(2)

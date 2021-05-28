@@ -1,4 +1,4 @@
-const TemplateStorage = require('./template-storage')
+const TemplateCache = require('./template-cache')
 const os = require('os')
 const path = require('path')
 const FileSystemUtils = require('fs-util')
@@ -10,9 +10,9 @@ const defaultConfig = {
 
 /**
 * Stores templates in the local file system
-* @extends TemplateStorage
+* @extends TemplateCache
 */
-class LocalTemplateStorage extends TemplateStorage {
+class LocalTemplateStorage extends TemplateCache {
   constructor(config = {}) {
     super(config)
     this.config = {...defaultConfig, ...config}
@@ -47,14 +47,14 @@ class LocalTemplateStorage extends TemplateStorage {
     path = path ? path : FileSystemUtils.getTempFolder()
 
     return this
-    .getTemplateStorage()
+    .getTemplateCache()
     .getTemplateToPath(templateName, templateVersion, path)
   }
 
   /**
   * List stored templates and their versions.
   */
-  async listStoredTemplates() {
+  async listCachedTemplates() {
     const dirTree = FileSystemUtils.getDirTree(this.config.localStorageTemplatesPath, false)
 
     return dirTree.children.map(folder => {
