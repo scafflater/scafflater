@@ -60,7 +60,6 @@ class FileSystemUtils {
       // Regex thar does not match with nothing
       options.extensions = /ˆ.*/
     }
-
     return dirTree(path, options)
   }
 }

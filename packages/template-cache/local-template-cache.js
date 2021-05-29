@@ -2,6 +2,7 @@ const TemplateCache = require('./template-cache')
 const os = require('os')
 const path = require('path')
 const FileSystemUtils = require('fs-util')
+const sort = require('version-sort')
 
 const defaultConfig = {
   localStorageTemplatesPath: path.join(os.homedir(), '.scafflater', 'templates'),
@@ -24,31 +25,61 @@ class LocalTemplateStorage extends TemplateCache {
   */
   async storeTemplate(templatePath) {
     const templateConfig = FileSystemUtils.getJson(path.join(templatePath, this.config.templateConfigFileName))
-    FileSystemUtils.copy(templatePath, this.getTemplateFolder(templateConfig))
+    const cachePath = path.join(this.config.localStorageTemplatesPath, templateConfig.name, templateConfig.version)
+    FileSystemUtils.copy(templatePath, cachePath)
+    return cachePath
   }
 
   /**
   *  Returns the template local path
-  * @param {string} templateConfig The template configuration
+  * @param {string} templateName - Template name
+  * @param {string} templateVersion - Template Version. If null, the latest stored version is returned.
   * @returns {string} The path where template was copied
   */
-  getTemplateFolder(templateConfig) {
-    return path.join(this.config.localStorageTemplatesPath, templateConfig.name, templateConfig.version)
+  getTemplateFolder(templateName, templateVersion = null) {
+    const templateFolder = path.join(this.config.localStorageTemplatesPath, templateName)
+
+    if (!FileSystemUtils.pathExists(templateFolder)) {
+      return null
+    }
+
+    if (!templateVersion) {
+      let versions =  FileSystemUtils.getDirTree(templateFolder, false)
+
+      // The template folder does not exist or there no versions on it
+      if (!versions || versions.children.length <= 0)
+        return null
+
+      versions = sort(versions.children.map(d => d.name))
+      templateVersion = versions[versions.length - 1]
+    }
+
+    const templateVersionFolder =  path.join(templateFolder, templateVersion)
+
+    if (!FileSystemUtils.pathExists(templateVersionFolder)) {
+      return null
+    }
+
+    return templateVersionFolder
   }
 
   /**
-  * Gets a template.
+  * Gets the template path.
   * @param {string} templateName - Template name
   * @param {string} templateVersion - Template Version. If null, the latest stored version is returned.
-  * @param {string} path - Path to output the template If null, will store the template in a temp folder.
   * @returns {string} The stored template path
   */
-  async getTemplateToPath(templateName, templateVersion = null, path = null) {
-    path = path ? path : FileSystemUtils.getTempFolder()
+  async getTemplatePath(templateName, templateVersion = null) {
+    return this.getTemplateFolder(templateName, templateVersion)
+  }
 
-    return this
-    .getTemplateCache()
-    .getTemplateToPath(templateName, templateVersion, path)
+  /**
+  * Gets the cached template config.
+  * @param {string} cacheKey - The cache key
+  * @returns {object} The template config
+  */
+  async getTemplateConfig(cacheKey) {
+    return FileSystemUtils.getJson(path.join(cacheKey, this.config.templateConfigFileName))
   }
 
   /**
@@ -56,6 +87,9 @@ class LocalTemplateStorage extends TemplateCache {
   */
   async listCachedTemplates() {
     const dirTree = FileSystemUtils.getDirTree(this.config.localStorageTemplatesPath, false)
+
+    if (!dirTree)
+      return null
 
     return dirTree.children.map(folder => {
       return {

@@ -24,3 +24,14 @@ test('Should return the directory tree with files', () => {
   // ASSERT
   expect(out.children.length).toBe(2)
 })
+
+test('Should return null if directory does not exists', () => {
+  // ARRANJE
+  const folderPath = path.join(__dirname, '.test-resources-does-not-exists')
+
+  // ACT
+  const out = FileSystemUtils.getDirTree(folderPath)
+
+  // ASSERT
+  expect(out).toBe(null)
+})

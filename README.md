@@ -30,6 +30,7 @@ USAGE
 - [Usage](#usage)
 - [Commands](#commands)
   - [`oclif-example hello`](#oclif-example-hello)
+- [Template Folder Structure](#template-folder-structure)
 
 ## `oclif-example hello`
 
@@ -49,3 +50,4 @@ DESCRIPTION
 
 _See code: [src/commands/hello.js](https://github.com/chicoribas/scafflater/blob/v0.0.0/src/commands/hello.js)_
 <!-- commandsstop -->
+

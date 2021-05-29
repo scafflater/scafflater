@@ -39,6 +39,7 @@ class TemplateCache {
   /**
   * Stores the template.
   * @param {string} path - Path of template
+  * @returns {string} The cache key
   */
   async storeTemplate(path) {
     return this
@@ -47,16 +48,26 @@ class TemplateCache {
   }
 
   /**
-  * Gets a template.
+  * Gets the template path.
   * @param {string} templateName - Template name
   * @param {string} templateVersion - Template Version. If null, the latest stored version is returned.
-  * @param {string} path - Path to output the template If null, will store the template in a temp folder.
-  * @returns {string} The path where template was copied
+  * @returns {string} The template path
   */
-  async getTemplateToPath(templateName, templateVersion = null, path = null) {
+  async getTemplatePath(templateName, templateVersion = null) {
     return this
     .getTemplateCache()
-    .getTemplateToPath(templateName, templateVersion, path)
+    .getTemplatePath(templateName, templateVersion)
+  }
+
+  /**
+  * Gets the cached template config.
+  * @param {string} cacheKey - The cache key
+  * @returns {object} The template config
+  */
+  async getTemplateConfig(cacheKey) {
+    return this
+    .getTemplateCache()
+    .getTemplateConfig(cacheKey)
   }
 
   /**

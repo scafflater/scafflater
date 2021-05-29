@@ -1,10 +1,11 @@
 {
-  "name": "template-storage",
-  "main": "template-storage.js",
+  "name": "template-cache",
+  "main": "template-cache.js",
   "engines": {
     "node": ">=15.0.0"
   },
   "dependencies": {
-    "fs-util": "workspace:*"
+    "fs-util": "workspace:*",
+    "version-sort": "^0.1.1"
   }
 }
