@@ -41,6 +41,24 @@ class FileSystemUtils {
   }
 
   /**
+  * Gets file
+  * @param {string} path - Source
+  * @returns {object} The read file
+  */
+  static getFile(path) {
+    return fs.readFileSync(path)
+  }
+
+  /**
+  * Gets file
+  * @param {string} path - Source
+  * @param {string} data - Data to be saved
+  */
+  static saveFile(path, data) {
+    fs.writeFileSync(path, data)
+  }
+
+  /**
   * Saves json file
   * @param {string} path - Source
   * @param {object} object - The object to be saved

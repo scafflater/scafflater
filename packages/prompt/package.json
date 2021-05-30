@@ -1,0 +1,10 @@
+{
+  "name": "prompt",
+  "main": "prompt.js",
+  "engines": {
+    "node": ">=15.0.0"
+  },
+  "dependencies": {
+    "inquirer": "^8.1.0"
+  }
+}

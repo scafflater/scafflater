@@ -1,0 +1,11 @@
+{
+  "name": "generator",
+  "main": "generator.js",
+  "engines": {
+    "node": ">=15.0.0"
+  },
+  "dependencies": {
+    "fs-util": "workspace:*",
+    "handlebars": "^4.7.7"
+  }
+}
