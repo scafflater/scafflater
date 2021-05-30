@@ -1,6 +1,7 @@
 const fs = require('fs-extra')
 const os = require('os')
 const dirTree = require('directory-tree')
+const glob = require('glob')
 
 class FileSystemUtils {
   /**
@@ -61,6 +62,23 @@ class FileSystemUtils {
       options.extensions = /ˆ.*/
     }
     return dirTree(path, options)
+  }
+
+  /**
+  * List all scafflater in a directory tree.
+  * @param {string} path - Path to look for scafflater templates
+  * @return {ReturnValueDataTypeHere} Brief description of the returning value here.
+  */
+  static async listScfConfigTreeInPath(path) {
+    return new Promise((resolve, reject) => {
+      glob('/**/_scf.json', {root: path}, (err, files) => {
+        if (err)
+          reject(err)
+        if (!files || files.length <= 0)
+          resolve(null)
+        resolve(files)
+      })
+    })
   }
 }
 

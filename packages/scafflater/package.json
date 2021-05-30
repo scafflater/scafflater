@@ -1,5 +1,8 @@
 {
   "name": "scafflater",
+  "engines": {
+    "node": ">=15.0.0"
+  },
   "dependencies": {
     "template-cache": "workspace:*",
     "template-manager": "workspace:*",

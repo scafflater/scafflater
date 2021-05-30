@@ -34,7 +34,7 @@ class LocalTemplateStorage extends TemplateCache {
   *  Returns the template local path
   * @param {string} templateName - Template name
   * @param {string} templateVersion - Template Version. If null, the latest stored version is returned.
-  * @returns {string} The path where template was copied
+  * @returns {string} The path where template was copied. Returns null if the template is not in cache.
   */
   getTemplateFolder(templateName, templateVersion = null) {
     const templateFolder = path.join(this.config.localStorageTemplatesPath, templateName)
