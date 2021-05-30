@@ -9,7 +9,7 @@ class Scafflater {
   /**
   * Scafflater constructor.
   * @param {?object} config - Scafflater configuration. If null, will get the default configuration.
-  * @param {string} sourceKey - Teh source key
+  * @param {string} sourceKey - The source key
   */
   constructor(config = {}, sourceKey = null) {
     this.config = config
@@ -18,8 +18,15 @@ class Scafflater {
     this.templateManager = new TemplateManager(this.templateSource, this.templateCache)
   }
 
-  async init(path = './') {
-
+  /**
+  * Initializes the basic structure for this scafflater template.
+  * @param {string} sourceKey - Source Template key
+  * @param {string} targetPath - Path where the results must be placed
+  * @return {ReturnValueDataTypeHere} Brief description of the returning value here.
+  */
+  async init(sourceKey, targetPath = './') {
+    const templateConfig = await this.templateManager.getTemplateFromSource(sourceKey)
+    const initPartialInfo = await this.templateManager.getPartial('_init', templateConfig.name, templateConfig.version)
   }
 
   static async applyTemplate(templatePath, component, destinPath) {
