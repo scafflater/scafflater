@@ -30,16 +30,16 @@ class Scafflater {
     const initPartialInfo = await this.templateManager.getPartial('_init', templateConfig.name, templateConfig.version)
   }
 
-  static async applyTemplate(templatePath, component, destinPath) {
-    // Load template config
-    // Resolve componente. Se componente
-    // Load component config
-    // Efetuar o prompt dos parâmetros para o componente
-    // Carregar directory tree do componente
-    // Aplicar Handlebars na estrutura de pastas, criando esta estrutura no destinPath
-    // Aplicar Handlebars nos arquivos, salvando-os no destinPath
-    //    Verificar se há cabeçalho de configuração para append
-  }
+  // static async applyTemplate(templatePath, component, destinPath) {
+  //   // Load template config
+  //   // Resolve componente. Se componente
+  //   // Load component config
+  //   // Efetuar o prompt dos parâmetros para o componente
+  //   // Carregar directory tree do componente
+  //   // Aplicar Handlebars na estrutura de pastas, criando esta estrutura no destinPath
+  //   // Aplicar Handlebars nos arquivos, salvando-os no destinPath
+  //   //    Verificar se há cabeçalho de configuração para append
+  // }
 }
 
 module.exports = Scafflater

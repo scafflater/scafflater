@@ -57,3 +57,4 @@ test('Should return null if directory does not exists', async () => {
   // ASSERT
   expect(out).toBe(null)
 })
+

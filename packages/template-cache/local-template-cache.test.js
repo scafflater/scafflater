@@ -145,8 +145,6 @@ describe('Github template source', () => {
 
   test('Get template folder should return the version for the last template', async () => {
     // ARRANJE
-    // ARRANJE
-    const path = 'path/to/some/template'
     const config = {
       templateConfigFileName: 'the_template_condig.json',
       localStorageTemplatesPath: '/path/to/store/templates',
