@@ -21,10 +21,11 @@ class Scafflater {
   /**
   * Initializes the basic structure for this scafflater template.
   * @param {string} sourceKey - Source Template key
+  * @param {object} parameters - Parameters used to generate partials
   * @param {string} targetPath - Path where the results must be placed
   * @return {ReturnValueDataTypeHere} Brief description of the returning value here.
   */
-  async init(sourceKey, targetPath = './') {
+  async init(sourceKey, parameters, targetPath = './') {
     const templateConfig = await this.templateManager.getTemplateFromSource(sourceKey)
     const initPartialInfo = await this.templateManager.getPartial('_init', templateConfig.name, templateConfig.version)
   }
