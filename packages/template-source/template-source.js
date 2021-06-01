@@ -6,14 +6,6 @@ const defaultConfig = {
   },
 }
 
-/** Known Sources used to detect sources from source keys patterns */
-const knownSources = [
-  {
-    regex: /https?:\/\/github.com/g,
-    source: 'github',
-  },
-]
-
 /**
 * TemplateSource factory.
 */
@@ -21,18 +13,9 @@ class TemplateSource {
   /**
   * Template Source constructor.
   * @param {?object} config - Scafflater configuration. If null, will get the default configuration.
-  * @param {string} sourceKey - Teh source key
   */
-  constructor(config = {}, sourceKey = null) {
+  constructor(config = {}) {
     this.config = {...defaultConfig, ...config}
-
-    if (sourceKey) {
-      for (const knownSource of knownSources) {
-        if (knownSource.regex.test(sourceKey)) {
-          this.config = {...this.config, ...{source: knownSource.source}}
-        }
-      }
-    }
   }
 
   /**
@@ -55,10 +38,10 @@ class TemplateSource {
   * @param {?string} outputDir - Folder where template must be copied. If null, a temp folder will be used.
   * @return {string} Folder where the template was copied.
   */
-  async getTemplateFrom(sourceKey, outputDir = null) {
+  async getTemplate(sourceKey, outputDir = null) {
     return this
     .getTemplateSource()
-    .getTemplateFrom(sourceKey, outputDir)
+    .getTemplate(sourceKey, outputDir)
   }
 }
 

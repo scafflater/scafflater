@@ -4,6 +4,8 @@
     "node": ">=15.0.0"
   },
   "dependencies": {
+    "fs-util": "workspace:*",
+    "generator": "workspace:*",
     "template-cache": "workspace:*",
     "template-manager": "workspace:*",
     "template-source": "workspace:*"

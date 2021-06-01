@@ -9,14 +9,15 @@ const os = require('os')
 class GitUtil {
   /**
   * Clones a repo to a local path.
-  * @param {string} repoUrl - Repository url
+  * @param {string} repo - Repository (<owner>/<repository>)
   * @param {string} localPath - Local path where the repos will be cloned
+  * @param {string} [baseGitHubUrl] - Github base path
   */
-  static async clone(repoUrl, localPath) {
+  static async clone(repo, localPath) {
     await runCommand('git',
       [
         'clone',
-        repoUrl,
+        repo,
         localPath,
       ]
     )
@@ -24,19 +25,13 @@ class GitUtil {
 
   /**
   * Clones a repo to a temp path.
-  * @param {string} repoUrl - Repository url
+  * @param {string} repo - Repository (<owner>/<repository>)
   * @returns {string} The path where repo was cloned
   */
-  static async cloneToTempPath(repoUrl) {
+  static async cloneToTempPath(repo) {
     const tempDir = fs.mkdtempSync(os.tmpdir())
 
-    await runCommand('git',
-      [
-        'clone',
-        repoUrl,
-        tempDir,
-      ]
-    )
+    await this.clone(repo, tempDir)
 
     return tempDir
   }

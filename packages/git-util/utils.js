@@ -9,18 +9,28 @@ const {PassThrough} = require('stream')
  */
 const runCommand = async (
   command,
-  args,
-  logStream = new PassThrough(),
+  args
 ) => {
-  await new Promise((resolve, reject) => {
+  // const process = spawnSync(command, args, {encoding: 'utf8'})
+  // if (process.error) {
+  //   throw new Error(process.error)
+  // }
+
+  // return process.stdout
+
+  return new Promise((resolve, reject) => {
+    var scriptOutput = ''
     const process = spawn(command, args)
 
-    process.stdout.on('data', stream => {
-      logStream.write(stream)
+    process.stdout.setEncoding('utf8')
+    process.stdout.on('data', data => {
+      data = data.toString()
+      scriptOutput += data
     })
 
-    process.stderr.on('data', stream => {
-      logStream.write(stream)
+    process.stderr.on('data', data => {
+      data = data.toString()
+      scriptOutput += data
     })
 
     process.on('error', error => {
@@ -29,9 +39,9 @@ const runCommand = async (
 
     process.on('close', code => {
       if (code !== 0) {
-        return reject(new Error(`Command ${command} failed, exit code: ${code}`))
+        return reject(new Error(`Command ${command} failed, exit code: ${code} \n ${scriptOutput}`))
       }
-      return resolve()
+      return resolve(scriptOutput)
     })
   })
 }

@@ -2910,7 +2910,7 @@ fsevents@^2.1.2:
   languageName: node
   linkType: hard
 
-"generator@workspace:packages/generator":
+"generator@workspace:*, generator@workspace:packages/generator":
   version: 0.0.0-use.local
   resolution: "generator@workspace:packages/generator"
   dependencies:
@@ -5782,6 +5782,8 @@ fsevents@^2.1.2:
   version: 0.0.0-use.local
   resolution: "scafflater@workspace:packages/scafflater"
   dependencies:
+    fs-util: "workspace:*"
+    generator: "workspace:*"
     template-cache: "workspace:*"
     template-manager: "workspace:*"
     template-source: "workspace:*"

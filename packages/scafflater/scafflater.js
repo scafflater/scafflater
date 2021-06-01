@@ -1,6 +1,9 @@
 const TemplateSource = require('template-source')
 const TemplateCache = require('template-cache')
 const TemplateManager = require('template-manager')
+const Generator = require('generator')
+const FileSystemUtils = require('fs-util')
+const path = require('path')
 
 /**
 * Scafflater class
@@ -18,6 +21,15 @@ class Scafflater {
     this.templateManager = new TemplateManager(this.templateSource, this.templateCache)
   }
 
+  buildContext(config, parameters, sourcePath, targetPath) {
+    return {
+      config,
+      parameters,
+      sourcePath,
+      targetPath,
+    }
+  }
+
   /**
   * Initializes the basic structure for this scafflater template.
   * @param {string} sourceKey - Source Template key
@@ -26,8 +38,31 @@ class Scafflater {
   * @return {ReturnValueDataTypeHere} Brief description of the returning value here.
   */
   async init(sourceKey, parameters, targetPath = './') {
-    const templateConfig = await this.templateManager.getTemplateFromSource(sourceKey)
-    const initPartialInfo = await this.templateManager.getPartial('_init', templateConfig.name, templateConfig.version)
+    const templateConfig = await this.templateSource.getTemplate(sourceKey)
+
+    const scfConfig = {
+      template: {...templateConfig.config},
+      partials: [],
+    }
+
+    FileSystemUtils.saveJson(path.join(targetPath, '_scf.json'), scfConfig)
+
+    await this.runPartial('_init', parameters, targetPath, templateConfig,)
+  }
+
+  async runPartial(partialPath, parameters, targetPath = './') {
+    const scfConfig = await FileSystemUtils.getJson(path.join(targetPath, '_scf.json'))
+
+    const initPartialInfo = await this.templateManager.getPartial('_init', scfConfig.template.name, templateConfig.version)
+    const ctx = this.buildContext(initPartialInfo.config, parameters, initPartialInfo.path, targetPath)
+    await Generator.generate(ctx)
+
+    scfConfig.partials.push({
+      path: `${scfConfig.template.name}/${partialPath}`,
+      parameters: parameters,
+    })
+
+    FileSystemUtils.saveJson(path.join(targetPath, '_scf.json'), scfConfig)
   }
 
   // static async applyTemplate(templatePath, component, destinPath) {
