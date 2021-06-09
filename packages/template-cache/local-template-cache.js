@@ -6,7 +6,7 @@ const sort = require('version-sort')
 
 const defaultConfig = {
   localStorageTemplatesPath: path.join(os.homedir(), '.scafflater', 'templates'),
-  templateConfigFileName: 'scf.json',
+  templateConfigFileName: '_scf.json',
 }
 
 /**

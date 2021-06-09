@@ -54,7 +54,7 @@ class FileSystemUtils {
   * Gets file
   * @param {string} path - Source
   * @param {string} data - Data to be saved
-  * @param {boolean} append - Appends data in file. The file is created if does not exists.
+  * @param {boolean} append - Appends data in file. The file is created if does not exists. Default = true
   */
   static saveFile(path, data, append = true) {
     const option = {flag: 'w'}

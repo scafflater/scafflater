@@ -20,7 +20,7 @@
   ],
   "oclif": {
     "commands": "./commands",
-    "bin": "gbcli-scf",
+    "bin": "scf-cli",
     "plugins": [
       "@oclif/plugin-autocomplete"
     ],
