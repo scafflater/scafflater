@@ -36,7 +36,8 @@ class TemplateSource {
   * Gets the template and copies it in a local folder.
   * @param {string} sourceKey - The source key of template. Will vary, depending on template source
   * @param {?string} outputDir - Folder where template must be copied. If null, a temp folder will be used.
-  * @return {string} Folder where the template was copied.
+  * @return {object.path} path - Path where the template was copied.
+  * @return {object.config} config - The template config.
   */
   async getTemplate(sourceKey, outputDir = null) {
     return this

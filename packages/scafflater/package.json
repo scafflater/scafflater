@@ -1,5 +1,6 @@
 {
   "name": "scafflater",
+  "main": "scafflater.js",
   "engines": {
     "node": ">=15.0.0"
   },

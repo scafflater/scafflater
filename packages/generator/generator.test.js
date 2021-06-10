@@ -38,16 +38,22 @@ describe('Generator Tests', () => {
     // ARRANJE
     FileSystemUtils.getDirTree.mockReturnValue(
       {
-        path: '{{parameters.folderName}}',
-        name: '{{parameters.folderName}}',
+        path: 'the-partial-folder', // must be ignored
+        name: 'the-partial-folder',
         size: 200,
         type: 'directory',
         children: [{
-          path: '{{parameters.folderName}}/{{parameters.fileName}}.txt',
-          name: '{{parameters.fileName}}.txt',
-          size: 100,
-          type: 'file',
-          extension: '.txt',
+          path: '{{parameters.folderName}}',
+          name: '{{parameters.folderName}}',
+          size: 200,
+          type: 'directory',
+          children: [{
+            path: '{{parameters.folderName}}/{{parameters.fileName}}.txt',
+            name: '{{parameters.fileName}}.txt',
+            size: 100,
+            type: 'file',
+            extension: '.txt',
+          }],
         }],
       })
     FileSystemUtils.getFile.mockReturnValue('{{parameters.test}}')

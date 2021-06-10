@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 const {Command} = require('@oclif/command')
-const TemplateManager = require('templates/template-manager')
+const TemplateManager = require('template-manager')
 const chalk = require('chalk')
 const chalkTable = require('chalk-table')
 const {version} = require('@oclif/command/lib/flags')

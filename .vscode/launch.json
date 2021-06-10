@@ -1,0 +1,21 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Init",
+      "program": "${workspaceFolder}/packages/scf-cli/bin/run",
+      "args": [
+        "init",
+        "https://github.com/chicoribas/scafflater-test-template.git",
+        "-p=domain:domain-name",
+        "-p=system:system-name",
+        "-p=team:team-name"
+      ]
+    }
+  ]
+}

@@ -23,8 +23,8 @@ class TemplateManager {
   * @return {object} An object containing template config
   */
   async getTemplateFromSource(sourceKey) {
-    const tempTemplateFolder =  await this.templateSource.getTemplateFrom(sourceKey)
-    const cacheKey = await this.templateCache.storeTemplate(tempTemplateFolder)
+    const tempTemplateFolder =  await this.templateSource.getTemplate(sourceKey)
+    const cacheKey = await this.templateCache.storeTemplate(tempTemplateFolder.path)
     return this.templateCache.getTemplateConfig(cacheKey)
   }
 
@@ -66,7 +66,7 @@ class TemplateManager {
   * @returns {object[]} Array of objects containing the config and the path to partial.
   */
   async listPartials(templateName, templateVersion = null) {
-    const templatePath = this.templateCache.getTemplatePath(templateName, templateVersion)
+    const templatePath = await this.templateCache.getTemplatePath(templateName, templateVersion)
     if (!templatePath)
       return null
 

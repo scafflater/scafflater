@@ -654,7 +654,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oclif/command@npm:^1.5.13, @oclif/command@npm:^1.5.20, @oclif/command@npm:^1.6.0, @oclif/command@npm:^1.8.0":
+"@oclif/command@npm:^1, @oclif/command@npm:^1.5.13, @oclif/command@npm:^1.5.20, @oclif/command@npm:^1.6.0, @oclif/command@npm:^1.8.0":
   version: 1.8.0
   resolution: "@oclif/command@npm:1.8.0"
   dependencies:
@@ -5778,7 +5778,7 @@ fsevents@^2.1.2:
   languageName: unknown
   linkType: soft
 
-"scafflater@workspace:packages/scafflater":
+"scafflater@workspace:*, scafflater@workspace:packages/scafflater":
   version: 0.0.0-use.local
   resolution: "scafflater@workspace:packages/scafflater"
   dependencies:
@@ -5787,6 +5787,24 @@ fsevents@^2.1.2:
     template-cache: "workspace:*"
     template-manager: "workspace:*"
     template-source: "workspace:*"
+  languageName: unknown
+  linkType: soft
+
+"scf-cli@workspace:packages/scf-cli":
+  version: 0.0.0-use.local
+  resolution: "scf-cli@workspace:packages/scf-cli"
+  dependencies:
+    "@oclif/command": ^1
+    "@oclif/config": ^1
+    "@oclif/plugin-help": ^3
+    fs-util: "workspace:*"
+    inquirer: ^8.1.0
+    scafflater: "workspace:*"
+    template-cache: "workspace:*"
+    template-manager: "workspace:*"
+    template-source: "workspace:*"
+  bin:
+    scf-cli: ./bin/run
   languageName: unknown
   linkType: soft
 

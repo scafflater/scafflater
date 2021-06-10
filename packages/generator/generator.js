@@ -6,9 +6,31 @@ const ignoredFiles = ['_scf.json']
 const ignoredFolders = ['_partials, _hooks']
 
 class Generator {
-  static async generate(ctx = {}, tree = null) {
+  static async generate(ctx = {}) {
+    const tree = FileSystemUtils.getDirTree(ctx.sourcePath)
+
+    const promisses = []
+    if (tree.type === 'file') {
+      promisses.push(this._generate(ctx, tree))
+    }
+
+    if (tree.type === 'directory' && ignoredFolders.indexOf(tree.name) < 0) {
+      for (const child of tree.children) {
+        promisses.push(this._generate(ctx, child))
+      }
+    }
+
+    await Promise.all(promisses)
+  }
+
+  static async _generate(ctx = {}, tree = null) {
     if (!tree)
       tree = FileSystemUtils.getDirTree(ctx.sourcePath)
+
+    console.log('ctx')
+    console.log(ctx)
+    console.log('tree')
+    console.log(tree)
 
     const targetName = this.compileAndApply(ctx, tree.name).trim()
     if (targetName === '') {
@@ -16,7 +38,7 @@ class Generator {
     }
 
     const promisses = []
-    if (tree.type === 'directory' && !ignoredFolders.indexOf(tree.name) >= 0) {
+    if (tree.type === 'directory' && ignoredFolders.indexOf(tree.name) < 0) {
       for (const child of tree.children) {
         const _ctx = {
           ...ctx,
@@ -25,11 +47,11 @@ class Generator {
             targetPath: path.join(ctx.targetPath, targetName),
           },
         }
-        promisses.push(this.generate(_ctx, child))
+        promisses.push(this._generate(_ctx, child))
       }
     }
 
-    if (tree.type === 'file' && !ignoredFiles.indexOf(tree.name) >= 0) {
+    if (tree.type === 'file' && ignoredFiles.indexOf(tree.name) < 0) {
       const fileContent = this.compileAndApply(ctx, FileSystemUtils.getFile(path.join(ctx.sourcePath, tree.name)))
       FileSystemUtils.saveFile(path.join(ctx.targetPath, targetName), fileContent)
     }

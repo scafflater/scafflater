@@ -47,7 +47,7 @@ class FileSystemUtils {
   * @returns {object} The read file
   */
   static getFile(path) {
-    return fs.readFileSync(path)
+    return fs.readFileSync(path).toString()
   }
 
   /**
