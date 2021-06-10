@@ -32,7 +32,7 @@ const promptMissingParameters = async (parameterFlags, requireParameters) => {
 }
 
 const spinner = async (message, f) => {
-  const spinner = ora('Running template initialization').start()
+  const spinner = ora(message).start()
   try {
     await f()
   } catch (error) {

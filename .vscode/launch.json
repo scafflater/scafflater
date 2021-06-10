@@ -16,6 +16,19 @@
         "-p=system:system-name",
         "-p=team:team-name"
       ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug add",
+      "program": "${workspaceFolder}/packages/scf-cli/bin/run",
+      "args": [
+        "add",
+        "-n=s3",
+        "-p=name:the-name",
+        "-p=bucket-name:bucket-name",
+        "-p=AWS_DEFAULT_REGION:us-east-1"
+      ]
     }
   ]
 }

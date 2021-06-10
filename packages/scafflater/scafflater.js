@@ -54,6 +54,7 @@ class Scafflater {
     const scfConfig = await FileSystemUtils.getJson(path.join(targetPath, '_scf.json'))
 
     const initPartialInfo = await this.templateManager.getPartial(partialPath, scfConfig.template.name, scfConfig.template.version)
+
     const ctx = this.buildContext(initPartialInfo.config, parameters, initPartialInfo.path, targetPath)
 
     await Generator.generate(ctx)
@@ -65,17 +66,6 @@ class Scafflater {
 
     FileSystemUtils.saveJson(path.join(targetPath, '_scf.json'), scfConfig)
   }
-
-  // static async applyTemplate(templatePath, component, destinPath) {
-  //   // Load template config
-  //   // Resolve componente. Se componente
-  //   // Load component config
-  //   // Efetuar o prompt dos parâmetros para o componente
-  //   // Carregar directory tree do componente
-  //   // Aplicar Handlebars na estrutura de pastas, criando esta estrutura no destinPath
-  //   // Aplicar Handlebars nos arquivos, salvando-os no destinPath
-  //   //    Verificar se há cabeçalho de configuração para append
-  // }
 }
 
 module.exports = Scafflater

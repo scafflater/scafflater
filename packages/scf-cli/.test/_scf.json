@@ -1,0 +1,32 @@
+{
+ "template": {
+  "name": "test-template",
+  "version": "0.0.1",
+  "source": {
+   "name": "github",
+   "key": "https://github.com/chicoribas/scafflater-test-template.git",
+   "github": {
+    "baseUrl": "https://github.com",
+    "baseUrlApi": "https://api.github.com"
+   }
+  }
+ },
+ "partials": [
+  {
+   "path": "test-template/_init",
+   "parameters": {
+    "domain": "VS",
+    "system": "prod",
+    "team": "team"
+   }
+  },
+  {
+   "path": "test-template/s3",
+   "parameters": {
+    "name": "the-s3",
+    "bucket-name": "the-bucket-name",
+    "AWS_DEFAULT_REGION": "us-east-1"
+   }
+  }
+ ]
+}

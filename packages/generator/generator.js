@@ -47,6 +47,7 @@ class Generator {
     }
 
     if (tree.type === 'file' && ignoredFiles.indexOf(tree.name) < 0) {
+      // console.log(path.join(ctx.sourcePath, tree.name))
       const fileContent = this.compileAndApply(ctx, FileSystemUtils.getFile(path.join(ctx.sourcePath, tree.name)))
       FileSystemUtils.saveFile(path.join(ctx.targetPath, targetName), fileContent)
     }

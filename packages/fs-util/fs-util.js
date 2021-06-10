@@ -2,6 +2,7 @@ const fs = require('fs-extra')
 const os = require('os')
 const dirTree = require('directory-tree')
 const glob = require('glob')
+const path = require('path')
 const {EOL} = require('os')
 
 class FileSystemUtils {
@@ -52,17 +53,19 @@ class FileSystemUtils {
 
   /**
   * Gets file
-  * @param {string} path - Source
+  * @param {string} filePath - Source
   * @param {string} data - Data to be saved
   * @param {boolean} append - Appends data in file. The file is created if does not exists. Default = true
   */
-  static saveFile(path, data, append = true) {
+  static saveFile(filePath, data, append = true) {
     const option = {flag: 'w'}
-    if (fs.existsSync(path) && append) {
+    console.log(filePath)
+    if (fs.existsSync(filePath) && append) {
       data = EOL + EOL + data
       option.flag = 'a'
     }
-    fs.writeFileSync(path, data, option)
+    fs.ensureDirSync(path.dirname(filePath))
+    fs.writeFileSync(filePath, data, option)
   }
 
   /**
@@ -71,7 +74,7 @@ class FileSystemUtils {
   * @param {object} object - The object to be saved
   */
   static saveJson(path, object) {
-    fs.writeJsonSync(path, object)
+    fs.writeJsonSync(path, object, {spaces: ' '})
   }
 
   /**
