@@ -1,4 +1,7 @@
 const inquirer = require('inquirer')
+const ora = require('ora')
+const logger = require('logger')
+const chalk = require('chalk')
 
 const parseParametersFlags = parameters => {
   const result = {}
@@ -28,7 +31,19 @@ const promptMissingParameters = async (parameterFlags, requireParameters) => {
   return {...flags, ...prompt}
 }
 
+const spinner = async (message, f) => {
+  const spinner = ora('Running template initialization').start()
+  try {
+    await f()
+  } catch (error) {
+    spinner.stopAndPersist({symbol: chalk.red('✖')})
+    throw error
+  }
+  spinner.stopAndPersist({symbol: chalk.green('✔')})
+}
+
 module.exports = {
   parseParametersFlags,
   promptMissingParameters,
+  spinner,
 }

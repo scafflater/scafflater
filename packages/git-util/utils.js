@@ -1,4 +1,5 @@
 const {spawn} = require('child_process')
+const logger = require('logger')
 
 /**
  *
@@ -24,6 +25,7 @@ const runCommand = async (
     process.stdout.setEncoding('utf8')
     process.stdout.on('data', data => {
       data = data.toString()
+      // logger.info(data)
       scriptOutput += data
     })
 
@@ -33,12 +35,15 @@ const runCommand = async (
     })
 
     process.on('error', error => {
+      // logger.error(error)
       return reject(error)
     })
 
     process.on('close', code => {
       if (code !== 0) {
-        return reject(new Error(`Command ${command} failed, exit code: ${code} \n ${scriptOutput}`))
+        const e = `Command ${command} failed, exit code: ${code} \n ${scriptOutput}`
+        // logger.error(e)
+        return reject(new Error(e))
       }
       return resolve(scriptOutput)
     })

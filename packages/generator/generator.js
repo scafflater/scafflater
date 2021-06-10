@@ -27,11 +27,6 @@ class Generator {
     if (!tree)
       tree = FileSystemUtils.getDirTree(ctx.sourcePath)
 
-    console.log('ctx')
-    console.log(ctx)
-    console.log('tree')
-    console.log(tree)
-
     const targetName = this.compileAndApply(ctx, tree.name).trim()
     if (targetName === '') {
       return

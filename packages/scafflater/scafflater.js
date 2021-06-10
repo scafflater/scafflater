@@ -55,7 +55,7 @@ class Scafflater {
 
     const initPartialInfo = await this.templateManager.getPartial(partialPath, scfConfig.template.name, scfConfig.template.version)
     const ctx = this.buildContext(initPartialInfo.config, parameters, initPartialInfo.path, targetPath)
-    console.log(ctx)
+
     await Generator.generate(ctx)
 
     scfConfig.partials.push({
