@@ -108,6 +108,23 @@ class FileSystemUtils {
       })
     })
   }
+
+  /**
+  * List all javascript files in a directory tree.
+  * @param {string} path - Path to look for scafflater templates
+  * @return {ReturnValueDataTypeHere} Brief description of the returning value here.
+  */
+  static async listJsTreeInPath(path) {
+    return new Promise((resolve, reject) => {
+      glob('/**/*.js', {root: path}, (err, files) => {
+        if (err)
+          reject(err)
+        if (!files || files.length <= 0)
+          resolve(null)
+        resolve(files)
+      })
+    })
+  }
 }
 
 module.exports = FileSystemUtils

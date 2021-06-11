@@ -7,6 +7,18 @@ const ignoredFolders = ['_partials, _hooks']
 
 class Generator {
   static async generate(ctx = {}) {
+    // Loading handlebars js custom helper
+    const helpersPath = path.join(ctx.templatePath, '_helpers')
+    if (FileSystemUtils.pathExists(helpersPath)) {
+      for (const js of await FileSystemUtils.listJsTreeInPath(helpersPath)) {
+        const helperFunction = require(js)
+        const helperName = path.basename(js, '.js')
+        console.log(helperFunction)
+        console.log(helperName)
+        Handlebars.registerHelper(helperName, helperFunction)
+      }
+    }
+
     const tree = FileSystemUtils.getDirTree(ctx.sourcePath)
 
     const promisses = []

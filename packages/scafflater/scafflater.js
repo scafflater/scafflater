@@ -53,9 +53,20 @@ class Scafflater {
   async runPartial(partialPath, parameters, targetPath = './') {
     const scfConfig = await FileSystemUtils.getJson(path.join(targetPath, '_scf.json'))
 
-    const initPartialInfo = await this.templateManager.getPartial(partialPath, scfConfig.template.name, scfConfig.template.version)
+    const partialInfo = await this.templateManager.getPartial(partialPath, scfConfig.template.name, scfConfig.template.version)
 
-    const ctx = this.buildContext(initPartialInfo.config, parameters, initPartialInfo.path, targetPath)
+    const templatePath = await this.templateManager.getTemplatePath(scfConfig.template.name, scfConfig.template.version)
+    const templateScf = FileSystemUtils.getJson(path.join(templatePath, '_scf.json'))
+    // const ctx = this.buildContext(partialInfo.config, parameters, partialInfo.path, targetPath)
+
+    const ctx = {
+      config: partialInfo.config,
+      parameters,
+      sourcePath: partialInfo.path,
+      targetPath,
+      template: templateScf,
+      templatePath: templatePath,
+    }
 
     await Generator.generate(ctx)
 
