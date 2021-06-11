@@ -695,7 +695,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oclif/dev-cli@npm:^1":
+"@oclif/dev-cli@npm:^1, @oclif/dev-cli@npm:^1.26.0":
   version: 1.26.0
   resolution: "@oclif/dev-cli@npm:1.26.0"
   dependencies:
@@ -5936,6 +5936,7 @@ fsevents@^2.1.2:
   dependencies:
     "@oclif/command": ^1
     "@oclif/config": ^1
+    "@oclif/dev-cli": ^1.26.0
     "@oclif/plugin-help": ^3
     chalk: ^4.1.1
     fs-util: "workspace:*"

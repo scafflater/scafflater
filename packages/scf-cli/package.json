@@ -1,7 +1,7 @@
 {
   "name": "scf-cli",
   "description": "The Scafflater Cli",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "author": "chicoribas @chicoribas",
   "bin": "./bin/run",
   "bugs": "https://github.com/chicoribas/scafflater/issues",
@@ -47,5 +47,8 @@
     "prepack": "oclif-dev manifest && oclif-dev readme",
     "test": "echo NO TESTS",
     "version": "oclif-dev readme && git add README.md"
+  },
+  "devDependencies": {
+    "@oclif/dev-cli": "^1.26.0"
   }
 }
