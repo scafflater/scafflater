@@ -91,7 +91,23 @@ File with main template configuration
 ```
 {
   name: "main-name",
-  version: "main-version"
+  "type": "template",
+  version: "main-version",
+  "config": {
+    "singleLineComment": "#"
+  }
+}
+```
+
+## Initializer
+
+Path: `/_partials/_init/_scf.json`
+### Contents
+```
+{
+  name: "_init",
+  "type": "init",
+  parameters: [],
 }
 ```
 
@@ -102,6 +118,7 @@ Path: `/_partials/*/_scf.json`
 ```
 {
   name: "partial-template-name",
+  "type": "partial",
   parameters: [],
 }
 ```

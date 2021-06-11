@@ -57,7 +57,14 @@ class Generator {
     }
 
     if (tree.type === 'file' && ignoredFiles.indexOf(tree.name) < 0) {
-      const fileContent = this.compileAndApply(ctx, FileSystemUtils.getFile(path.join(ctx.partialPath, tree.name)))
+      let fileContent = this.compileAndApply(ctx, FileSystemUtils.getFile(path.join(ctx.partialPath, tree.name)))
+      if (fileContent.trim().length > 0) {
+        fileContent = this.compileAndApply({
+          ...ctx,
+          content: fileContent,
+        },
+        FileSystemUtils.getFile(path.join(__dirname, 'templates', 'scf-region.txt')))
+      }
       FileSystemUtils.saveFile(path.join(ctx.targetPath, targetName), fileContent)
     }
 
