@@ -17,7 +17,7 @@ class Generator {
       }
     }
 
-    const tree = FileSystemUtils.getDirTree(ctx.sourcePath)
+    const tree = FileSystemUtils.getDirTree(ctx.partialPath)
 
     const promisses = []
     if (tree.type === 'file') {
@@ -35,7 +35,7 @@ class Generator {
 
   static async _generate(ctx = {}, tree = null) {
     if (!tree)
-      tree = FileSystemUtils.getDirTree(ctx.sourcePath)
+      tree = FileSystemUtils.getDirTree(ctx.partialPath)
 
     const targetName = this.compileAndApply(ctx, tree.name).trim()
     if (targetName === '') {
@@ -48,7 +48,7 @@ class Generator {
         const _ctx = {
           ...ctx,
           ...{
-            sourcePath: path.join(ctx.sourcePath, tree.name),
+            partialPath: path.join(ctx.partialPath, tree.name),
             targetPath: path.join(ctx.targetPath, targetName),
           },
         }
@@ -57,7 +57,7 @@ class Generator {
     }
 
     if (tree.type === 'file' && ignoredFiles.indexOf(tree.name) < 0) {
-      const fileContent = this.compileAndApply(ctx, FileSystemUtils.getFile(path.join(ctx.sourcePath, tree.name)))
+      const fileContent = this.compileAndApply(ctx, FileSystemUtils.getFile(path.join(ctx.partialPath, tree.name)))
       FileSystemUtils.saveFile(path.join(ctx.targetPath, targetName), fileContent)
     }
 

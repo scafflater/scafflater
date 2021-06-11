@@ -60,9 +60,9 @@ class Scafflater {
     // const ctx = this.buildContext(partialInfo.config, parameters, partialInfo.path, targetPath)
 
     const ctx = {
-      config: partialInfo.config,
+      partial: partialInfo.config,
+      partialPath: partialInfo.path,
       parameters,
-      sourcePath: partialInfo.path,
       targetPath,
       template: templateScf,
       templatePath: templatePath,
