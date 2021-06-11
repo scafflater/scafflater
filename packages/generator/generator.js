@@ -13,8 +13,6 @@ class Generator {
       for (const js of await FileSystemUtils.listJsTreeInPath(helpersPath)) {
         const helperFunction = require(js)
         const helperName = path.basename(js, '.js')
-        console.log(helperFunction)
-        console.log(helperName)
         Handlebars.registerHelper(helperName, helperFunction)
       }
     }
@@ -59,7 +57,6 @@ class Generator {
     }
 
     if (tree.type === 'file' && ignoredFiles.indexOf(tree.name) < 0) {
-      // console.log(path.join(ctx.sourcePath, tree.name))
       const fileContent = this.compileAndApply(ctx, FileSystemUtils.getFile(path.join(ctx.sourcePath, tree.name)))
       FileSystemUtils.saveFile(path.join(ctx.targetPath, targetName), fileContent)
     }

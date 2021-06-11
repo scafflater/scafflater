@@ -59,7 +59,6 @@ class FileSystemUtils {
   */
   static saveFile(filePath, data, append = true) {
     const option = {flag: 'w'}
-    console.log(filePath)
     if (fs.existsSync(filePath) && append) {
       data = EOL + EOL + data
       option.flag = 'a'
