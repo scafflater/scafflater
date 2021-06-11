@@ -3,7 +3,6 @@ const {Command} = require('@oclif/command')
 const TemplateManager = require('template-manager')
 const chalk = require('chalk')
 const chalkTable = require('chalk-table')
-const {version} = require('@oclif/command/lib/flags')
 
 class ListTemplate extends Command {
   async run() {

@@ -20,6 +20,12 @@ describe('Generator Tests', () => {
     })
     FileSystemUtils.getFile.mockReturnValue('{{parameters.test}}')
     const ctx = {
+      templatePath: '/template/path',
+      template: {
+        name: 'test-template',
+        type: 'template',
+        version: '0.0.1',
+      },
       sourcePath: '/source/path',
       targetPath: '/target/path',
       parameters: {test: 'a sample test'},
@@ -65,6 +71,12 @@ describe('Generator Tests', () => {
         folderName: 'folder-name',
         fileName: 'file-name',
       },
+      templatePath: '/template/path',
+      template: {
+        name: 'test-template',
+        type: 'template',
+        version: '0.0.1',
+      },
     }
 
     // ACT
@@ -80,35 +92,41 @@ describe('Generator Tests', () => {
     // ARRANJE
     FileSystemUtils.getDirTree.mockReturnValue(
       {
-        path: '{{parameters.folderName}}',
-        name: '{{parameters.folderName}}',
+        path: '/container/folder',
+        name: 'folder',
         size: 200,
         type: 'directory',
         children: [{
-          path: '{{parameters.folderName}}/{{parameters.fileName}}.txt',
-          name: '{{parameters.fileName}}.txt',
-          size: 100,
-          type: 'file',
-          extension: '.txt',
-        },
-        {
-          path: '{{parameters.folderName}}/{{#if parameters.shouldRenderFile}}{{parameters.fileName}}.txt{{/if}}',
-          name: '{{#if parameters.shouldRenderFile}}{{parameters.fileName}}.txt{{/if}}',
-          size: 100,
-          type: 'file',
-          extension: '.txt',
-        },
-        {
-          path: '{{parameters.folderName}}/{{#if parameters.shouldRenderFolder}}another-folder{{/if}}',
-          name: '{{#if parameters.shouldRenderFolder}}another-folder{{/if}}',
+          path: '/container/folder/{{parameters.folderName}}',
+          name: '{{parameters.folderName}}',
           size: 200,
           type: 'directory',
           children: [{
-            path: '{{parameters.folderName}}/{{#if parameters.shouldRenderFolder}}another-folder{{/if}}/file.txt',
-            name: 'file.txt',
+            path: '/container/folder/{{parameters.folderName}}/{{parameters.fileName}}.txt',
+            name: '{{parameters.fileName}}.txt',
             size: 100,
             type: 'file',
             extension: '.txt',
+          },
+          {
+            path: '/container/folder/{{parameters.folderName}}/{{#if parameters.shouldRenderFile}}{{parameters.fileName}}.txt{{/if}}',
+            name: '{{#if parameters.shouldRenderFile}}{{parameters.fileName}}.txt{{/if}}',
+            size: 100,
+            type: 'file',
+            extension: '.txt',
+          },
+          {
+            path: '/container/folder/{{parameters.folderName}}/{{#if parameters.shouldRenderFolder}}another-folder{{/if}}',
+            name: '{{#if parameters.shouldRenderFolder}}another-folder{{/if}}',
+            size: 200,
+            type: 'directory',
+            children: [{
+              path: '{{parameters.folderName}}/{{#if parameters.shouldRenderFolder}}another-folder{{/if}}/file.txt',
+              name: 'file.txt',
+              size: 100,
+              type: 'file',
+              extension: '.txt',
+            }],
           }],
         }],
       })
@@ -122,6 +140,12 @@ describe('Generator Tests', () => {
         fileName: 'file-name',
         shouldRenderFolder: false,
         shouldRenderFile: false,
+      },
+      templatePath: '/template/path',
+      template: {
+        name: 'test-template',
+        type: 'template',
+        version: '0.0.1',
       },
     }
 

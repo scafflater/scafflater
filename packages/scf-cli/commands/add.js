@@ -13,7 +13,7 @@ const inquirer = require('inquirer')
 class AddPartialCommand extends Command {
   async run() {
     try {
-      const {args, flags} = this.parse(AddPartialCommand)
+      const {flags} = this.parse(AddPartialCommand)
       const outputInfoPath = path.join(flags.output, '_scf.json')
       if (!FileSystemUtils.pathExists(outputInfoPath)) {
         logger.error('The template is not initialized!')
