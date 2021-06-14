@@ -1,0 +1,6 @@
+{
+  "name": "config-provider",
+  "version": "0.0.1",
+  "description": "The configuration provider",
+  "main": "config-provider.js"
+}

@@ -1906,6 +1906,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"config-provider@workspace:*, config-provider@workspace:packages/config-provider":
+  version: 0.0.0-use.local
+  resolution: "config-provider@workspace:packages/config-provider"
+  languageName: unknown
+  linkType: soft
+
 "console-control-strings@npm:^1.0.0, console-control-strings@npm:~1.1.0":
   version: 1.1.0
   resolution: "console-control-strings@npm:1.1.0"
@@ -2990,6 +2996,7 @@ fsevents@^2.1.2:
   version: 0.0.0-use.local
   resolution: "generator@workspace:packages/generator"
   dependencies:
+    config-provider: "workspace:*"
     fs-util: "workspace:*"
     handlebars: ^4.7.7
   languageName: unknown
@@ -5918,21 +5925,9 @@ fsevents@^2.1.2:
   languageName: unknown
   linkType: soft
 
-"scafflater@workspace:*, scafflater@workspace:packages/scafflater":
+"scafflater-cli@workspace:packages/scf-cli":
   version: 0.0.0-use.local
-  resolution: "scafflater@workspace:packages/scafflater"
-  dependencies:
-    fs-util: "workspace:*"
-    generator: "workspace:*"
-    template-cache: "workspace:*"
-    template-manager: "workspace:*"
-    template-source: "workspace:*"
-  languageName: unknown
-  linkType: soft
-
-"scf-cli@workspace:packages/scf-cli":
-  version: 0.0.0-use.local
-  resolution: "scf-cli@workspace:packages/scf-cli"
+  resolution: "scafflater-cli@workspace:packages/scf-cli"
   dependencies:
     "@oclif/command": ^1
     "@oclif/config": ^1
@@ -5948,7 +5943,19 @@ fsevents@^2.1.2:
     template-manager: "workspace:*"
     template-source: "workspace:*"
   bin:
-    scf-cli: ./bin/run
+    scafflater-cli: ./bin/run
+  languageName: unknown
+  linkType: soft
+
+"scafflater@workspace:*, scafflater@workspace:packages/scafflater":
+  version: 0.0.0-use.local
+  resolution: "scafflater@workspace:packages/scafflater"
+  dependencies:
+    fs-util: "workspace:*"
+    generator: "workspace:*"
+    template-cache: "workspace:*"
+    template-manager: "workspace:*"
+    template-source: "workspace:*"
   languageName: unknown
   linkType: soft
 

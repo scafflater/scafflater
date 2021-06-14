@@ -5,6 +5,7 @@
     "node": ">=15.0.0"
   },
   "dependencies": {
+    "config-provider": "workspace:*",
     "fs-util": "workspace:*",
     "handlebars": "^4.7.7"
   }

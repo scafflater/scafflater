@@ -15,11 +15,11 @@ The Scafflater Cli
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g scf-cli
+$ npm install -g scafflater-cli
 $ scf-cli COMMAND
 running command...
 $ scf-cli (-v|--version|version)
-scf-cli/0.0.1 darwin-x64 node-v15.7.0
+scafflater-cli/0.0.1 darwin-x64 node-v15.7.0
 $ scf-cli --help [COMMAND]
 USAGE
   $ scf-cli COMMAND

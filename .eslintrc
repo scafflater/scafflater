@@ -1,5 +1,5 @@
 {
-  "extends": "oclif",
+  "extends": "airbnb",
   "env": {
     "node": true
   }
