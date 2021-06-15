@@ -19,7 +19,7 @@ class Appender {
     const annotated = Annotator.annotate(context, srcStr)
     return {
       context,
-      result: `${destStr}\n\n${annotated}` ,
+      result: `${destStr}${annotated}` ,
       notAppended: ''
     }
   }
@@ -31,7 +31,7 @@ class Appender {
   * @param {string} destStr The string where srcStr must be appended
   * @return {string} The pipeline append result
   */
-   static runAppendersPipeline(appenders, context, srcStr, destStr){
+  static runAppendersPipeline(appenders, context, srcStr, destStr){
     let appendContext = { ...context }
 
     for (const appender of appenders) {
@@ -40,6 +40,8 @@ class Appender {
       srcStr = appenderResult.notAppended,
       destStr = appenderResult.result
     }
+
+    destStr = destStr.replace(/^(\s*\r?\n){2,}/gm,'\n')
 
     return destStr.trim()
   }

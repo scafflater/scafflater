@@ -5951,6 +5951,7 @@ fsevents@^2.1.2:
   version: 0.0.0-use.local
   resolution: "scafflater@workspace:packages/scafflater"
   dependencies:
+    config-provider: "workspace:*"
     fs-util: "workspace:*"
     generator: "workspace:*"
     template-cache: "workspace:*"

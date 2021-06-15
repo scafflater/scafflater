@@ -4,6 +4,7 @@ const TemplateManager = require('template-manager')
 const Generator = require('generator')
 const FileSystemUtils = require('fs-util')
 const path = require('path')
+const ConfigProvider = require('config-provider')
 
 /**
 * Scafflater class
@@ -66,9 +67,10 @@ class Scafflater {
       targetPath,
       template: templateScf,
       templatePath: templatePath,
+      config: new ConfigProvider()
     }
 
-    await Generator.generate(ctx)
+    await  new Generator(ctx).generate(ctx)
 
     scfConfig.partials.push({
       path: `${scfConfig.template.name}/${partialPath}`,

@@ -26,7 +26,8 @@
     "/bin",
     "/npm-shrinkwrap.json",
     "/oclif.manifest.json",
-    "/src"
+    "/commands",
+    "/index.js"
   ],
   "homepage": "https://github.com/chicoribas/scafflater",
   "keywords": [

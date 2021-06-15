@@ -35,9 +35,11 @@ class Region {
     return ''
   }
 
-  constructor(startRegionTag, endRegionTag = RegionTag.unknown()) {
+  constructor(parentRegion, startRegionTag, endRegionTag = RegionTag.unknown(), content = null) {
+    this.parentRegion = parentRegion
     this.startRegionTag = startRegionTag
     this.endRegionTag = endRegionTag
+    this.content = content
   }
 }
 
@@ -64,9 +66,12 @@ class RegionProvider {
     for (const rm of regionMarkers) {
       if (rm.groups.start) {
         var startRegionTag = new RegionTag(rm.groups.startName, rm.index, rm.index + rm[0].length, RegionTagType.Start)
-        var customRegion = new Region(startRegionTag)
+        let parentRegion = null
+        if (startedRegions.length > 0) {
+          parentRegion = startedRegions[startedRegions.length - 1]
+        }
 
-        startedRegions.push(customRegion)
+        startedRegions.push(new Region(parentRegion, startRegionTag))
       } else if (rm.groups.end) {
         if (startedRegions.length === 0) {
           throw new Error(`Found an end region with no matching start tag at position ${rm.index}`)
@@ -74,7 +79,11 @@ class RegionProvider {
         var endTag = new RegionTag(null, rm.index, rm.index + rm[0].length, RegionTagType.end)
 
         var lastStartedRegion = startedRegions[startedRegions.length - 1]
-        var finishedRegion = new Region(lastStartedRegion.startRegionTag, endTag)
+        var content = str.substring(lastStartedRegion.startRegionTag.endPosition, endTag.startPosition)
+        var finishedRegion = new Region(lastStartedRegion.parentRegion, lastStartedRegion.startRegionTag, endTag, content)
+
+        completedRegions.filter(cr => cr.parentRegion && cr.parentRegion.name === finishedRegion.name).forEach(cr => cr.parentRegion = finishedRegion )
+
         completedRegions.push(finishedRegion)
         startedRegions.pop()
       }
@@ -91,57 +100,35 @@ class RegionProvider {
     return completedRegions
   }
 
-  // var errors = []
-  // for (let foldDefinition of foldDefinitions) {
-  //   var startedRegions = []
-  //   var start = new RegExp(foldDefinition.foldStartRegex, 'i') // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp
-  //   var end = new RegExp(foldDefinition.foldEndRegex, 'i')
+  /** 
+  * Appends region to a content
+  * @param {Region} region - The Region
+  * @param {string} content - The Region Content
+  * @return {string} The content with the region appended
+  */
+   appendRegion(region, content){
+    let regionStr = `${this.configProvider.singleLineComment} ${this.configProvider.startRegionMarker} ${region.name}\n`+
+    `${region.content}\n`+
+    `${this.configProvider.singleLineComment} ${this.configProvider.endRegionMarker}\n`
 
-  //   for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
-  //     var line = lines[lineIndex]
+    if(region.parentRegion){
+      const p = new Region(
+        region.parentRegion.parentRegion,
+        region.parentRegion.startRegionTag,
+        region.parentRegion.endRegionTag,
+        regionStr
+      )
+      regionStr = this.appendRegion(p, null)
+    }
 
-  //     var startMatch = start.exec(line)
-  //     var endMatch = end.exec(line)
-  //     if (startMatch) {
-  //       var startRegionTag = RegionTag.FromRegex(startMatch, RegionTagType.Start, lineIndex)
-  //       var customRegion = new CustomRegion(startRegionTag)
-
-  //       startedRegions.push(customRegion)
-  //     } else if (endMatch) {
-  //       if (startedRegions.length === 0) {
-  //         errors.push(
-  //           `Found an end region with no matching start tag at line ${lineIndex}`
-  //         )
-  //         continue
-  //       }
-  //       var endTag = RegionTag.FromRegex(endMatch, RegionTagType.End, lineIndex)
-  //       var lastStartedRegion = startedRegions[startedRegions.length - 1]
-  //       var finishedRegion = new CustomRegion(lastStartedRegion.startRegionTag, endTag)
-  //       finishedRegion.isDefaultRegion = lastStartedRegion.isDefaultRegion
-  //       completedRegions.push(finishedRegion)
-  //       startedRegions.pop()
-  //     }
-  //   }
-
-  //   if (startedRegions.length > 0) {
-  //     for (let err of startedRegions) {
-  //       errors.push(
-  //         `Found a started region with no matching end tag at line ${
-  //           err.lineStart
-  //         }`
-  //       )
-  //     }
-  //   }
-  // }
-
-  // return {
-  //   completedRegions: completedRegions,
-  //   errors: errors,
-  // }
+    return content && content.length > 0 ? `${content}\n${regionStr}` : regionStr
+      
+  }
 }
 
 module.exports = {
   RegionProvider,
   RegionTag,
-  CustomRegion: Region,
+  Region,
+  RegionTagType,
 }
