@@ -1,53 +1,45 @@
-Scaffolter
+Scafflater
 ======
 
+![GitHub repo size](https://img.shields.io/github/repo-size/chicoribas/scafflater)
+![GitHub language count](https://img.shields.io/github/languages/count/chicoribas/scafflater)
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/scaffolter.svg)](https://npmjs.org/package/scafflater)
-[![Downloads/week](https://img.shields.io/npm/dw/scaffolter.svg)](https://npmjs.org/package/scafflater)
-[![License](https://img.shields.io/npm/l/scaffolter.svg)](https://github.com/chicoribas/scafflater/blob/master/package.json)
+[![Downloads/week](https://img.shields.io/npm/dw/scafflater.svg)](https://npmjs.org/package/scafflater)
+[![Downloads/week](https://img.shields.io/npm/dw/scafflater-cli.svg)](https://npmjs.org/package/scafflater-cli)
+[![License](https://img.shields.io/npm/l/scafflater.svg)](https://github.com/chicoribas/scafflater/blob/master/package.json)
 
-<!-- toc -->
-* [Usage](#usage)
-* [Commands](#commands)
-<!-- tocstop -->
-# Usage
-<!-- usage -->
-```sh-session
-$ npm install -g scaffolter
-$ oclif-example COMMAND
-running command...
-$ oclif-example (-v|--version|version)
-scaffolter/0.0.0 darwin-x64 node-v12.18.1
-$ oclif-example --help [COMMAND]
-USAGE
-  $ oclif-example COMMAND
-...
-```
-<!-- usagestop -->
-# Commands
-<!-- commands -->
-- [Scaffolter](#scaffolter)
-- [Usage](#usage)
-- [Commands](#commands)
-  - [`oclif-example hello`](#oclif-example-hello)
-- [Template Folder Structure](#template-folder-structure)
+Scafflater is a solution to turn scaffold easier, througth a small pieces of code templates, that can appended to the solution in a way the developer wants, building a new and customized solution for every single project.
 
-## `oclif-example hello`
+Contents
+===
+- [Scafflater](#scafflater)
+- [Contents](#contents)
+  - [### Why?](#-why)
+  - [### How does it work?](#-how-does-it-work)
+  - [### Using Scafflater](#-using-scafflater)
 
-Describe the command here
+### Why?
+---
+Templates is a big challenge either to create a create template and to maintain a secure and updated template.Furthermore, templates, talk in a simple way, are only scracth of code only to start a project. Those scratches tend to be very simple and not extensible.
 
-```
-USAGE
-  $ oclif-example hello
+And extending that is another big challenge for developer teams, because they need to build some important code pieces that must be follow a pattern to ensure security and maintainability. And this kind of activity slows down the developer, forcing it do read documents and do a lot off copy and paste to have a code, that definitely does not bring value to solution, working fine.
 
-OPTIONS
-  -n, --name=name  name to print
+Other problem of using static templates is the increasing number of this templates as your technology stack evolves. For example, today, to build an API you use Fastify and Postgres, and you have a template with this stack to speed new solution. But in moment in the future, you start to use MongoDb as a database too. So you will have to create a new template with Fastify and MongoDb to have the same approach of the first scenario. And now you have to templates to maintain. We can talk a lot how companies spend to many effort to maintain those templates secured and updated, but I think you got my idea.
 
-DESCRIPTION
-  ...
-  Extra documentation goes here
-```
+The main goal of scafflater is to create a way to provide a template that can have the very basic code for the solution, but giving to developer the power to increase this basic code with the pieces that are usefull.
 
-_See code: [src/commands/hello.js](https://github.com/chicoribas/scafflater/blob/v0.0.0/src/commands/hello.js)_
-<!-- commandsstop -->
+### How does it work?
+---
+Scaffater works having a template as a base and this template is also a git repository hosted at some service, but it has a diferent structure. It has two main components: the initializer and the partials. 
 
+The initializer is responsible to generate the basic code for this solution. It has very simple files that will be important independently on any further personalization.
+
+Partials are the piece of cake od scaflatter. They are small code parts and file structures that can be appended to the code when they are needed. 
+
+Giving a practical example: in the scenario with Fastify, Postgres and MongoDb used priorly, you could have the initializer, creating the basic code only to provide an API, and Postgres and MongoDb as partials, and the developer can choose between they (or choose both, in a very specific scenario) to personalize the solution fastly.
+
+### Using Scafflater
+---
+
+Scafflater can be used as a [package](https://www.npmjs.com/package/scafflater) in your solution our througth our [scafflater-cli](https://www.npmjs.com/package/scafflater-cli)
