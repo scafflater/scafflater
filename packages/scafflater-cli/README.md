@@ -1,4 +1,4 @@
-scf-cli
+scafflater-cli
 =======
 
 The Scafflater Cli
@@ -28,9 +28,12 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`scafflater-cli add`](#scafflater-cli-add)
-* [`scafflater-cli help [COMMAND]`](#scafflater-cli-help-command)
-* [`scafflater-cli init [GIT_HUB_REPOSITORY]`](#scafflater-cli-init-git_hub_repository)
+- [scafflater-cli](#scafflater-cli)
+- [Usage](#usage)
+- [Commands](#commands)
+  - [`scafflater-cli add`](#scafflater-cli-add)
+  - [`scafflater-cli help [COMMAND]`](#scafflater-cli-help-command)
+  - [`scafflater-cli init [GIT_HUB_REPOSITORY]`](#scafflater-cli-init-git_hub_repository)
 
 ## `scafflater-cli add`
 
