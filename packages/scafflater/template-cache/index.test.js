@@ -3,7 +3,7 @@ const TemplateCache = require('./')
 const LocalTemplateCache = require('./local-template-cache')
 
 test('Throws an exception when the storage does not exists', () => {
-  // ARRANJE
+  // ARRANGE
   const config = {storage: 'bla'}
   const ts = new TemplateCache()
 
@@ -14,7 +14,7 @@ test('Throws an exception when the storage does not exists', () => {
 })
 
 test('Gets the template storage in config', () => {
-  // ARRANJE
+  // ARRANGE
   const config = {storage: 'local'}
   const ts = new TemplateCache(config)
 

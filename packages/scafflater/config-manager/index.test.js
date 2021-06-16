@@ -3,7 +3,7 @@ const ConfigManager = require('./')
 const LocalConfigManager = require('./local-config-manager')
 
 test('Throws an exception when the storage does not exists', () => {
-  // ARRANJE
+  // ARRANGE
   const config = {configManager: 'bla'}
   const cm = new ConfigManager(config)
 
@@ -14,7 +14,7 @@ test('Throws an exception when the storage does not exists', () => {
 })
 
 test('Gets the template storage in config', () => {
-  // ARRANJE
+  // ARRANGE
   const config = {storage: 'local'}
   const cm = new ConfigManager(config)
 

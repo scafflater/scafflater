@@ -11,7 +11,7 @@ describe('Generator Tests', () => {
     jest.restoreAllMocks()
   })
   test('Render a simple file', async () => {
-    // ARRANJE
+    // ARRANGE
     FileSystemUtils.getDirTree.mockReturnValue({
       path: 'just/a/sample/test.txt',
       name: 'test.txt',
@@ -76,7 +76,7 @@ a sample test
   })
 
   test('Render parameters in th folder and file paths', async () => {
-    // ARRANJE
+    // ARRANGE
     FileSystemUtils.getDirTree.mockReturnValue(
       {
         path: 'the-partial-folder', // must be ignored
@@ -130,7 +130,7 @@ a sample test
   })
 
   test('Does not render empty paths', async () => {
-    // ARRANJE
+    // ARRANGE
     FileSystemUtils.getDirTree.mockReturnValue(
       {
         path: '/container/folder',

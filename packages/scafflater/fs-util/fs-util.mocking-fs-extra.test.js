@@ -7,7 +7,7 @@ const {EOL} = require('os')
 jest.mock('fs-extra')
 
 test('save File', async () => {
-  // ARRANJE
+  // ARRANGE
   const filePath = path.join(__dirname, '.test-resources', 'sample-file.txt')
   fs.existsSync.mockReturnValue(true)
 

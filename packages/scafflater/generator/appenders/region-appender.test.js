@@ -4,7 +4,7 @@ const { RegionProvider } = require('../region-provider')
 const RegionAppender = require('./region-appender')
 
 test('Append to an existing region', () => {
-  // ARRANJE
+  // ARRANGE
   const src = `This content is not in regions
   # @scf-region test-region
 
@@ -84,7 +84,7 @@ test('Append to an existing region', () => {
 })
 
 test('Append to non existing region, should create region', () => {
-  // ARRANJE
+  // ARRANGE
   const src = `
   # @scf-region new-test-region
 

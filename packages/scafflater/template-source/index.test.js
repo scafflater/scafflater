@@ -3,7 +3,7 @@ const TemplateSource = require('./')
 const GitTemplateSource = require('./git-template-source')
 
 test('Throws an exception when the source does not exists', () => {
-  // ARRANJE
+  // ARRANGE
   const config = {source: 'bla'}
   const ts = new TemplateSource(config)
 
@@ -14,7 +14,7 @@ test('Throws an exception when the source does not exists', () => {
 })
 
 test('Gets the template source in config', () => {
-  // ARRANJE
+  // ARRANGE
   const config = {source: 'github'}
   const ts = new TemplateSource(config)
 
@@ -28,7 +28,7 @@ test('Gets the template source in config', () => {
 })
 
 test('Gets the github source from a github source key', () => {
-  // ARRANJE
+  // ARRANGE
   const config = {}
   const sourceKey = 'https://github.com/jekyll/jekyll.git'
   const ts = new TemplateSource(config, sourceKey)

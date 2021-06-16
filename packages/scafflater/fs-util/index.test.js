@@ -3,7 +3,7 @@ const FileSystemUtils = require('.')
 const path = require('path')
 
 test('Should return the directory tree without files', () => {
-  // ARRANJE
+  // ARRANGE
   const folderPath = path.join(__dirname, '.test-resources', 'simple-folder')
 
   // ACT
@@ -15,7 +15,7 @@ test('Should return the directory tree without files', () => {
 })
 
 test('Should return the directory tree with files', () => {
-  // ARRANJE
+  // ARRANGE
   const folderPath = path.join(__dirname, '.test-resources', 'simple-folder')
 
   // ACT
@@ -26,7 +26,7 @@ test('Should return the directory tree with files', () => {
 })
 
 test('Should return null if directory does not exists', () => {
-  // ARRANJE
+  // ARRANGE
   const folderPath = path.join(__dirname, '.test-resources-does-not-exists')
 
   // ACT
@@ -37,7 +37,7 @@ test('Should return null if directory does not exists', () => {
 })
 
 test('Should return list of scafflater config', async () => {
-  // ARRANJE
+  // ARRANGE
   const folderPath = path.join(__dirname, '.test-resources', 'template-sample')
 
   // ACT
@@ -48,7 +48,7 @@ test('Should return list of scafflater config', async () => {
 })
 
 test('Should return null if directory does not exists', async () => {
-  // ARRANJE
+  // ARRANGE
   const folderPath = path.join(__dirname, '.test-resources-does-not-exists')
 
   // ACT

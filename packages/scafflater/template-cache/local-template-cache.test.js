@@ -11,7 +11,7 @@ describe('Github template source', () => {
   })
 
   test('Should copy to the local folder', async () => {
-    // ARRANJE
+    // ARRANGE
     const path = 'path/to/some/template'
     const config = {
       templateConfigFileName: 'the_template_condig.json',
@@ -30,7 +30,7 @@ describe('Github template source', () => {
   })
 
   test('List templates should list stored templates', async () => {
-    // ARRANJE
+    // ARRANGE
     const config = {
       localStorageTemplatesPath: path.join(__dirname, '.test-resources/templates'),
     }
@@ -72,7 +72,7 @@ describe('Github template source', () => {
   })
 
   test('List templates should retun null if template folder does not exists', async () => {
-    // ARRANJE
+    // ARRANGE
     const config = {
       localStorageTemplatesPath: path.join(__dirname, '.test-resources/templates'),
     }
@@ -88,7 +88,7 @@ describe('Github template source', () => {
   })
 
   test('Get template folder should retun null if template folder does not exists', async () => {
-    // ARRANJE
+    // ARRANGE
     const config = {
       localStorageTemplatesPath: path.join(__dirname, '.test-resources/templates'),
     }
@@ -106,7 +106,7 @@ describe('Github template source', () => {
   })
 
   test('Get template folder should retun null if theres no version for template', async () => {
-    // ARRANJE
+    // ARRANGE
     const config = {
       localStorageTemplatesPath: path.join(__dirname, '.test-resources/templates'),
     }
@@ -125,7 +125,7 @@ describe('Github template source', () => {
   })
 
   test('Should copy to the local folder', async () => {
-    // ARRANJE
+    // ARRANGE
     const path = 'path/to/some/template'
     const config = {
       templateConfigFileName: 'the_template_condig.json',
@@ -144,7 +144,7 @@ describe('Github template source', () => {
   })
 
   test('Get template folder should return the version for the last template', async () => {
-    // ARRANJE
+    // ARRANGE
     const config = {
       templateConfigFileName: 'the_template_condig.json',
       localStorageTemplatesPath: '/path/to/store/templates',

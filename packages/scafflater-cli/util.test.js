@@ -4,7 +4,7 @@ const inquirer = require('inquirer')
 jest.mock('inquirer')
 
 test('Parse Parameters Flags', () => {
-  // ARRANJE
+  // ARRANGE
   const parameters = ['name1:value1', 'name2:value2']
 
   // ACT
@@ -16,7 +16,7 @@ test('Parse Parameters Flags', () => {
 })
 
 test('Prompt missing parameters', async () => {
-  // ARRANJE
+  // ARRANGE
   const parameterFlags = ['name1:value1']
   const templateParameters = [
     {

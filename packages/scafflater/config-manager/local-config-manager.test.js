@@ -10,7 +10,7 @@ describe('Local config Manager', () => {
   })
 
   test('Load inexisting config, creating an default', async () => {
-    // ARRANJE
+    // ARRANGE
     FileSystemUtils.pathExists.mockReturnValue(false)
     const mockedConfig = {templateInUse: null}
     FileSystemUtils.getJson.mockReturnValue(mockedConfig)
@@ -24,7 +24,7 @@ describe('Local config Manager', () => {
   })
 
   test('Load existing config', async () => {
-    // ARRANJE
+    // ARRANGE
     FileSystemUtils.pathExists.mockReturnValue(true)
     const mockedConfig = {templateInUse: null}
     FileSystemUtils.getJson.mockReturnValue(mockedConfig)

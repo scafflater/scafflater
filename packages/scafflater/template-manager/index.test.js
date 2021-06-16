@@ -15,7 +15,7 @@ describe('Template Manager tests', () => {
   })
 
   test('Should return list of partial templates', async () => {
-    // ARRANJE
+    // ARRANGE
     const partialPath = 'the/partial/path'
     const configList = ['the/partial/path/_scf.json']
     const config = {
@@ -38,7 +38,7 @@ describe('Template Manager tests', () => {
   })
 
   test('Should return the partial template', async () => {
-    // ARRANJE
+    // ARRANGE
     const partialPath = 'the/partial/path'
     const configList = ['the/partial/path/_scf.json']
     const config = {

@@ -3,7 +3,7 @@ const ConfigProvider = require('../../config-provider')
 const {RegionProvider, Region, RegionTag, RegionTagType} = require('.')
 
 test('List regions in a well formatted content', () => {
-  // ARRANJE
+  // ARRANGE
   const regionProvider = new RegionProvider(new ConfigProvider())
   const str = `This is a sample contet
   # @scf-region sample-region
@@ -42,7 +42,7 @@ test('List regions in a well formatted content', () => {
 })
 
 test('Parse content with not started region, should throw an exception', () => {
-  // ARRANJE
+  // ARRANGE
   const regionProvider = new RegionProvider(new ConfigProvider())
   const str = `This is a sample contet
 
@@ -58,7 +58,7 @@ test('Parse content with not started region, should throw an exception', () => {
 })
 
 test('Parse content with not finished region, should throw an exception', () => {
-  // ARRANJE
+  // ARRANGE
   const regionProvider = new RegionProvider(new ConfigProvider())
   const str = `This is a sample contet
   # @scf-region sample-region
@@ -76,7 +76,7 @@ test('Parse content with not finished region, should throw an exception', () => 
 })
 
 test('Appends an simple region', () => {
-  // ARRANJE
+  // ARRANGE
   const regionProvider = new RegionProvider(new ConfigProvider())
   const region = new Region(
     null,
@@ -97,7 +97,7 @@ some content
 })
 
 test('Build a nested region', () => {
-  // ARRANJE
+  // ARRANGE
   const regionProvider = new RegionProvider(new ConfigProvider())
   const parentRegion = new Region(
     null,

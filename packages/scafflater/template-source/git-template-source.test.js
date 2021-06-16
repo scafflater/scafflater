@@ -12,7 +12,7 @@ describe('Github template source', () => {
   })
 
   test('Should clone to the folder in parameter', async () => {
-    // ARRANJE
+    // ARRANGE
     const repo = 'some/repo'
     const virtualFolder = 'some/virtual/folder'
     const gitTemplateSource = new GitTemplateSource()
@@ -42,7 +42,7 @@ describe('Github template source', () => {
   })
 
   test('Should clone to a temp folder', async () => {
-    // ARRANJE
+    // ARRANGE
     const repo = 'some/repo'
     const tempFolder = 'some/temp/folder'
     const gitTemplateSource = new GitTemplateSource()
