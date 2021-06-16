@@ -5,18 +5,15 @@ Scafflater
 [![Version](https://img.shields.io/npm/v/scaffolter.svg)](https://npmjs.org/package/scafflater-cli)
 [![License](https://img.shields.io/npm/l/scafflater.svg)](https://github.com/chicoribas/scafflater/blob/master/package.json)
 
-- [Scafflater](#scafflater)
-- [Contents](#contents)
-  - [### Why?](#-why)
-  - [### How does it work?](#-how-does-it-work)
-  - [### Using Scafflater](#-using-scafflater)
-  - [### Related](#-related)
-
 Scafflater is a solution to turn scaffold easier, througth a small pieces of code templates, that can appended to the solution in a way the developer wants, building a new and customized solution for every single project.
 
 Contents
 ===
 
+ - [Why?](#-why)
+ - [How does it work?](#-how-does-it-work)
+ - [Using Scafflater](#-using-scafflater)
+ - [Related](#-related)
 
 ### Why?
 ---
