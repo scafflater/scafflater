@@ -5,7 +5,7 @@ Scafflater
 [![Version](https://img.shields.io/npm/v/scaffolter.svg)](https://npmjs.org/package/scafflater-cli)
 [![License](https://img.shields.io/npm/l/scafflater.svg)](https://github.com/chicoribas/scafflater/blob/master/package.json)
 
-Scafflater is a solution to turn scaffold easier, througth a small pieces of code templates, that can appended to the solution in a way the developer wants, building a new and customized solution for every single project.
+Scafflater is a solution to turn scaffold easier, through a small pieces of code templates, that can appended to the solution in a way the developer wants, building a new and customized solution for every single project.
 
 Contents
 ===
@@ -38,7 +38,7 @@ Giving a practical example: in the scenario with Fastify, Postgres and MongoDb u
 ### Using Scafflater
 ---
 
-Scafflater can be used as a [package](https://www.npmjs.com/package/scafflater) in your solution our througth our [scafflater-cli](https://www.npmjs.com/package/scafflater-cli)
+Scafflater can be used as a [package](https://www.npmjs.com/package/scafflater) in your solution our through our [scafflater-cli](https://www.npmjs.com/package/scafflater-cli)
 
 ### Related
 ---
