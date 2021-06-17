@@ -1,6 +1,6 @@
 {
   "name": "scafflater",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Scafflater - Scaffold using templates",
   "main": "scafflater.js",
   "scripts": {

@@ -2,6 +2,7 @@ const inquirer = require('inquirer')
 const ora = require('ora')
 const logger = require('scafflater/logger')
 const chalk = require('chalk')
+const Prompt = require('./prompt/prompt')
 
 const parseParametersFlags = parameters => {
   const result = {}
@@ -26,7 +27,7 @@ const promptMissingParameters = async (parameterFlags, requireParameters) => {
       missingParameters.push(rp)
   }
 
-  const prompt = missingParameters.length > 0 ? await inquirer.prompt(missingParameters) : {}
+  const prompt = missingParameters.length > 0 ? await Prompt.prompt(missingParameters) : {}
 
   return {...flags, ...prompt}
 }

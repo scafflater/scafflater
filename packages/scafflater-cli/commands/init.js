@@ -14,7 +14,7 @@ class InitCommand extends Command {
       const {args, flags} = this.parse(InitCommand)
 
       if (FileSystemUtils.pathExists(path.join(flags.output, '_scf.json'))) {
-        logger.info('The ouput folder is initialized!')
+        logger.info('The output folder is initialized!')
         logger.info('Aborting!')
         return
       }

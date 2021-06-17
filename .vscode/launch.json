@@ -12,7 +12,7 @@
       "args": [
         "init",
         "https://github.com/chicoribas/scafflater-test-template.git",
-        "-p=domain:domain-name",
+        "-p=domain:domain name",
         "-p=system:system-name",
         "-p=team:team-name"
       ]

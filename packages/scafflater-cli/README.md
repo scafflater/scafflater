@@ -19,7 +19,7 @@ $ npm install -g scafflater-cli
 $ scafflater-cli COMMAND
 running command...
 $ scafflater-cli (-v|--version|version)
-scafflater-cli/0.0.6 darwin-x64 node-v15.7.0
+scafflater-cli/0.0.7 darwin-x64 node-v15.7.0
 $ scafflater-cli --help [COMMAND]
 USAGE
   $ scafflater-cli COMMAND
@@ -49,7 +49,7 @@ DESCRIPTION
   ...
 ```
 
-_See code: [commands/add.js](https://github.com/chicoribas/scafflater/blob/v0.0.6/commands/add.js)_
+_See code: [commands/add.js](https://github.com/chicoribas/scafflater/blob/v0.0.7/commands/add.js)_
 
 ## `scafflater-cli help [COMMAND]`
 
@@ -84,5 +84,5 @@ DESCRIPTION
   ...
 ```
 
-_See code: [commands/init.js](https://github.com/chicoribas/scafflater/blob/v0.0.6/commands/init.js)_
+_See code: [commands/init.js](https://github.com/chicoribas/scafflater/blob/v0.0.7/commands/init.js)_
 <!-- commandsstop -->
