@@ -36,7 +36,15 @@
     "bin": "scafflater-cli",
     "plugins": [
       "@oclif/plugin-help"
-    ]
+    ],
+    "topics": {
+      "partial:add": {
+        "description": "Adds a partial to the output folder"
+      },
+      "partial:list": {
+        "description": "List available partials in template"
+      }
+    }
   },
   "repository": "chicoribas/scafflater",
   "scripts": {

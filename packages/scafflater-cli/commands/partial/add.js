@@ -3,7 +3,7 @@ const TemplateSource = require('scafflater/template-source')
 const Scafflater = require('scafflater')
 const TemplateManager = require('scafflater/template-manager')
 const TemplateCache = require('scafflater/template-cache')
-const {promptMissingParameters, spinner} = require('../util')
+const {promptMissingParameters, spinner} = require('../../util')
 const FileSystemUtils = require('scafflater/fs-util')
 const path = require('path')
 const logger = require('scafflater/logger')
@@ -84,7 +84,7 @@ class AddPartialCommand extends Command {
   }
 }
 
-AddPartialCommand.description = `Adds a template partial in a output folder
+AddPartialCommand.description = `Adds a partial to the output folder
 ...
 `
 
