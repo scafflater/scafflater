@@ -2,7 +2,7 @@
 const {Command} = require('@oclif/command')
 const TemplateManager = require('scafflater/template-manager')
 const chalk = require('chalk')
-const chalkTable = require('chalk-table')
+//const chalkTable = require('chalk-table')
 
 class ListTemplate extends Command {
   async run() {
@@ -30,7 +30,7 @@ class ListTemplate extends Command {
       ],
     }
 
-    const table = chalkTable(options, versions)
+    //const table = chalkTable(options, versions)
 
     console.log(table)
   }

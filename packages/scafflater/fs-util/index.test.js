@@ -46,15 +46,3 @@ test('Should return list of scafflater config', async () => {
   // ASSERT
   expect(out.length).toBe(2)
 })
-
-test('Should return null if directory does not exists', async () => {
-  // ARRANGE
-  const folderPath = path.join(__dirname, '.test-resources-does-not-exists')
-
-  // ACT
-  const out = await FileSystemUtils.listScfConfigTreeInPath(folderPath)
-
-  // ASSERT
-  expect(out).toBe(null)
-})
-

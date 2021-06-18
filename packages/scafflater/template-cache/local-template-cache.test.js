@@ -71,7 +71,7 @@ describe('Github template source', () => {
     expect(out[0].versions[1].version).toBe('2.0.0')
   })
 
-  test('List templates should retun null if template folder does not exists', async () => {
+  test('List templates should return null if template folder does not exists', async () => {
     // ARRANGE
     const config = {
       localStorageTemplatesPath: path.join(__dirname, '.test-resources/templates'),
@@ -87,25 +87,25 @@ describe('Github template source', () => {
     expect(out).toBe(null)
   })
 
-  test('Get template folder should retun null if template folder does not exists', async () => {
+  test('Get template folder should return null if template folder does not exists', async () => {
     // ARRANGE
     const config = {
       localStorageTemplatesPath: path.join(__dirname, '.test-resources/templates'),
     }
     const localTemplateCache = new LocalTemplateCache(config)
     const templateName = 'the-template'
-    const templateversion = 'the-template-version'
+    const templateVersion = 'the-template-version'
 
     FileSystemUtils.getDirTree.mockReturnValue(null)
 
     // ACT
-    const out = await localTemplateCache.getTemplateFolder(templateName, templateversion)
+    const out = await localTemplateCache.getTemplateFolder(templateName, templateVersion)
 
     // ASSERT
     expect(out).toBe(null)
   })
 
-  test('Get template folder should retun null if theres no version for template', async () => {
+  test('Get template folder should return null if theres no version for template', async () => {
     // ARRANGE
     const config = {
       localStorageTemplatesPath: path.join(__dirname, '.test-resources/templates'),
@@ -123,26 +123,7 @@ describe('Github template source', () => {
     expect(out).toBe(null)
     expect(out2).toBe(null)
   })
-
-  test('Should copy to the local folder', async () => {
-    // ARRANGE
-    const path = 'path/to/some/template'
-    const config = {
-      templateConfigFileName: 'the_template_condig.json',
-      localStorageTemplatesPath: '/path/to/store/templates',
-    }
-    const localTemplateCache = new LocalTemplateCache(config)
-
-    FileSystemUtils.getJson.mockReturnValue({name: 'some-name', version: 'some-version'})
-
-    // ACT
-    await localTemplateCache.storeTemplate(path)
-
-    // ASSERT
-    expect(FileSystemUtils.copy.mock.calls[0][0]).toBe(path)
-    expect(FileSystemUtils.copy.mock.calls[0][1]).toBe('/path/to/store/templates/some-name/some-version')
-  })
-
+  
   test('Get template folder should return the version for the last template', async () => {
     // ARRANGE
     const config = {

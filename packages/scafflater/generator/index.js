@@ -16,15 +16,6 @@ const ConfigProvider = require('../config-provider')
  * @property {string} templatePath The folder path to template
  * @property {object} config The scafflater configuration. This is provided by ConfigProvider
  */
-class Context{
-  partial
-  partialPath
-  parameters
-  targetPath
-  template
-  templatePath
-  config
-}
 
 class Generator {
   

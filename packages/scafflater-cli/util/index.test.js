@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const {parseParametersFlags, promptMissingParameters} = require('./util')
+const {parseParametersFlags, promptMissingParameters} = require('.')
 const inquirer = require('inquirer')
 jest.mock('inquirer')
 

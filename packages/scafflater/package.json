@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/chicoribas/scafflater#readme",
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=8.3.0"
   },
   "dependencies": {
     "chalk": "^4.1.1",
