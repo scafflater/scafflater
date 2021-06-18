@@ -1,19 +1,20 @@
-const {Command, flags} = require('@oclif/command')
+const { Command, flags } = require('@oclif/command')
 const TemplateSource = require('scafflater/template-source')
 const Scafflater = require('scafflater')
 const TemplateManager = require('scafflater/template-manager')
 const TemplateCache = require('scafflater/template-cache')
-const {promptMissingParameters, spinner} = require('../../util')
+const { promptMissingParameters, spinner } = require('../../util')
 const FileSystemUtils = require('scafflater/fs-util')
 const path = require('path')
 const logger = require('scafflater/logger')
 const chalk = require('chalk')
 const inquirer = require('inquirer')
+const { Console } = require('console')
 
 class AddPartialCommand extends Command {
   async run() {
     try {
-      const {flags} = this.parse(AddPartialCommand)
+      const { args, flags } = this.parse(AddPartialCommand)
       const outputInfoPath = path.join(flags.output, '_scf.json')
       if (!FileSystemUtils.pathExists(outputInfoPath)) {
         logger.error('The template is not initialized!')
@@ -48,16 +49,18 @@ class AddPartialCommand extends Command {
       }
 
       let partial = null
-      if (flags.partialName && flags.partialName.length > 0) {
+      if (args.PARTIAL_NAME && args.PARTIAL_NAME.length > 0) {
         // Validating partialName flag
         partial = partials.find(p => {
-          return p.config.name === flags.partialName
+          return p.config.name === args.PARTIAL_NAME
         })
         if (!partial) {
-          logger.error(`The partial ${chalk.bold(flags.partialName)} is not available on template ${chalk.bold(outputInfo.template.name)} (version ${chalk.bold(outputInfo.template.version)})`)
+          logger.error(`The partial '${chalk.bold(args.PARTIAL_NAME)}' is not available at template '${chalk.bold(outputInfo.template.name)}' (version ${chalk.bold(outputInfo.template.version)})`)
+          logger.error(`Run '${chalk.bold('scafflater-cli partial:list')}' to see the partials for this template`)
+          return
         }
       } else {
-        const prompt = await  inquirer.prompt([
+        const prompt = await inquirer.prompt([
           {
             type: 'rawlist',
             name: 'partialName',
@@ -88,10 +91,18 @@ AddPartialCommand.description = `Adds a partial to the output folder
 ...
 `
 
+AddPartialCommand.args = [
+  {
+    name: 'PARTIAL_NAME',
+    description: 'The partial name',
+    default: null,
+    require: false
+  },
+]
+
 AddPartialCommand.flags = {
-  partialName: flags.string({char: 'n', description: 'The partial name', default: null}),
-  output: flags.string({char: 'o', description: 'The output folder', default: './'}),
-  parameters: flags.string({char: 'p', description: 'The parameters to init template', default: [], multiple: true}),
+  output: flags.string({ char: 'o', description: 'The output folder', default: './' }),
+  parameters: flags.string({ char: 'p', description: 'The parameters to init template', default: [], multiple: true }),
 }
 
 module.exports = AddPartialCommand
