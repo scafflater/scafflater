@@ -7,7 +7,6 @@ const FileSystemUtils = require('scafflater/fs-util')
 const path = require('path')
 const logger = require('scafflater/logger')
 const chalk = require('chalk')
-const {cli} = require('cli-ux')
 
 class ListPartialCommand extends Command {
   async run() {

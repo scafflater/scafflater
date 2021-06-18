@@ -19,7 +19,7 @@ $ npm install -g scafflater-cli
 $ scafflater-cli COMMAND
 running command...
 $ scafflater-cli (-v|--version|version)
-scafflater-cli/0.0.7 darwin-x64 node-v15.7.0
+scafflater-cli/0.0.10 darwin-x64 node-v15.7.0
 $ scafflater-cli --help [COMMAND]
 USAGE
   $ scafflater-cli COMMAND
@@ -28,28 +28,10 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`scafflater-cli add`](#scafflater-cli-add)
 * [`scafflater-cli help [COMMAND]`](#scafflater-cli-help-command)
 * [`scafflater-cli init [GIT_HUB_REPOSITORY]`](#scafflater-cli-init-git_hub_repository)
-
-## `scafflater-cli add`
-
-Adds a template partial in a output folder
-
-```
-USAGE
-  $ scafflater-cli add
-
-OPTIONS
-  -n, --partialName=partialName  The partial name
-  -o, --output=output            [default: ./] The output folder
-  -p, --parameters=parameters    [default: ] The parameters to init template
-
-DESCRIPTION
-  ...
-```
-
-_See code: [commands/add.js](https://github.com/chicoribas/scafflater/blob/v0.0.7/commands/add.js)_
+* [`scafflater-cli partial:add`](#scafflater-cli-partialadd)
+* [`scafflater-cli partial:list`](#scafflater-cli-partiallist)
 
 ## `scafflater-cli help [COMMAND]`
 
@@ -84,5 +66,41 @@ DESCRIPTION
   ...
 ```
 
-_See code: [commands/init.js](https://github.com/chicoribas/scafflater/blob/v0.0.7/commands/init.js)_
+_See code: [commands/init.js](https://github.com/chicoribas/scafflater/blob/v0.0.10/commands/init.js)_
+
+## `scafflater-cli partial:add`
+
+Adds a partial to the output folder
+
+```
+USAGE
+  $ scafflater-cli partial:add
+
+OPTIONS
+  -n, --partialName=partialName  The partial name
+  -o, --output=output            [default: ./] The output folder
+  -p, --parameters=parameters    [default: ] The parameters to init template
+
+DESCRIPTION
+  ...
+```
+
+_See code: [commands/partial/add.js](https://github.com/chicoribas/scafflater/blob/v0.0.10/commands/partial/add.js)_
+
+## `scafflater-cli partial:list`
+
+Lists available partials in template
+
+```
+USAGE
+  $ scafflater-cli partial:list
+
+OPTIONS
+  -o, --output=output  [default: ./] The output folder
+
+DESCRIPTION
+  ...
+```
+
+_See code: [commands/partial/list.js](https://github.com/chicoribas/scafflater/blob/v0.0.10/commands/partial/list.js)_
 <!-- commandsstop -->
