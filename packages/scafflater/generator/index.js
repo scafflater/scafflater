@@ -4,6 +4,7 @@ const FileSystemUtils = require('../fs-util')
 const Processor = require('./processors/processor')
 const Appender = require('./appenders/appender')
 const ConfigProvider = require('../config-provider')
+const HandlebarsProcessor = new (require('./processors/handlebars-processor'))()
 
 /**
  * @typedef {object} Context
@@ -18,19 +19,17 @@ const ConfigProvider = require('../config-provider')
  */
 
 class Generator {
-  
+
   /** 
   * Brief description of the function here.
   * @summary If the description is long, write your summary here. Otherwise, feel free to remove this.
   * @param {Context} context - The context to generate 
   * @return {ReturnValueDataTypeHere} Brief description of the returning value here.
   */
-  constructor(context){
+  constructor(context) {
     this.context = context
     this.ignoredFiles = [context.config.scfFileName]
     this.ignoredFolders = [context.config.partialsFolderName, context.config.hooksFolderName]
-    this.processors = context.config.processors.map(p => new (require(p))())
-    this.appenders =  context.config.appenders.map(a => new (require(a))())
   }
 
   async generate() {
@@ -64,14 +63,14 @@ class Generator {
     if (!tree)
       tree = FileSystemUtils.getDirTree(ctx.partialPath)
 
-    const targetName = Processor.runProcessorsPipeline(this.processors, ctx, tree.name)
+    const targetName = Processor.runProcessorsPipeline([HandlebarsProcessor], ctx, tree.name)
     if (targetName === '') {
       return
     }
 
     const promises = []
     if (tree.type === 'directory' && this.ignoredFolders.indexOf(tree.name) < 0) {
-      const dirPath = path.join(ctx.partialPath, tree.name) 
+      const dirPath = path.join(ctx.partialPath, tree.name)
       const dirConfig = ConfigProvider.mergeFolderConfig(dirPath, this.context.config)
       for (const child of tree.children) {
         const _ctx = {
@@ -87,23 +86,24 @@ class Generator {
     }
 
     if (tree.type === 'file' && this.ignoredFiles.indexOf(tree.name) < 0) {
-      const filePath = path.join(ctx.partialPath, tree.name) 
-      let srcContent = FileSystemUtils.getFile(filePath)
-      const configFromFile = ConfigProvider.mergeConfigFromFileContent(srcContent, this.context.config)
+      const filePath = path.join(ctx.partialPath, tree.name)
+      const configFromFile = ConfigProvider.mergeConfigFromFileContent(filePath, this.context.config)
       const _ctx = {
         ...ctx,
         ...configFromFile.config
       }
 
-      srcContent = Processor.runProcessorsPipeline(this.processors, _ctx, configFromFile.fileContent)
+      const processors = _ctx.processors.map(p => new (require(p))())
+      let srcContent = Processor.runProcessorsPipeline(processors, _ctx, configFromFile.fileContent)
 
       const targetPath = path.join(ctx.targetPath, targetName);
       let targetContent = ''
-      if(FileSystemUtils.pathExists(targetPath)){
+      if (FileSystemUtils.pathExists(targetPath)) {
         targetContent = FileSystemUtils.getFile(targetPath)
       }
 
-      const result = Appender.runAppendersPipeline(this.appenders, _ctx, srcContent, targetContent)
+      const appenders = _ctx.appenders.map(a => new (require(a))())
+      const result = Appender.runAppendersPipeline(appenders, _ctx, srcContent, targetContent)
 
       FileSystemUtils.saveFile(targetPath, result, false)
     }

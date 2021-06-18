@@ -38,6 +38,9 @@
       "@oclif/plugin-help"
     ],
     "topics": {
+      "partial": {
+        "description": "Partial template operations"
+      },
       "partial:add": {
         "description": "Adds a partial to the output folder"
       },

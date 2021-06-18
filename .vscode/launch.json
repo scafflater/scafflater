@@ -20,14 +20,15 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug add",
-      "program": "${workspaceFolder}/packages/scf-cli/bin/run",
+      "name": "Debug add partial",
+      "program": "${workspaceFolder}/packages/scafflater-cli/bin/run",
       "args": [
-        "add",
-        "-n=s3",
-        "-p=name:the-name",
-        "-p=bucket-name:bucket-name",
-        "-p=AWS_DEFAULT_REGION:us-east-1"
+        "partial:add",
+        "-n=domain",
+        "-p=domainName:new-name",
+        "-p=domainDescription:the-new-description",
+        "-p=domainTeam:vs-one-team",
+        "-o=/Users/ribasf/Documents/GitHub/gbsandbox/pdd-domains-and-systems"
       ]
     }
   ]

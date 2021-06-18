@@ -62,6 +62,8 @@ class Scafflater {
 
     await  new Generator(ctx).generate(ctx)
 
+    if(!scfConfig.partials)
+      scfConfig.partials = []
     scfConfig.partials.push({
       path: `${scfConfig.template.name}/${partialPath}`,
       parameters: parameters,

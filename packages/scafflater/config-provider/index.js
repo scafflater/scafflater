@@ -1,5 +1,6 @@
 const path = require('path')
 const FileSystemUtils = require('../fs-util')
+const logger = require('../logger')
 
 /**
  * @typedef {object} Config
@@ -18,7 +19,7 @@ class ConfigProvider {
 {{{config.singleLineComment}}} @template {{{template.name}}} (v{{{template.version}}})
 {{{config.singleLineComment}}} @partial {{{partial.name}}}
 {{#each parameters }}
-{{{../template.config.singleLineComment}}} @{{{@key}}} {{{this}}} 
+{{{../config.singleLineComment}}} @{{{@key}}} {{{this}}} 
 {{/each}}
 
 {{{content}}}
@@ -48,7 +49,8 @@ class ConfigProvider {
     return result
   }
 
-  static mergeConfigFromFileContent(fileContent, config){
+  static mergeConfigFromFileContent(filePath, config){
+    let fileContent = FileSystemUtils.getFile(filePath)
     const configRegex = new RegExp(`${config.singleLineComment}\\s*${config.configMarker}\\s+(?<name>[^ ]+)\\s+(?<value>.*)`, 'gi')
     const configs = fileContent.matchAll(configRegex)
     let newConfig = {}
@@ -57,7 +59,11 @@ class ConfigProvider {
       switch (c.groups.name) {
         case 'processors':
         case 'appenders':
-          newConfig[c.groups.name] = JSON.parse(c.groups.value)
+          try{
+            newConfig[c.groups.name] = JSON.parse(c.groups.value)
+          }catch(error){
+            throw new Error(`Could not parse option '${c.groups.name}' on file '${filePath}': ${error}`)
+          }
           break;
         case 'annotate':
           newConfig[c.groups.name] = c.groups.value === '1' || c.groups.value === 'true'

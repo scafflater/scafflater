@@ -64,16 +64,16 @@ describe('Config Provider', () => {
   test('Get config from file template', () => {
     // ARRANGE
     const config = new ConfigProvider()
-    const fileContent = `
+    FileSystemUtils.getFile.mockReturnValue(`
     # @scf-config processors [ "a-new-processor" ]
     # @scf-config singleLineComment //
     # @scf-config annotate false
     
     the file content
-    `
+    `)
 
     // ACT
-    const newConfig = ConfigProvider.mergeConfigFromFileContent(fileContent, config)
+    const newConfig = ConfigProvider.mergeConfigFromFileContent('some/path', config)
 
     // ASSERT
     expect(newConfig.config.processors[0]).toBe('a-new-processor')
@@ -85,10 +85,10 @@ describe('Config Provider', () => {
   test('No config on file template', () => {
     // ARRANGE
     const config = new ConfigProvider()
-    const fileContent = `the file content`
+    FileSystemUtils.getFile.mockReturnValue(`the file content`)
 
     // ACT
-    const newConfig = ConfigProvider.mergeConfigFromFileContent(fileContent, config)
+    const newConfig = ConfigProvider.mergeConfigFromFileContent('some-path', config)
 
     // ASSERT
     expect(newConfig.fileContent).toBe('the file content')
