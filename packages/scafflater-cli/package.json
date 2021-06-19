@@ -11,8 +11,7 @@
     "@oclif/plugin-help": "^3.2.2",
     "chalk": "^4.1.1",
     "inquirer": "^8.1.1",
-    "ora": "^5.4.1",
-    "scafflater": "workspace:*"
+    "ora": "^5.4.1"
   },
   "engines": {
     "node": ">=13.0.0"
