@@ -1,18 +1,25 @@
 {
-  "name": "scafflaler-project",
+  "name": "scafflater-project",
   "description": "Scafflater",
   "version": "0.0.0",
-  "author": "Chico Ribas",
+  "author": "Chico Ribas (chicoribas)",
   "bugs": "https://github.com/chicoribas/scafflater/issues",
+  "homepage": "https://github.com/chicoribas/scafflater",
+  "license": "MIT",
+  "repository": "chicoribas/scafflater",
   "type": "commonjs",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=13.0.0"
+  },
   "scripts": {
     "test": "jest --detectOpenHandles --collectCoverage --runInBand --verbose --forceExit",
     "lint": "eslint \"**/*.js\" --ignore-pattern node_modules/",
     "lint:fix": "eslint --fix \"**/*.js\" --ignore-pattern node_modules/"
   },
-  "workspaces": [
-    "packages/*"
-  ],
   "devDependencies": {
     "@types/jest": "^26.0.23",
     "eslint": "^7.28.0",
@@ -25,19 +32,5 @@
     "fs-extra": "^10.0.0",
     "globby": "^11.0.4",
     "jest": "^27.0.4"
-  },
-  "engines": {
-    "node": ">=13.0.0"
-  },
-  "files": [
-    "/npm-shrinkwrap.json",
-    "/oclif.manifest.json",
-    "/yarn.lock"
-  ],
-  "homepage": "https://github.com/chicoribas/scafflater",
-  "keywords": [
-    "oclif-plugin"
-  ],
-  "license": "MIT",
-  "repository": "chicoribas/scafflater"
+  }
 }

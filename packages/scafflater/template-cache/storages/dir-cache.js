@@ -1,22 +1,18 @@
-const TemplateCache = require('./')
-const os = require('os')
+const TemplateCache = require('..')
 const path = require('path')
-const FileSystemUtils = require('../fs-util')
+const FileSystemUtils = require('../../fs-util')
 const sort = require('version-sort')
-
-const defaultConfig = {
-  localStorageTemplatesPath: path.join(os.homedir(), '.scafflater', 'templates'),
-  templateConfigFileName: '_scf.json',
-}
+const ConfigProvider = require('../../config-provider')
 
 /**
 * Stores templates in the local file system
 * @extends TemplateCache
 */
-class LocalTemplateStorage extends TemplateCache {
-  constructor(config = {}) {
+class DirCache extends TemplateCache {
+  constructor(storagePath, config = {}) {
     super(config)
-    this.config = {...defaultConfig, ...config}
+    this.storagePath = storagePath
+    this.config = {...new ConfigProvider(), ...config}
   }
 
   /**
@@ -24,8 +20,8 @@ class LocalTemplateStorage extends TemplateCache {
   * @param {string} templatePath - Path of template
   */
   async storeTemplate(templatePath) {
-    const templateConfig = FileSystemUtils.getJson(path.join(templatePath, this.config.templateConfigFileName))
-    const cachePath = path.join(this.config.localStorageTemplatesPath, templateConfig.name, templateConfig.version)
+    const templateConfig = FileSystemUtils.getJson(path.join(templatePath, this.config.scfFileName))
+    const cachePath = path.join(this.storagePath, templateConfig.name, templateConfig.version)
     FileSystemUtils.copy(templatePath, cachePath)
     return cachePath
   }
@@ -37,7 +33,7 @@ class LocalTemplateStorage extends TemplateCache {
   * @returns {string} The path where template was copied. Returns null if the template is not in cache.
   */
   getTemplateFolder(templateName, templateVersion = null) {
-    const templateFolder = path.join(this.config.localStorageTemplatesPath, templateName)
+    const templateFolder = path.join(this.storagePath, templateName)
 
     if (!FileSystemUtils.pathExists(templateFolder)) {
       return null
@@ -79,14 +75,14 @@ class LocalTemplateStorage extends TemplateCache {
   * @returns {object} The template config
   */
   async getTemplateConfig(cacheKey) {
-    return FileSystemUtils.getJson(path.join(cacheKey, this.config.templateConfigFileName))
+    return FileSystemUtils.getJson(path.join(cacheKey, this.config.scfFileName))
   }
 
   /**
   * List stored templates and their versions.
   */
   async listCachedTemplates() {
-    const dirTree = FileSystemUtils.getDirTree(this.config.localStorageTemplatesPath, false)
+    const dirTree = FileSystemUtils.getDirTree(this.storagePath, false)
 
     if (!dirTree)
       return null
@@ -102,4 +98,4 @@ class LocalTemplateStorage extends TemplateCache {
   }
 }
 
-module.exports = LocalTemplateStorage
+module.exports = DirCache

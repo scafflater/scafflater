@@ -1,0 +1,35 @@
+name: "[TEST] Scafflater"
+
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2.3.4
+
+      - name: Setup node 15.x
+        uses: actions/setup-node@v2.1.5
+        with:
+          node-version: 15.x
+
+      - name: Get npm cache directory
+        id: npm-cache
+        run: |
+          echo "::set-output name=dir::$(npm config get cache)"
+      - uses: actions/cache@v2.1.6
+        with:
+          path: ${{ steps.npm-cache.outputs.dir }}
+          key: ubuntu-latest-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ubuntu-latest-node-
+      - name: Install dependencies
+        run: |
+          npm ci
+      - name: Run lint
+        run: |
+          npm run lint
+      - name: Build & Test
+        run: |
+          npm run test

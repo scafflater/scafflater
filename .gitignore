@@ -5,8 +5,7 @@
 /package-lock.json
 /tmp
 node_modules
-.yarn/*
-.yarn/install-state.gz
-!.yarn/releases
-!.yarn/plugins
 .DS_Store
+packages/scafflater/types
+coverage
+

@@ -1,10 +1,11 @@
 {
   "name": "scafflater",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Scafflater - Scaffold using templates",
   "main": "scafflater.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "tsc": "tsc"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
   "engines": {
     "node": ">=8.3.0"
   },
+  "types": "./types/scafflater.d.js",
   "dependencies": {
     "chalk": "^4.1.1",
     "deepmerge": "^4.2.2",
@@ -32,6 +34,7 @@
     "glob": "^7.1.7",
     "handlebars": "^4.7.7",
     "js-yaml": "^4.1.0",
+    "typescript": "^4.3.4",
     "version-sort": "^0.1.1",
     "winston": "^3.3.3"
   }
