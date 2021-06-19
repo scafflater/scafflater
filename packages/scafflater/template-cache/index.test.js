@@ -1,10 +1,10 @@
 /* eslint-disable no-undef */
 const TemplateCache = require('./')
-const LocalTemplateCache = require('./local-template-cache')
+const LocalTemplateCache = require('./storages/home-dir-cache')
 
 test('Throws an exception when the storage does not exists', () => {
   // ARRANGE
-  const config = {storage: 'bla'}
+  const config = {cacheStorage: 'bla'}
   const ts = new TemplateCache()
 
   // ACT and ASSERT
@@ -15,7 +15,7 @@ test('Throws an exception when the storage does not exists', () => {
 
 test('Gets the template storage in config', () => {
   // ARRANGE
-  const config = {storage: 'local'}
+  const config = {cacheStorage: 'homeDir'}
   const ts = new TemplateCache(config)
 
   // ACT

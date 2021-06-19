@@ -25,7 +25,7 @@ class ConfigProvider {
 {{{content}}}
 
 {{{config.singleLineComment}}} {{{config.endRegionMarker}}}`
-    
+
     this.processors = ['./processors/handlebars-processor']
     this.appenders = ['./appenders/region-appender', './appenders/appender']
 
@@ -34,9 +34,15 @@ class ConfigProvider {
     this.hooksFolderName = '_hooks'
     this.helpersFolderName = '_helpers'
 
+    this.cacheStorage = 'tempDir'
+    this.cacheStorages = {
+      tempDir: './storages/temp-dir-cache',
+      homeDir: './storages/home-dir-cache',
+    }
+
   }
 
-  static mergeFolderConfig(folderPath, config){
+  static mergeFolderConfig(folderPath, config) {
     let result = { ...config }
     const scfFilePath = path.join(folderPath, config.scfFileName)
     if (FileSystemUtils.pathExists(scfFilePath)) {
@@ -49,7 +55,7 @@ class ConfigProvider {
     return result
   }
 
-  static mergeConfigFromFileContent(filePath, config){
+  static mergeConfigFromFileContent(filePath, config) {
     let fileContent = FileSystemUtils.getFile(filePath)
     const configRegex = new RegExp(`${config.singleLineComment}\\s*${config.configMarker}\\s+(?<name>[^ ]+)\\s+(?<value>.*)`, 'gi')
     const configs = fileContent.matchAll(configRegex)
@@ -59,9 +65,9 @@ class ConfigProvider {
       switch (c.groups.name) {
         case 'processors':
         case 'appenders':
-          try{
+          try {
             newConfig[c.groups.name] = JSON.parse(c.groups.value)
-          }catch(error){
+          } catch (error) {
             throw new Error(`Could not parse option '${c.groups.name}' on file '${filePath}': ${error}`)
           }
           break;
@@ -75,7 +81,7 @@ class ConfigProvider {
     }
 
     return {
-      config: {...config, ...newConfig},
+      config: { ...config, ...newConfig },
       fileContent: fileContent.replace(configRegex, '')
     }
 
