@@ -10,3 +10,4 @@ node_modules
 !.yarn/releases
 !.yarn/plugins
 .DS_Store
+packages/scafflater/types

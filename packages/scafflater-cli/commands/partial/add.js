@@ -9,7 +9,6 @@ const path = require('path')
 const logger = require('scafflater/logger')
 const chalk = require('chalk')
 const inquirer = require('inquirer')
-const { Console } = require('console')
 
 class AddPartialCommand extends Command {
   async run() {
