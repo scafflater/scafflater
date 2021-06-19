@@ -1,10 +1,4 @@
-
-const defaultConfig = {
-  storage: 'local',
-  storages: {
-    local: './local-template-cache',
-  },
-}
+const ConfigProvider = require("../config-provider")
 
 /**
 * TemplateStorage factory.
@@ -15,24 +9,24 @@ class TemplateCache {
   * @param {?object} config - Scafflater configuration. If null, will get the default configuration.
   */
   constructor(config = {}) {
-    this.config = {...defaultConfig, ...config}
+    this.config = {...new ConfigProvider(), ...config}
   }
 
   /**
   * Returns the template source instance to be used to get templates.
   * @param {?object} config - Scafflater configuration. If null, will get the default configuration.
-  * @param {?string} storage - Storage to be used. If null, will use local as default.
+  * @param {?string} cacheStorage - Storage to be used. If null, will use local as default.
   * @return {TemplateCache} An specialized instance of TemplateStorage.
   */
-  getTemplateCache(config = {}, storage = null) {
-    const c = {...defaultConfig, ...config}
-    const s = storage ? storage : c.storage
+  getTemplateCache(config = {}, cacheStorage = null) {
+    const c = {...new ConfigProvider(), ...config}
+    const s = cacheStorage ? cacheStorage : c.cacheStorage
 
-    if (!c.storages[s]) {
+    if (!c.cacheStorages[s]) {
       throw new Error(`There's no module for source '${s}'`)
     }
 
-    const ts = new (require(c.storages[s]))(config)
+    const ts = new (require(c.cacheStorages[s]))(config)
     return ts
   }
 

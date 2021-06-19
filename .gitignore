@@ -11,3 +11,5 @@ node_modules
 !.yarn/plugins
 .DS_Store
 packages/scafflater/types
+coverage
+

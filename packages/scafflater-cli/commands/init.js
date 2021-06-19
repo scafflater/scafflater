@@ -32,7 +32,7 @@ class InitCommand extends Command {
       const parameters = await promptMissingParameters(flags.parameters, initConfig.config.parameters)
 
       await spinner('Running template initialization', async () => {
-        const scafflater = new Scafflater()
+        const scafflater = new Scafflater({ cacheStorage: 'homeDir' })
         await scafflater.init(args.Git_Hub_Repository, parameters, flags.output)
       })
 

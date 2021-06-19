@@ -75,7 +75,7 @@ class AddPartialCommand extends Command {
       const parameters = await promptMissingParameters(flags.parameters, partial.config.parameters)
 
       await spinner('Running partial template', async () => {
-        const scafflater = new Scafflater()
+        const scafflater = new Scafflater({ cacheStorage: 'homeDir' })
         await scafflater.runPartial(partial.config.name, parameters, flags.output)
       })
 
