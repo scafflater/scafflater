@@ -55,7 +55,8 @@
   "scripts": {
     "postpack": "rm -f oclif.manifest.json",
     "prepack": "oclif-dev manifest && oclif-dev readme",
-    "test": "jest"
+    "test": "jest",
+    "preversion": "oclif-dev readme && git add README.md"
   },
   "devDependencies": {
     "@oclif/dev-cli": "^1.26.0"

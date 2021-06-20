@@ -29,7 +29,10 @@ jobs:
             ubuntu-latest-node-
       - name: Install dependencies
         run: |
-          npm i
+          npm ci
+      - name: Install dependencies
+        run: |
+          npm i -g @oclif/dev-cli
       - name: Bumping package versions
         run: |
           npm run version --yes
