@@ -17,7 +17,7 @@ $ npm install -g scafflater-cli
 $ scafflater-cli COMMAND
 running command...
 $ scafflater-cli (-v|--version|version)
-scafflater-cli/0.0.16 darwin-x64 node-v15.7.0
+scafflater-cli/0.0.17 darwin-x64 node-v15.7.0
 $ scafflater-cli --help [COMMAND]
 USAGE
   $ scafflater-cli COMMAND
@@ -64,7 +64,7 @@ DESCRIPTION
   ...
 ```
 
-_See code: [commands/init.js](https://github.com/chicoribas/scafflater/blob/v0.0.16/commands/init.js)_
+_See code: [commands/init.js](https://github.com/chicoribas/scafflater/blob/v0.0.17/commands/init.js)_
 
 ## `scafflater-cli partial:add [PARTIAL_NAME]`
 
@@ -85,7 +85,7 @@ DESCRIPTION
   ...
 ```
 
-_See code: [commands/partial/add.js](https://github.com/chicoribas/scafflater/blob/v0.0.16/commands/partial/add.js)_
+_See code: [commands/partial/add.js](https://github.com/chicoribas/scafflater/blob/v0.0.17/commands/partial/add.js)_
 
 ## `scafflater-cli partial:list`
 
@@ -102,5 +102,5 @@ DESCRIPTION
   ...
 ```
 
-_See code: [commands/partial/list.js](https://github.com/chicoribas/scafflater/blob/v0.0.16/commands/partial/list.js)_
+_See code: [commands/partial/list.js](https://github.com/chicoribas/scafflater/blob/v0.0.17/commands/partial/list.js)_
 <!-- commandsstop -->

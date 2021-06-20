@@ -27,10 +27,13 @@ jobs:
           key: ubuntu-latest-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ubuntu-latest-node-
+      - name: Npm Version
+        run: |
+          npm --version
       - name: Install dependencies
         run: |
           npm i
       - name: Bumping package versions
         run: |
-          npm run version --yes
+          npm version patch --ws
       
