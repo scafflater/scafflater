@@ -17,7 +17,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: fregante/setup-git-user@v1
+
+      - name: Configure CI Git User
+        run: |
+          git config --global user.name ${{ github.actor }}
+          git config --global user.email '${{ github.actor }}@users.noreply.github.com'
 
       - name: Setup node 15.x
         uses: actions/setup-node@v2.1.5
