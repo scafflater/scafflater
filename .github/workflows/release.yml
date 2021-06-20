@@ -49,6 +49,11 @@ jobs:
         run: |
           npm ci
 
+      - name: NPM Authentication
+        run: echo //registry.npmjs.org/:_authToken=${secrets.NPM_AUTH_TOKEN} > .npmrc
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Publishing packages
         run: |
           npm run publish
