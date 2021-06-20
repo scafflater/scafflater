@@ -41,5 +41,5 @@ jobs:
           npm ci
       - name: Bumping package versions
         run: |
-          npm version patch --ws
+          npm run version
       
