@@ -1,5 +1,5 @@
 const path = require('path')
-const FileSystemUtils = require('../fs-util')
+const fsUtil = require('../fs-util')
 const logger = require('../logger')
 
 /**
@@ -40,13 +40,17 @@ class ConfigProvider {
       homeDir: './storages/home-dir-cache',
     }
 
+    this.source = 'github'
+    this.sources = {
+      github: './git-template-source',
+    }
   }
 
   static mergeFolderConfig(folderPath, config) {
     let result = { ...config }
     const scfFilePath = path.join(folderPath, config.scfFileName)
-    if (FileSystemUtils.pathExists(scfFilePath)) {
-      const info = FileSystemUtils.getJson(scfFilePath)
+    if (fsUtil.pathExists(scfFilePath)) {
+      const info = fsUtil.readJSONSync(scfFilePath)
       if (info.config) {
         result = { ...result, ...info.config }
       }
@@ -56,7 +60,7 @@ class ConfigProvider {
   }
 
   static mergeConfigFromFileContent(filePath, config) {
-    let fileContent = FileSystemUtils.getFile(filePath)
+    let fileContent = fsUtil.readFileContentSync(filePath)
     const configRegex = new RegExp(`${config.singleLineComment}\\s*${config.configMarker}\\s+(?<name>[^ ]+)\\s+(?<value>.*)`, 'gi')
     const configs = fileContent.matchAll(configRegex)
     let newConfig = {}

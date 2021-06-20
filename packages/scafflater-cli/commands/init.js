@@ -7,33 +7,41 @@ const {promptMissingParameters, spinner} = require('../util')
 const FileSystemUtils = require('scafflater/fs-util')
 const path = require('path')
 const logger = require('scafflater/logger')
+const ConfigProvider = require('../../scafflater/config-provider')
 
 class InitCommand extends Command {
   async run() {
     try {
-      const {args, flags} = this.parse(InitCommand)
+      const {args: iniArgs, flags: initFlags} = this.parse(InitCommand)
 
-      if (FileSystemUtils.pathExists(path.join(flags.output, '_scf.json'))) {
+      if (FileSystemUtils.pathExists(path.join(initFlags.output, '_scf.json'))) {
         logger.info('The output folder is initialized!')
         logger.info('Aborting!')
         return
       }
 
+      const config = {  
+        ...new ConfigProvider(), 
+        ...{ 
+          cacheStorage: 'homeDir' 
+        }
+      }
+
       const source = new TemplateSource()
       const cache = new TemplateCache()
-      const manager = new TemplateManager(source, cache)
+      const manager = new TemplateManager(source, cache, config)
 
       let templateConfig
-      await spinner(`Getting template from ${args.Git_Hub_Repository}`, async () => {
-        templateConfig = await manager.getTemplateFromSource(args.Git_Hub_Repository)
+      await spinner(`Getting template from ${iniArgs.Git_Hub_Repository}`, async () => {
+        templateConfig = await manager.getTemplateFromSource(iniArgs.Git_Hub_Repository)
       })
 
       const initConfig = await manager.getPartial('_init', templateConfig.name, templateConfig.version)
-      const parameters = await promptMissingParameters(flags.parameters, initConfig.config.parameters)
+      const parameters = await promptMissingParameters(initFlags.parameters, initConfig.config.parameters)
 
       await spinner('Running template initialization', async () => {
         const scafflater = new Scafflater({ cacheStorage: 'homeDir' })
-        await scafflater.init(args.Git_Hub_Repository, parameters, flags.output)
+        await scafflater.init(iniArgs.Git_Hub_Repository, parameters, initFlags.output)
       })
 
       logger.log('notice', 'Template initialized. Fell free to add partials. 🥳')

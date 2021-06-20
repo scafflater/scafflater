@@ -5,21 +5,19 @@ const GitTemplateSource = require('./git-template-source')
 test('Throws an exception when the source does not exists', () => {
   // ARRANGE
   const config = {source: 'bla'}
-  const ts = new TemplateSource(config)
 
   // ACT and ASSERT
   expect(() => {
-    ts.getTemplateSource()
+    TemplateSource.getTemplateSource(config)
   }).toThrowError("There's no module for source 'bla'")
 })
 
 test('Gets the template source in config', () => {
   // ARRANGE
   const config = {source: 'github'}
-  const ts = new TemplateSource(config)
 
   // ACT
-  const result = ts.getTemplateSource(config)
+  const result = TemplateSource.getTemplateSource(config)
 
   // ASSERT
   // eslint-disable-next-line no-proto
@@ -31,10 +29,9 @@ test('Gets the github source from a github source key', () => {
   // ARRANGE
   const config = {}
   const sourceKey = 'https://github.com/jekyll/jekyll.git'
-  const ts = new TemplateSource(config, sourceKey)
 
   // ACT
-  const result = ts.getTemplateSource(sourceKey, config)
+  const result = TemplateSource.getTemplateSource(sourceKey, config)
 
   // ASSERT
   // eslint-disable-next-line no-proto

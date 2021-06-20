@@ -19,7 +19,7 @@ class Scafflater {
     this.config = { ...new ConfigProvider(), ...config }
     this.templateSource = new TemplateSource(this.config, sourceKey)
     this.templateCache = new TemplateCache(this.config)
-    this.templateManager = new TemplateManager(this.templateSource, this.templateCache)
+    this.templateManager = new TemplateManager(this.templateSource, this.templateCache, this.config)
   }
 
   /**
@@ -43,12 +43,12 @@ class Scafflater {
   }
 
   async runPartial(partialPath, parameters, targetPath = './') {
-    const scfConfig = await FileSystemUtils.getJson(path.join(targetPath, this.config.scfFileName))
+    const scfConfig = await FileSystemUtils.readJsonSync(path.join(targetPath, this.config.scfFileName))
 
     const partialInfo = await this.templateManager.getPartial(partialPath, scfConfig.template.name, scfConfig.template.version)
 
     const templatePath = await this.templateManager.getTemplatePath(scfConfig.template.name, scfConfig.template.version)
-    const templateScf = FileSystemUtils.getJson(path.join(templatePath, this.config.scfFileName))
+    const templateScf = FileSystemUtils.readJsonSync(path.join(templatePath, this.config.scfFileName))
 
     const ctx = {
       partial: partialInfo.config,

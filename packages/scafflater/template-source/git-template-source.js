@@ -1,6 +1,6 @@
 const TemplateSource = require('./')
 const GitUtil = require('../git-util')
-const FileSystemUtils = require('../fs-util')
+const fsUtil = require('../fs-util')
 const path = require('path')
 
 const defaultConfig = {
@@ -32,9 +32,9 @@ class GitTemplateSource extends TemplateSource {
   * @return {object.config} The template config.
   */
   async getTemplate(sourceKey, outputDir = null) {
-    const out = outputDir ? outputDir : FileSystemUtils.getTempFolder()
+    const out = outputDir ? outputDir : fsUtil.getTempFolderSync()
     await GitUtil.clone(sourceKey, out)
-    const config = await FileSystemUtils.getJson(path.join(out, '_scf.json'))
+    const config = fsUtil.readJSONSync(path.join(out, '_scf.json'))
 
     // TODO: Validate template configuration
 

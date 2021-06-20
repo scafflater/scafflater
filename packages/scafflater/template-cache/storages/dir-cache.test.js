@@ -1,8 +1,7 @@
 /* eslint-disable no-undef */
 const DirCache = require('./dir-cache')
-const FileSystemUtils = require('../../fs-util')
+const fsUtil = require('../../fs-util')
 const path = require('path')
-const os = require('os')
 
 jest.mock('../../fs-util')
 
@@ -13,23 +12,23 @@ describe('Github template source', () => {
 
   test('Should copy to the local folder', async () => {
     // ARRANGE
-    FileSystemUtils.getJson.mockReturnValue({name: 'some-name', version: 'some-version'})
-    const path = 'path/to/some/template'
+    fsUtil.readJSONSync.mockReturnValue({name: 'some-name', version: 'some-version'})
+    const p = 'path/to/some/template'
     const dirCache = new DirCache('path/to/some/template')
 
     // ACT
-    await dirCache.storeTemplate(path)
+    await dirCache.storeTemplate(p)
 
     // ASSERT
-    expect(FileSystemUtils.copy.mock.calls[0][0]).toBe(path)
-    expect(FileSystemUtils.copy.mock.calls[0][1]).toBe('path/to/some/template/some-name/some-version')
+    expect(fsUtil.copyEnsuringDestSync.mock.calls[0][0]).toBe(p)
+    expect(fsUtil.copyEnsuringDestSync.mock.calls[0][1]).toBe('path/to/some/template/some-name/some-version')
   })
 
   test('List templates should list stored templates', async () => {
     // ARRANGE
     const dirCache = new DirCache('some/path')
 
-    FileSystemUtils.getDirTree.mockReturnValue({
+    fsUtil.getDirTreeSync.mockReturnValue({
       name: 'templates',
       children: [
         {
@@ -68,7 +67,7 @@ describe('Github template source', () => {
     // ARRANGE
     const dirCache = new DirCache('some/path')
 
-    FileSystemUtils.getDirTree.mockReturnValue(null)
+    fsUtil.getDirTreeSync.mockReturnValue(null)
 
     // ACT
     const out = await dirCache.listCachedTemplates(path)
@@ -83,7 +82,7 @@ describe('Github template source', () => {
     const templateName = 'the-template'
     const templateVersion = 'the-template-version'
 
-    FileSystemUtils.getDirTree.mockReturnValue(null)
+    fsUtil.getDirTreeSync.mockReturnValue(null)
 
     // ACT
     const out = await dirCache.getTemplateFolder(templateName, templateVersion)
@@ -98,9 +97,9 @@ describe('Github template source', () => {
     const templateName = 'the-template'
 
     // ACT
-    FileSystemUtils.getDirTree.mockReturnValue(null)
+    fsUtil.getDirTreeSync.mockReturnValue(null)
     const out = await dirCache.getTemplateFolder(templateName)
-    FileSystemUtils.getDirTree.mockReturnValue({name: 'templates', children: []})
+    fsUtil.getDirTreeSync.mockReturnValue({name: 'templates', children: []})
     const out2 = await dirCache.getTemplateFolder(templateName)
 
     // ASSERT
@@ -112,7 +111,7 @@ describe('Github template source', () => {
     // ARRANGE
     const dirCache = new DirCache('some/path')
 
-    FileSystemUtils.getDirTree.mockReturnValue({
+    fsUtil.getDirTreeSync.mockReturnValue({
       name: 'tmpl-01',
       children: [
         {
@@ -123,7 +122,7 @@ describe('Github template source', () => {
         },
       ],
     })
-    FileSystemUtils.pathExists.mockReturnValue(true)
+    fsUtil.pathExists.mockReturnValue(true)
 
     // ACT
     const out = dirCache.getTemplateFolder('tmpl-01')

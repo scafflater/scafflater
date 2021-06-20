@@ -1,6 +1,6 @@
 const path = require('path')
 const Handlebars = require('handlebars')
-const FileSystemUtils = require('../fs-util')
+const fsUtil = require('../fs-util')
 const Processor = require('./processors/processor')
 const Appender = require('./appenders/appender')
 const ConfigProvider = require('../config-provider')
@@ -35,15 +35,15 @@ class Generator {
   async generate() {
     // Loading handlebars js custom helper
     const helpersPath = path.join(this.context.templatePath, this.context.config.helpersFolderName)
-    if (FileSystemUtils.pathExists(helpersPath)) {
-      for (const js of await FileSystemUtils.listJsTreeInPath(helpersPath)) {
+    if (fsUtil.pathExists(helpersPath)) {
+      for (const js of await fsUtil.listFilesByExtensionDeeply(helpersPath, 'js')) {
         const helperFunction = require(js)
         const helperName = path.basename(js, '.js')
         Handlebars.registerHelper(helperName, helperFunction)
       }
     }
 
-    const tree = FileSystemUtils.getDirTree(this.context.partialPath)
+    const tree = fsUtil.getDirTreeSync(this.context.partialPath)
 
     const promises = []
     if (tree.type === 'file') {
@@ -61,7 +61,7 @@ class Generator {
 
   async _generate(ctx = {}, tree = null) {
     if (!tree)
-      tree = FileSystemUtils.getDirTree(ctx.partialPath)
+      tree = fsUtil.getDirTreeSync(ctx.partialPath)
 
     const targetName = Processor.runProcessorsPipeline([HandlebarsProcessor], ctx, tree.name)
     if (targetName === '') {
@@ -98,14 +98,14 @@ class Generator {
 
       const targetPath = path.join(ctx.targetPath, targetName);
       let targetContent = ''
-      if (FileSystemUtils.pathExists(targetPath)) {
-        targetContent = FileSystemUtils.getFile(targetPath)
+      if (fsUtil.pathExists(targetPath)) {
+        targetContent = fsUtil.readFileContentSync(targetPath)
       }
 
       const appenders = _ctx.appenders.map(a => new (require(a))())
       const result = Appender.runAppendersPipeline(appenders, _ctx, srcContent, targetContent)
 
-      FileSystemUtils.saveFile(targetPath, result, false)
+      fsUtil.saveFileSync(targetPath, result, false)
     }
 
     await Promise.all(promises)

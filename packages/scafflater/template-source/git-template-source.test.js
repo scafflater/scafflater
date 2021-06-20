@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 const GitTemplateSource = require('./')
 const GitUtil = require('../git-util')
-const FileSystemUtils = require('../fs-util')
+const fsUtil = require('../fs-util')
 
 jest.mock('../git-util')
 jest.mock('../fs-util')
@@ -16,7 +16,7 @@ describe('Github template source', () => {
     const repo = 'some/repo'
     const virtualFolder = 'some/virtual/folder'
     const gitTemplateSource = new GitTemplateSource()
-    FileSystemUtils.getJson.mockReturnValue({name: 'template-name', version: '0.0.0'})
+    fsUtil.readJSONSync.mockReturnValue({name: 'template-name', version: '0.0.0'})
 
     // ACT
     const out = await gitTemplateSource.getTemplate(repo, virtualFolder)
@@ -46,8 +46,8 @@ describe('Github template source', () => {
     const repo = 'some/repo'
     const tempFolder = 'some/temp/folder'
     const gitTemplateSource = new GitTemplateSource()
-    FileSystemUtils.getJson.mockReturnValue({name: 'template-name', version: '0.0.0'})
-    FileSystemUtils.getTempFolder.mockReturnValue(tempFolder)
+    fsUtil.readJSONSync.mockReturnValue({name: 'template-name', version: '0.0.0'})
+    fsUtil.getTempFolderSync.mockReturnValue(tempFolder)
 
     // ACT
     const out = await gitTemplateSource.getTemplate(repo)

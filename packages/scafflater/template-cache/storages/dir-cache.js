@@ -1,6 +1,6 @@
 const TemplateCache = require('..')
 const path = require('path')
-const FileSystemUtils = require('../../fs-util')
+const fsUtil = require('../../fs-util')
 const sort = require('version-sort')
 const ConfigProvider = require('../../config-provider')
 
@@ -10,19 +10,20 @@ const ConfigProvider = require('../../config-provider')
 */
 class DirCache extends TemplateCache {
   constructor(storagePath, config = {}) {
+    config = {...new ConfigProvider(), ...config}
     super(config)
     this.storagePath = storagePath
-    this.config = {...new ConfigProvider(), ...config}
+    this.config = config
   }
 
   /**
   * Stores the template in the local file system.
   * @param {string} templatePath - Path of template
   */
-  async storeTemplate(templatePath) {
-    const templateConfig = FileSystemUtils.getJson(path.join(templatePath, this.config.scfFileName))
+  storeTemplate(templatePath) {
+    const templateConfig = fsUtil.readJSONSync(path.join(templatePath, this.config.scfFileName))
     const cachePath = path.join(this.storagePath, templateConfig.name, templateConfig.version)
-    FileSystemUtils.copy(templatePath, cachePath)
+    fsUtil.copyEnsuringDestSync(templatePath, cachePath)
     return cachePath
   }
 
@@ -35,12 +36,12 @@ class DirCache extends TemplateCache {
   getTemplateFolder(templateName, templateVersion = null) {
     const templateFolder = path.join(this.storagePath, templateName)
 
-    if (!FileSystemUtils.pathExists(templateFolder)) {
+    if (!fsUtil.pathExists(templateFolder)) {
       return null
     }
 
     if (!templateVersion) {
-      let versions =  FileSystemUtils.getDirTree(templateFolder, false)
+      let versions =  fsUtil.getDirTreeSync(templateFolder, false)
 
       // The template folder does not exist or there no versions on it
       if (!versions || versions.children.length <= 0)
@@ -52,7 +53,7 @@ class DirCache extends TemplateCache {
 
     const templateVersionFolder =  path.join(templateFolder, templateVersion)
 
-    if (!FileSystemUtils.pathExists(templateVersionFolder)) {
+    if (!fsUtil.pathExists(templateVersionFolder)) {
       return null
     }
 
@@ -65,7 +66,7 @@ class DirCache extends TemplateCache {
   * @param {string} templateVersion - Template Version. If null, the latest stored version is returned.
   * @returns {string} The stored template path
   */
-  async getTemplatePath(templateName, templateVersion = null) {
+  getTemplatePath(templateName, templateVersion = null) {
     return this.getTemplateFolder(templateName, templateVersion)
   }
 
@@ -74,15 +75,15 @@ class DirCache extends TemplateCache {
   * @param {string} cacheKey - The cache key
   * @returns {object} The template config
   */
-  async getTemplateConfig(cacheKey) {
-    return FileSystemUtils.getJson(path.join(cacheKey, this.config.scfFileName))
+  getTemplateConfig(cacheKey) {
+    return fsUtil.readJSONSync(path.join(cacheKey, this.config.scfFileName))
   }
 
   /**
   * List stored templates and their versions.
   */
-  async listCachedTemplates() {
-    const dirTree = FileSystemUtils.getDirTree(this.storagePath, false)
+  listCachedTemplates() {
+    const dirTree = fsUtil.getDirTreeSync(this.storagePath, false)
 
     if (!dirTree)
       return null

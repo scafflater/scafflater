@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 const TempDirCache = require('./temp-dir-cache')
-const FileSystemUtils = require('../../fs-util')
+const fsUtils = require('../../fs-util')
 
 jest.mock('../../fs-util')
 
@@ -11,7 +11,7 @@ describe('Home Dir source', () => {
 
   test('Should set path to .scafflater/templates in UserDir', async () => {
     // ARRANGE
-    FileSystemUtils.getTempFolder.mockReturnValue('some/temp/path')
+    fsUtils.getTempFolderSync.mockReturnValue('some/temp/path')
 
     // ACT
     const tempDirCache = new TempDirCache()

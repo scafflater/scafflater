@@ -12,7 +12,7 @@ describe('Config Provider', () => {
     // ARRANGE
     const config = new ConfigProvider()
     FileSystemUtils.pathExists.mockReturnValue(true)
-    FileSystemUtils.getJson.mockReturnValue({
+    FileSystemUtils.readJSONSync.mockReturnValue({
       config: {
         singleLineComment: '//'
       }
@@ -22,7 +22,7 @@ describe('Config Provider', () => {
     const newConfig = ConfigProvider.mergeFolderConfig('some-folder-path', config)
 
     // ASSERT
-    expect(FileSystemUtils.getJson.mock.calls.length).toBe(1)
+    expect(FileSystemUtils.readJSONSync.mock.calls.length).toBe(1)
     expect(newConfig.singleLineComment).toBe('//')
 
   })
@@ -31,7 +31,7 @@ describe('Config Provider', () => {
     // ARRANGE
     const config = new ConfigProvider()
     FileSystemUtils.pathExists.mockReturnValue(false)
-    FileSystemUtils.getJson.mockReturnValue({
+    FileSystemUtils.readJSONSync.mockReturnValue({
       config: {
         singleLineComment: '//'
       }
@@ -41,7 +41,7 @@ describe('Config Provider', () => {
     const newConfig = ConfigProvider.mergeFolderConfig('some-folder-path', config)
 
     // ASSERT
-    expect(FileSystemUtils.getJson.mock.calls.length).toBe(0)
+    expect(FileSystemUtils.readJSONSync.mock.calls.length).toBe(0)
     expect(newConfig).toStrictEqual({ ...config })
   })
 
@@ -49,7 +49,7 @@ describe('Config Provider', () => {
     // ARRANGE
     const config = new ConfigProvider()
     FileSystemUtils.pathExists.mockReturnValue(true)
-    FileSystemUtils.getJson.mockReturnValue({
+    FileSystemUtils.readJSONSync.mockReturnValue({
       hey: 'theres no config here'
     })
 
@@ -57,14 +57,14 @@ describe('Config Provider', () => {
     const newConfig = ConfigProvider.mergeFolderConfig('some-folder-path', config)
 
     // ASSERT
-    expect(FileSystemUtils.getJson.mock.calls.length).toBe(1)
+    expect(FileSystemUtils.readJSONSync.mock.calls.length).toBe(1)
     expect(newConfig).toStrictEqual({ ...config })
   })
 
   test('Get config from file template', () => {
     // ARRANGE
     const config = new ConfigProvider()
-    FileSystemUtils.getFile.mockReturnValue(`
+    FileSystemUtils.readFileContentSync.mockReturnValue(`
     # @scf-config processors [ "a-new-processor" ]
     # @scf-config singleLineComment //
     # @scf-config annotate false
@@ -85,7 +85,7 @@ describe('Config Provider', () => {
   test('No config on file template', () => {
     // ARRANGE
     const config = new ConfigProvider()
-    FileSystemUtils.getFile.mockReturnValue(`the file content`)
+    FileSystemUtils.readFileContentSync.mockReturnValue(`the file content`)
 
     // ACT
     const newConfig = ConfigProvider.mergeConfigFromFileContent('some-path', config)

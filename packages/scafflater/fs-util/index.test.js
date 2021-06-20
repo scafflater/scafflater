@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const FileSystemUtils = require('.')
+const fsUtils = require('.')
 const path = require('path')
 
 test('Should return the directory tree without files', () => {
@@ -7,7 +7,7 @@ test('Should return the directory tree without files', () => {
   const folderPath = path.join(__dirname, '.test-resources', 'simple-folder')
 
   // ACT
-  const out = FileSystemUtils.getDirTree(folderPath, false)
+  const out = fsUtils.getDirTreeSync(folderPath, false)
 
   // ASSERT
   expect(out.children.length).toBe(1)
@@ -19,7 +19,7 @@ test('Should return the directory tree with files', () => {
   const folderPath = path.join(__dirname, '.test-resources', 'simple-folder')
 
   // ACT
-  const out = FileSystemUtils.getDirTree(folderPath)
+  const out = fsUtils.getDirTreeSync(folderPath)
 
   // ASSERT
   expect(out.children.length).toBe(2)
@@ -30,7 +30,7 @@ test('Should return null if directory does not exists', () => {
   const folderPath = path.join(__dirname, '.test-resources-does-not-exists')
 
   // ACT
-  const out = FileSystemUtils.getDirTree(folderPath)
+  const out = fsUtils.getDirTreeSync(folderPath)
 
   // ASSERT
   expect(out).toBe(null)
@@ -41,7 +41,7 @@ test('Should return list of scafflater config', async () => {
   const folderPath = path.join(__dirname, '.test-resources', 'template-sample')
 
   // ACT
-  const out = await FileSystemUtils.listScfConfigTreeInPath(folderPath)
+  const out = await fsUtils.listFilesDeeply(folderPath, '/**/_scf.json')
 
   // ASSERT
   expect(out.length).toBe(2)

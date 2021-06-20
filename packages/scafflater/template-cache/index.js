@@ -18,16 +18,14 @@ class TemplateCache {
   * @param {?string} cacheStorage - Storage to be used. If null, will use local as default.
   * @return {TemplateCache} An specialized instance of TemplateStorage.
   */
-  getTemplateCache(config = {}, cacheStorage = null) {
-    const c = {...new ConfigProvider(), ...config}
-    const s = cacheStorage ? cacheStorage : c.cacheStorage
+  static getTemplateCache(config = {}) {
+    config = {...new ConfigProvider(), ...config}
 
-    if (!c.cacheStorages[s]) {
-      throw new Error(`There's no module for source '${s}'`)
+    if (!config.cacheStorages[config.cacheStorage]) {
+      throw new Error(`There's no module for source '${config.cacheStorage}'`)
     }
-
-    const ts = new (require(c.cacheStorages[s]))(config)
-    return ts
+    
+    return new (require(config.cacheStorages[config.cacheStorage]))(config)
   }
 
   /**
@@ -36,7 +34,7 @@ class TemplateCache {
   * @returns {string} The cache key
   */
   async storeTemplate(path) {
-    return this
+    return TemplateCache
     .getTemplateCache()
     .storeTemplate(path)
   }
@@ -48,7 +46,7 @@ class TemplateCache {
   * @returns {string} The template path
   */
   async getTemplatePath(templateName, templateVersion = null) {
-    return this
+    return TemplateCache
     .getTemplateCache()
     .getTemplatePath(templateName, templateVersion)
   }
@@ -59,7 +57,7 @@ class TemplateCache {
   * @returns {object} The template config
   */
   async getTemplateConfig(cacheKey) {
-    return this
+    return TemplateCache
     .getTemplateCache()
     .getTemplateConfig(cacheKey)
   }
@@ -71,7 +69,7 @@ class TemplateCache {
   * @param {string} path - Path to output the template If null, will store the template in a temp folder.
   */
   async listCachedTemplates() {
-    return this
+    return TemplateCache
     .getTemplateCache()
     .listCachedTemplates()
   }

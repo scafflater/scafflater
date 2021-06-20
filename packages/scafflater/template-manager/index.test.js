@@ -1,7 +1,8 @@
 /* eslint-disable node/no-unpublished-require */
 /* eslint-disable no-undef */
-const FileSystemUtils = require('../fs-util')
+const fsUtil = require('../fs-util')
 const TemplateCache = require('../template-cache')
+const TempDirCache = require('../template-cache/storages/temp-dir-cache')
 const TemplateSource = require('../template-source')
 const TemplateManager = require('./')
 
@@ -22,11 +23,13 @@ describe('Template Manager tests', () => {
       name: 'the-partial-name',
       parameters: [],
     }
-    const templateCache = new TemplateCache()
+    const templateCache = new TemplateCache(config)
     templateCache.getTemplatePath.mockReturnValue(partialPath)
-    FileSystemUtils.listScfConfigTreeInPath.mockReturnValue(configList)
-    FileSystemUtils.getJson.mockReturnValue(config)
-    const templateManager = new TemplateManager(new TemplateSource(), templateCache)
+    fsUtil.getTempFolderSync.mockReturnValue('some/temp/folder')
+    TemplateCache.getTemplateCache.mockReturnValue(templateCache)
+    fsUtil.listFilesByNameDeeply.mockReturnValue(configList)
+    fsUtil.readJSONSync.mockReturnValue(config)
+    const templateManager = new TemplateManager(config)
 
     // ACT
     const out = await templateManager.listPartials('template')
@@ -45,11 +48,20 @@ describe('Template Manager tests', () => {
       name: 'the-partial-name',
       parameters: [],
     }
-    const templateCache = new TemplateCache()
+
+    const templateCache = new TemplateCache(config)
     templateCache.getTemplatePath.mockReturnValue(partialPath)
-    FileSystemUtils.listScfConfigTreeInPath.mockReturnValue(configList)
-    FileSystemUtils.getJson.mockReturnValue(config)
-    const templateManager = new TemplateManager(new TemplateSource(), templateCache)
+    fsUtil.getTempFolderSync.mockReturnValue('some/temp/folder')
+    TemplateCache.getTemplateCache.mockReturnValue(templateCache)
+    fsUtil.listFilesByNameDeeply.mockReturnValue(configList)
+    fsUtil.readJSONSync.mockReturnValue(config)
+    const templateManager = new TemplateManager(config)
+
+    // const templateCache = new TemplateCache()
+    // templateCache.getTemplatePath.mockReturnValue(partialPath)
+    //fsUtil.listFilesByNameDeeply.mockReturnValue(configList)
+    //fsUtil.readJSONSync.mockReturnValue(config)
+    //const templateManager = new TemplateManager(new TemplateSource(), templateCache, config)
 
     // ACT
     const out = await templateManager.getPartial('the-partial-name', 'template')

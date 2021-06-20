@@ -12,7 +12,7 @@ test('save File', async () => {
   fs.existsSync.mockReturnValue(true)
 
   // ACT
-  await FileSystemUtils.saveFile(filePath, 'new data', true)
+  await FileSystemUtils.saveFileSync(filePath, 'new data', true)
 
   // ASSERT
   expect(fs.writeFileSync.mock.calls[0][1]).toBe(EOL + EOL + 'new data')

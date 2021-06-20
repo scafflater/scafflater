@@ -1,10 +1,4 @@
-
-const defaultConfig = {
-  source: 'github',
-  sources: {
-    github: './git-template-source',
-  },
-}
+const ConfigProvider = require("../config-provider")
 
 /**
 * TemplateSource factory.
@@ -15,7 +9,7 @@ class TemplateSource {
   * @param {?object} config - Scafflater configuration. If null, will get the default configuration.
   */
   constructor(config = {}) {
-    this.config = {...defaultConfig, ...config}
+    this.config = {...new ConfigProvider(), ...config}
   }
 
   /**
@@ -23,13 +17,14 @@ class TemplateSource {
   * @param {?object} config - Scafflater configuration. If null, will get the default configuration.
   * @return {TemplateSource} An specialized instance of TemplateSource.
   */
-  getTemplateSource() {
-    if (!this.config.sources[this.config.source]) {
-      throw new Error(`There's no module for source '${this.config.source}'`)
-    }
+  static getTemplateSource(config) {
+    config = {...new ConfigProvider(), ...config}
 
-    const ts = new (require(this.config.sources[this.config.source]))(this.config)
-    return ts
+    if (!config.sources[config.source]) {
+      throw new Error(`There's no module for source '${config.source}'`)
+    }
+    
+    return  new (require(config.sources[config.source]))(this.config)
   }
 
   /**
@@ -40,8 +35,7 @@ class TemplateSource {
   * @return {object.config} config - The template config.
   */
   async getTemplate(sourceKey, outputDir = null) {
-    return this
-    .getTemplateSource()
+    return TemplateSource.getTemplateSource()
     .getTemplate(sourceKey, outputDir)
   }
 }

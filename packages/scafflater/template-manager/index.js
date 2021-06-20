@@ -1,5 +1,7 @@
 const path = require('path')
-const FileSystemUtils = require('../fs-util')
+const fsUtil = require('../fs-util')
+const TemplateCache = require('../template-cache')
+const TemplateSource = require('../template-source')
 
 /**
 * Template Manager factory.
@@ -7,14 +9,14 @@ const FileSystemUtils = require('../fs-util')
 class TemplateManager {
   /**
   * Template Manager constructor.
-  * @param {TemplateSource} templateSource - The template source
-  * @param {TemplateCache} templateCache - The template cache
+  * @param {object} config - Config
   */
-  constructor(templateSource, templateCache) {
+  constructor(config) {
+    this.config = config
     /** @constant {TemplateSource} */
-    this.templateSource = templateSource
+    this.templateSource = TemplateSource.getTemplateSource(config)
     /** @constant {TemplateCache} */
-    this.templateCache = templateCache
+    this.templateCache = TemplateCache.getTemplateCache(config)
   }
 
   /**
@@ -60,7 +62,7 @@ class TemplateManager {
   }
 
   /**
-  * List avaiable partials in template.
+  * List available partials in template.
   * @param {string} templateName - Template name
   * @param {string} templateVersion - Template Version. If null, the latest stored version is returned.
   * @returns {object[]} Array of objects containing the config and the path to partial.
@@ -71,7 +73,7 @@ class TemplateManager {
       return null
 
     const partialsPath = path.join(templatePath, '_partials')
-    const configs = await FileSystemUtils.listScfConfigTreeInPath(partialsPath)
+    const configs = await fsUtil.listFilesByNameDeeply(partialsPath, this.config.scfFileName)
     if (!configs)
       return null
 
@@ -79,7 +81,7 @@ class TemplateManager {
     for (const config of configs) {
       result.push({
         // eslint-disable-next-line no-await-in-loop
-        config: await FileSystemUtils.getJson(config),
+        config: fsUtil.readJSONSync(config),
         path: path.dirname(config),
       })
     }
