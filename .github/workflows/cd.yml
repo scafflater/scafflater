@@ -38,7 +38,7 @@ jobs:
           npm --version
       - name: Install dependencies
         run: |
-          npm i
+          npm ci
       - name: Bumping package versions
         run: |
           npm version patch --ws -f
