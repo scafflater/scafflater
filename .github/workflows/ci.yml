@@ -12,7 +12,8 @@ on:
         default: 'warning'
 
 jobs:
-  build:
+  integration:
+    name: 'Audit and Test'
     runs-on: ubuntu-latest
 
     steps:
