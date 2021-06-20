@@ -42,4 +42,6 @@ jobs:
       - name: Bumping package versions
         run: |
           npm run version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
