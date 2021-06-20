@@ -49,9 +49,9 @@ jobs:
         run: |
           npm ci
 
-      - name: Bumping package versions
+      - name: Publishing packages
         run: |
-          npm run publish
+          npm run publish --no-verify-access
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
