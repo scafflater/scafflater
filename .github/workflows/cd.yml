@@ -12,7 +12,8 @@ on:
         default: 'warning'
 
 jobs:
-  npm-publish:
+  bump-versions:
+    name: 'Bump packages version'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
