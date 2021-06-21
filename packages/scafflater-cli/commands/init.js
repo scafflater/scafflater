@@ -4,21 +4,15 @@ const Scafflater = require('scafflater')
 const TemplateManager = require('scafflater/template-manager')
 const TemplateCache = require('scafflater/template-cache')
 const {promptMissingParameters, spinner} = require('../util')
-const FileSystemUtils = require('scafflater/fs-util')
+const fsUtil = require('scafflater/fs-util')
 const path = require('path')
 const logger = require('scafflater/logger')
-const ConfigProvider = require('../../scafflater/config-provider')
+const ConfigProvider = require('scafflater/config-provider')
 
 class InitCommand extends Command {
   async run() {
     try {
       const {args: iniArgs, flags: initFlags} = this.parse(InitCommand)
-
-      if (FileSystemUtils.pathExists(path.join(initFlags.output, '_scf.json'))) {
-        logger.info('The output folder is initialized!')
-        logger.info('Aborting!')
-        return
-      }
 
       const config = {  
         ...new ConfigProvider(), 
@@ -27,9 +21,13 @@ class InitCommand extends Command {
         }
       }
 
-      const source = new TemplateSource()
-      const cache = new TemplateCache()
-      const manager = new TemplateManager(source, cache, config)
+      if (fsUtil.pathExistsSync(path.join(initFlags.output, config.scfFileName))) {
+        logger.info('The output folder is initialized!')
+        logger.info('Aborting!')
+        return
+      }
+
+      const manager = new TemplateManager(config)
 
       let templateConfig
       await spinner(`Getting template from ${iniArgs.Git_Hub_Repository}`, async () => {

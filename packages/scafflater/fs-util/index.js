@@ -101,38 +101,4 @@ fs.listFilesByNameDeeply = (folderPath, fileName) => {
   return fs.listFilesDeeply(folderPath, `/**/${fileName}`)
 }
 
-  // /**
-  // * List all scafflater in a directory tree.
-  // * @param {string} path - Path to look for scafflater templates
-  // * @return {ReturnValueDataTypeHere} Brief description of the returning value here.
-  // */
-  // static async listScfConfigTreeInPath(path) {
-  //   return new Promise((resolve, reject) => {
-  //     glob('/**/_scf.json', {root: path}, (err, files) => {
-  //       if (err)
-  //         reject(err)
-  //       if (!files || files.length <= 0)
-  //         resolve(null)
-  //       resolve(files)
-  //     })
-  //   })
-  // }
-
-  // /**
-  // * List all javascript files in a directory tree.
-  // * @param {string} path - Path to look for scafflater templates
-  // * @return {ReturnValueDataTypeHere} Brief description of the returning value here.
-  // */
-  // static listJsTreeInPath(path) {
-  //   return new Promise((resolve, reject) => {
-  //     glob('/**/*.js', {root: path}, (err, files) => {
-  //       if (err)
-  //         reject(err)
-  //       if (!files || files.length <= 0)
-  //         resolve(null)
-  //       resolve(files)
-  //     })
-  //   })
-  // }
-
 module.exports = fs

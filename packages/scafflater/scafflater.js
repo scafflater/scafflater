@@ -1,8 +1,6 @@
-const TemplateSource = require('./template-source')
-const TemplateCache = require('./template-cache')
 const TemplateManager = require('./template-manager')
 const Generator = require('./generator')
-const FileSystemUtils = require('./fs-util')
+const fsUtil = require('./fs-util')
 const path = require('path')
 const ConfigProvider = require('./config-provider')
 
@@ -17,9 +15,7 @@ class Scafflater {
   */
   constructor(config = {}, sourceKey = null) {
     this.config = { ...new ConfigProvider(), ...config }
-    this.templateSource = new TemplateSource(this.config, sourceKey)
-    this.templateCache = new TemplateCache(this.config)
-    this.templateManager = new TemplateManager(this.templateSource, this.templateCache, this.config)
+    this.templateManager = new TemplateManager(this.config)
   }
 
   /**
@@ -30,25 +26,25 @@ class Scafflater {
   * @return {ReturnValueDataTypeHere} Brief description of the returning value here.
   */
   async init(sourceKey, parameters, targetPath = './') {
-    const templateConfig = await this.templateSource.getTemplate(sourceKey)
+    const templateConfig = await this.templateManager.templateSource.getTemplate(sourceKey)
 
     const scfConfig = {
       template: {...templateConfig.config},
       partials: [],
     }
 
-    FileSystemUtils.saveJson(path.join(targetPath, this.config.scfFileName), scfConfig)
+    fsUtil.writeJSONSync(path.join(targetPath, this.config.scfFileName), scfConfig)
 
     await this.runPartial('_init', parameters, targetPath, templateConfig,)
   }
 
   async runPartial(partialPath, parameters, targetPath = './') {
-    const scfConfig = await FileSystemUtils.readJsonSync(path.join(targetPath, this.config.scfFileName))
+    const scfConfig = await fsUtil.readJsonSync(path.join(targetPath, this.config.scfFileName))
 
     const partialInfo = await this.templateManager.getPartial(partialPath, scfConfig.template.name, scfConfig.template.version)
 
     const templatePath = await this.templateManager.getTemplatePath(scfConfig.template.name, scfConfig.template.version)
-    const templateScf = FileSystemUtils.readJsonSync(path.join(templatePath, this.config.scfFileName))
+    const templateScf = fsUtil.readJsonSync(path.join(templatePath, this.config.scfFileName))
 
     const ctx = {
       partial: partialInfo.config,
@@ -69,7 +65,7 @@ class Scafflater {
       parameters: parameters,
     })
 
-    FileSystemUtils.saveJson(path.join(targetPath, this.config.scfFileName), scfConfig)
+    fsUtil.writeJSONSync(path.join(targetPath, this.config.scfFileName), scfConfig)
   }
 }
 

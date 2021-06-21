@@ -66,7 +66,7 @@ class DirCache extends TemplateCache {
   * @param {string} templateVersion - Template Version. If null, the latest stored version is returned.
   * @returns {string} The stored template path
   */
-  getTemplatePath(templateName, templateVersion = null) {
+  async getTemplatePath(templateName, templateVersion = null) {
     return this.getTemplateFolder(templateName, templateVersion)
   }
 

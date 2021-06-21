@@ -9,12 +9,21 @@ const path = require('path')
 const logger = require('scafflater/logger')
 const chalk = require('chalk')
 const inquirer = require('inquirer')
+const ConfigProvider = require('scafflater/config-provider')
 
 class AddPartialCommand extends Command {
   async run() {
     try {
       const { args, flags } = this.parse(AddPartialCommand)
-      const outputInfoPath = path.join(flags.output, '_scf.json')
+
+      const config = {  
+        ...new ConfigProvider(), 
+        ...{ 
+          cacheStorage: 'homeDir' 
+        }
+      }
+
+      const outputInfoPath = path.join(flags.output, config.scfFileName)
       if (!FileSystemUtils.pathExists(outputInfoPath)) {
         logger.error('The template is not initialized!')
         logger.error(`Run ${chalk.bold('init')} to initialize the template at the ${chalk.bold('output folder')} before adding partials!`)

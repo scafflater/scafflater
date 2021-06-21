@@ -57,12 +57,6 @@ describe('Template Manager tests', () => {
     fsUtil.readJSONSync.mockReturnValue(config)
     const templateManager = new TemplateManager(config)
 
-    // const templateCache = new TemplateCache()
-    // templateCache.getTemplatePath.mockReturnValue(partialPath)
-    //fsUtil.listFilesByNameDeeply.mockReturnValue(configList)
-    //fsUtil.readJSONSync.mockReturnValue(config)
-    //const templateManager = new TemplateManager(new TemplateSource(), templateCache, config)
-
     // ACT
     const out = await templateManager.getPartial('the-partial-name', 'template')
 
