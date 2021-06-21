@@ -122,7 +122,7 @@ describe('Github template source', () => {
         },
       ],
     })
-    fsUtil.pathExists.mockReturnValue(true)
+    fsUtil.pathExistsSync.mockReturnValue(true)
 
     // ACT
     const out = dirCache.getTemplateFolder('tmpl-01')

@@ -11,7 +11,7 @@ describe('Config Provider', () => {
   test('Get config file for folder', () => {
     // ARRANGE
     const config = new ConfigProvider()
-    FileSystemUtils.pathExists.mockReturnValue(true)
+    FileSystemUtils.pathExistsSync.mockReturnValue(true)
     FileSystemUtils.readJSONSync.mockReturnValue({
       config: {
         singleLineComment: '//'
@@ -30,7 +30,7 @@ describe('Config Provider', () => {
   test('Config file for folder does not exists', () => {
     // ARRANGE
     const config = new ConfigProvider()
-    FileSystemUtils.pathExists.mockReturnValue(false)
+    FileSystemUtils.pathExistsSync.mockReturnValue(false)
     FileSystemUtils.readJSONSync.mockReturnValue({
       config: {
         singleLineComment: '//'
@@ -48,7 +48,7 @@ describe('Config Provider', () => {
   test('Config file does not has config section', () => {
     // ARRANGE
     const config = new ConfigProvider()
-    FileSystemUtils.pathExists.mockReturnValue(true)
+    FileSystemUtils.pathExistsSync.mockReturnValue(true)
     FileSystemUtils.readJSONSync.mockReturnValue({
       hey: 'theres no config here'
     })
@@ -73,7 +73,7 @@ describe('Config Provider', () => {
     `)
 
     // ACT
-    const newConfig = ConfigProvider.mergeConfigFromFileContent('some/path', config)
+    const newConfig = ConfigProvider.extractConfigFromFileContent('some/path', config)
 
     // ASSERT
     expect(newConfig.config.processors[0]).toBe('a-new-processor')
@@ -88,7 +88,7 @@ describe('Config Provider', () => {
     FileSystemUtils.readFileContentSync.mockReturnValue(`the file content`)
 
     // ACT
-    const newConfig = ConfigProvider.mergeConfigFromFileContent('some-path', config)
+    const newConfig = ConfigProvider.extractConfigFromFileContent('some-path', config)
 
     // ASSERT
     expect(newConfig.fileContent).toBe('the file content')

@@ -25,11 +25,13 @@ fs.copyEnsuringDestSync = (src, dest) => {
 
 /**
 * Gets file
-* @param {string} path - Source
-* @returns {object} The read file
+* @param {string} filePath - Source
+* @returns {string} The read file content
 */
-fs.readFileContentSync = () => {
-  return fs.readFileSync(path).toString()
+fs.readFileContentSync = (filePath) => {
+  if(!fs.existsSync(filePath))
+    return null
+  return fs.readFileSync(filePath).toString()
 }
 
 /**

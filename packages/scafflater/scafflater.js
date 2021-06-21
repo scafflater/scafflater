@@ -33,7 +33,7 @@ class Scafflater {
       partials: [],
     }
 
-    fsUtil.writeJSONSync(path.join(targetPath, this.config.scfFileName), scfConfig)
+    fsUtil.writeJSONSync(path.resolve(targetPath, this.config.scfFileName), scfConfig)
 
     await this.runPartial('_init', parameters, targetPath, templateConfig,)
   }

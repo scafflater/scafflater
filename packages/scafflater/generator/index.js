@@ -5,6 +5,7 @@ const Processor = require('./processors/processor')
 const Appender = require('./appenders/appender')
 const ConfigProvider = require('../config-provider')
 const HandlebarsProcessor = new (require('./processors/handlebars-processor'))()
+const merge = require('deepmerge')
 
 /**
  * @typedef {object} Context
@@ -35,7 +36,7 @@ class Generator {
   async generate() {
     // Loading handlebars js custom helper
     const helpersPath = path.join(this.context.templatePath, this.context.config.helpersFolderName)
-    if (fsUtil.pathExists(helpersPath)) {
+    if (fsUtil.pathExistsSync(helpersPath)) {
       for (const js of await fsUtil.listFilesByExtensionDeeply(helpersPath, 'js')) {
         const helperFunction = require(js)
         const helperName = path.basename(js, '.js')
@@ -87,22 +88,20 @@ class Generator {
 
     if (tree.type === 'file' && this.ignoredFiles.indexOf(tree.name) < 0) {
       const filePath = path.join(ctx.partialPath, tree.name)
-      const configFromFile = ConfigProvider.mergeConfigFromFileContent(filePath, this.context.config)
-      const _ctx = {
-        ...ctx,
-        ...configFromFile.config
-      }
+      const configFromFile = ConfigProvider.extractConfigFromFileContent(filePath, this.context.config)
+      const _ctx = { ...ctx }
+      _ctx.config = configFromFile.config
 
-      const processors = _ctx.processors.map(p => new (require(p))())
+      const processors = _ctx.config.processors.map(p => new (require(p))())
       let srcContent = Processor.runProcessorsPipeline(processors, _ctx, configFromFile.fileContent)
 
       const targetPath = path.join(ctx.targetPath, targetName);
       let targetContent = ''
-      if (fsUtil.pathExists(targetPath)) {
+      if (fsUtil.pathExistsSync(targetPath)) {
         targetContent = fsUtil.readFileContentSync(targetPath)
       }
 
-      const appenders = _ctx.appenders.map(a => new (require(a))())
+      const appenders = _ctx.config.appenders.map(a => new (require(a))())
       const result = Appender.runAppendersPipeline(appenders, _ctx, srcContent, targetContent)
 
       fsUtil.saveFileSync(targetPath, result, false)

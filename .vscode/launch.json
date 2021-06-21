@@ -15,7 +15,7 @@
         "-p=domain:domain name",
         "-p=system:system-name",
         "-p=team:team-name",
-        "-o=$TMPDIRscafflater_cli_init"
+        "-o=/Users/ribasf/Downloads/test"
       ]
     },
     {
@@ -25,11 +25,11 @@
       "program": "${workspaceFolder}/packages/scafflater-cli/bin/run",
       "args": [
         "partial:add",
-        "-n=domain",
-        "-p=domainName:new-name",
-        "-p=domainDescription:the-new-description",
-        "-p=domainTeam:vs-one-team",
-        "-o=/Users/ribasf/Documents/GitHub/gbsandbox/pdd-domains-and-systems"
+        "s3",
+        "-p=name:new-name",
+        "-p=bucket-name:bucket-name",
+        "-p=AWS_DEFAULT_REGION:region",
+        "-o=/Users/ribasf/Downloads/test"
       ]
     }
   ]

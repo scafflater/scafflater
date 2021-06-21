@@ -36,7 +36,7 @@ class DirCache extends TemplateCache {
   getTemplateFolder(templateName, templateVersion = null) {
     const templateFolder = path.join(this.storagePath, templateName)
 
-    if (!fsUtil.pathExists(templateFolder)) {
+    if (!fsUtil.pathExistsSync(templateFolder)) {
       return null
     }
 
@@ -53,7 +53,7 @@ class DirCache extends TemplateCache {
 
     const templateVersionFolder =  path.join(templateFolder, templateVersion)
 
-    if (!fsUtil.pathExists(templateVersionFolder)) {
+    if (!fsUtil.pathExistsSync(templateVersionFolder)) {
       return null
     }
 
