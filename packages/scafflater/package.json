@@ -5,7 +5,7 @@
   "main": "scafflater.js",
   "scripts": {
     "test": "jest",
-    "tsc": "tsc"
+    "types": "tsc ./**/*.js --declaration --allowJs --emitDeclarationOnly --outDir types"
   },
   "repository": {
     "type": "git",

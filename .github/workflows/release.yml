@@ -49,6 +49,10 @@ jobs:
         run: |
           npm ci
 
+      - name: Generate Types
+        run: |
+          npm run types
+
       - name: NPM Authentication
         run: echo //registry.npmjs.org/:_authToken=${{secrets.NPM_AUTH_TOKEN}} > .npmrc
         env:
