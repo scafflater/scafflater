@@ -5,7 +5,7 @@
   "main": "scafflater.js",
   "scripts": {
     "test": "jest",
-    "types": "tsc ./**/*.js --declaration --allowJs --emitDeclarationOnly --outDir types"
+    "types": "tsc --declaration --allowJs --emitDeclarationOnly --outDir types"
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,7 @@
     "url": "https://github.com/chicoribas/scafflater/issues"
   },
   "homepage": "https://github.com/chicoribas/scafflater#readme",
-  "types": "./types/scafflater.d.js",
+  "types": "./types/scafflater.d.ts",
   "engines": {
     "node": ">=10.0.0"
   },
