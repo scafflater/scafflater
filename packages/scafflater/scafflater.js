@@ -13,7 +13,7 @@ class Scafflater {
   * @param {?object} config - Scafflater configuration. If null, will get the default configuration.
   * @param {string} sourceKey - The source key
   */
-  constructor(config = {}, sourceKey = null) {
+  constructor(config = {}) {
     this.config = { ...new ConfigProvider(), ...config }
     this.templateManager = new TemplateManager(this.config)
   }
@@ -39,12 +39,21 @@ class Scafflater {
   }
 
   async runPartial(partialPath, parameters, targetPath = './') {
-    const scfConfig = await fsUtil.readJsonSync(path.join(targetPath, this.config.scfFileName))
+    const scfConfig = await fsUtil.readJSONSync(path.join(targetPath, this.config.scfFileName))
 
-    const partialInfo = await this.templateManager.getPartial(partialPath, scfConfig.template.name, scfConfig.template.version)
+    let partialInfo = await this.templateManager.getPartial(partialPath, scfConfig.template.name, scfConfig.template.version)
+
+    if (!partialInfo){
+      // Trying to get the template
+      // TODO: Get template by version
+      await this.templateManager.getTemplateFromSource(scfConfig.template.source.key)
+      partialInfo = await this.templateManager.getPartial(partialPath, scfConfig.template.name, scfConfig.template.version)
+      if(!partialInfo)
+        return null
+    }
 
     const templatePath = await this.templateManager.getTemplatePath(scfConfig.template.name, scfConfig.template.version)
-    const templateScf = fsUtil.readJsonSync(path.join(templatePath, this.config.scfFileName))
+    const templateScf = fsUtil.readJSONSync(path.join(templatePath, this.config.scfFileName))
 
     const ctx = {
       partial: partialInfo.config,

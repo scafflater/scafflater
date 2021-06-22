@@ -1,9 +1,18 @@
 /* eslint-disable no-undef */
 const Scafflater = require('./scafflater')
+const fsUtil = require('./fs-util')
 
-test('Throws an exception when the source does not exists', () => {
-  // ARRANGE
-  //const scf = new Scafflater({source: 'bla'})
+test('Simple run partial', async () => {
 
-  // ACT and ASSERT
+  // const parameters = {
+  //   domain: 'vs-one',
+  //   systemDescription: 'aaaaaaaa',
+  //   systemName: 'aaaaaaa',
+  //   systemTeam: 'vs-one-team'
+  // }
+
+  // const scafflater = new Scafflater({}, 'https://github.com/chicoribas/scafflater-test-template')
+  // await scafflater.runPartial('system', parameters, '/Users/ribasf/Downloads/test-scafflater-test-template')
+
+  // expect(true).toBe(true)
 })
