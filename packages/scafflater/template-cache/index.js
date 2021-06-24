@@ -31,11 +31,11 @@ class TemplateCache {
   /**
   * Stores the template.
   * @param {string} path - Path of template
-  * @returns {string} The cache key
+  * @returns {Promise<string>} The cache template path
   */
   async storeTemplate(path) {
     return TemplateCache
-    .getTemplateCache()
+    .getTemplateCache(this.config)
     .storeTemplate(path)
   }
 
@@ -43,34 +43,23 @@ class TemplateCache {
   * Gets the template path.
   * @param {string} templateName - Template name
   * @param {string} templateVersion - Template Version. If null, the latest stored version is returned.
-  * @returns {string} The template path
+  * @returns {Promise<string>} The template path
   */
   async getTemplatePath(templateName, templateVersion = null) {
     return TemplateCache
-    .getTemplateCache()
+    .getTemplateCache(this.config)
     .getTemplatePath(templateName, templateVersion)
-  }
-
-  /**
-  * Gets the cached template config.
-  * @param {string} cacheKey - The cache key
-  * @returns {object} The template config
-  */
-  async getTemplateConfig(cacheKey) {
-    return TemplateCache
-    .getTemplateCache()
-    .getTemplateConfig(cacheKey)
   }
 
   /**
   * List stored templates and their versions.
   * @param {string} templateName - Template name
   * @param {string} templateVersion - Template Version. If null, the latest stored version is returned.
-  * @param {string} path - Path to output the template If null, will store the template in a temp folder.
+  * @param {Promise<object>} path - Path to output the template If null, will store the template in a temp folder.
   */
   async listCachedTemplates() {
     return TemplateCache
-    .getTemplateCache()
+    .getTemplateCache(this.config)
     .listCachedTemplates()
   }
 }
