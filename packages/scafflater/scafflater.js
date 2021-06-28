@@ -87,7 +87,7 @@ class Scafflater {
 
         resolve(await fsUtil.writeJSON(path.join(targetPath, this.config.scfFileName), scfConfig))
       } catch (error) {
-        reject(error())
+        reject(error)
       }
     })
   }
