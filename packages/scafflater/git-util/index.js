@@ -19,7 +19,7 @@ class GitUtil {
 
     if (username && password) {
       const t = `${username}:${password}`
-      headers.Authentication = `Basic ${Buffer.from(t).toString('base64')}`
+      headers.Authorization = `Basic ${Buffer.from(t).toString('base64')}`
     }
 
     console.log(headers)
