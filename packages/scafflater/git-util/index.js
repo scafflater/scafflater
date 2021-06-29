@@ -22,7 +22,6 @@ class GitUtil {
       headers.Authorization = `Basic ${Buffer.from(t).toString('base64')}`
     }
 
-    console.log(headers)
     try {
       return await git.clone({
         fs,
@@ -34,7 +33,7 @@ class GitUtil {
         headers
       });
     } catch (error) {
-      throw new Error(`Clone failed: ${error} (Authentication Header: '${headers.Authentication}')`)
+      throw new Error(`Clone failed: ${error} (Authorization Header: '${headers.Authorization}')`)
     }
   }
 
