@@ -3,5 +3,6 @@
 const spawn = jest.fn()
 
 module.exports = {
-  spawn
+  spawn,
+  execSync: jest.fn()
 }

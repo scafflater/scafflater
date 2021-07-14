@@ -11,11 +11,9 @@
       "program": "${workspaceFolder}/packages/scafflater-cli/bin/run",
       "args": [
         "init",
-        "https://github.com/chicoribas/scafflater-test-template.git",
-        "-p=domain:domain name",
-        "-p=system:system-name",
-        "-p=team:team-name",
-        "-o=/Users/ribasf/Downloads/test"
+        "https://github.com/chicoribas/scafflater-template",
+        "-p=name:template-name",
+        "-p=description:Template Description"
       ]
     },
     {
@@ -24,12 +22,9 @@
       "name": "Debug add partial",
       "program": "${workspaceFolder}/packages/scafflater-cli/bin/run",
       "args": [
-        "partial:add",
-        "s3",
-        "-p=name:new-name",
-        "-p=bucket-name:bucket-name",
-        "-p=AWS_DEFAULT_REGION:region",
-        "-o=/Users/ribasf/Downloads/test"
+        "partial:run",
+        "update-readme",
+        "-o=/Users/ribasf//Documents/GitHub/personal/scafflater-serverless-aws-templatet"
       ]
     }
   ]

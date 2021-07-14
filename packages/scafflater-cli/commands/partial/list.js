@@ -21,13 +21,13 @@ class ListPartialCommand extends Command {
       const config = {  
         ...new ConfigProvider(), 
         ...{ 
-          cacheStorage: 'homeDir' 
+          //cacheStorage: 'homeDir' 
         }
       }
 
       const manager = new TemplateManager(config)
 
-      const outputInfo = fsUtil.readJSONSync(outputInfoPath)
+      const outputInfo = await fsUtil.readJSON('./'+outputInfoPath)
 
       // Checking if the template is cached
       let cachePath = await manager.templateCache.getTemplatePath(outputInfo.template.name, outputInfo.template.version)
