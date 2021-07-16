@@ -8,6 +8,7 @@
     "connectionId": "chicoribas_SonarCloud",
     "projectKey": "chicoribas_scafflater"
   },
+  "editor.formatOnSave": true,
   "sonarlint.disableTelemetry": true,
   "sonarlint.output.showAnalyzerLogs": true,
   "sonarlint.output.showVerboseLogs": true,
