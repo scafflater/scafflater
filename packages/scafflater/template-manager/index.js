@@ -23,7 +23,7 @@ class TemplateManager {
   /**
   * Gets the template from source and stores in the cache
   * @param {string} sourceKey - Teh source key
-  * @return {object} An object containing template config
+  * @return {Promise<object>} An object containing template config
   */
   async getTemplateFromSource(sourceKey) {
     const tempTemplateFolder = await this.templateSource.getTemplate(sourceKey)
@@ -67,7 +67,7 @@ class TemplateManager {
   * @param {string} partialName - Partial name
   * @param {string} templateName - Template name
   * @param {string} templateVersion - Template Version. If null, the latest stored version is returned.
-  * @returns {object} Object containing the config and the path to partial.
+  * @returns {Promise<object>} Object containing the config and the path to partial.
   */
   async getPartial(partialName, templateName, templateVersion = null) {
     return new Promise(async (resolve, reject) => {
