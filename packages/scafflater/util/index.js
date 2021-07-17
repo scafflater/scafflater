@@ -1,4 +1,3 @@
-const OptionsProvider = require("../options-provider");
 const Handlebars = require("handlebars");
 const { execSync } = require("child_process");
 

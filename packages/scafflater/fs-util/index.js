@@ -45,7 +45,7 @@ fs.loadScriptsAsObjects = (folderPath, npmInstall = false) => {
       const result = {};
 
       for (const key in jsList) {
-        if (Object.hasOwnProperty.call(jsList, key)) {
+        if (jsList.hasOwnProperty(key)) {
           const js = jsList[key];
           result[js.jsName] = js.object;
         }
@@ -85,12 +85,7 @@ fs.listJsScripts = (folderPath, npmInstall = false) => {
     }
 
     if (npmInstall) {
-      const packageJsonPath = await fs.findFileUp(folderPath, "package.json");
-      if (!packageJsonPath) {
-        reject(new Error(`No package found for folder '${folderPath}'`));
-        return;
-      }
-      util.npmInstall(path.dirname(packageJsonPath));
+      util.npmInstall(path.dirname(folderPath));
     }
 
     const result = [];

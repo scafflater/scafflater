@@ -1,9 +1,9 @@
-const path = require('path')
-const fsUtil = require('../fs-util')
-const Processor = require('./processors/processor')
-const Appender = require('./appenders/appender')
-const OptionsProvider = require('../options-provider')
-const HandlebarsProcessor = require('./processors/handlebars-processor')
+const path = require("path");
+const fsUtil = require("../fs-util");
+const Processor = require("./processors/processor");
+const Appender = require("./appenders/appender");
+const OptionsProvider = require("../options-provider");
+const HandlebarsProcessor = require("./processors/handlebars-processor");
 
 /**
  * @typedef {object} Context
@@ -16,90 +16,85 @@ const HandlebarsProcessor = require('./processors/handlebars-processor')
  */
 
 class Generator {
-
-  /** 
-  * Brief description of the function here.
-  * @summary If the description is long, write your summary here. Otherwise, feel free to remove this.
-  * @param {Context} context - The context to generate 
-  * @return {ReturnValueDataTypeHere} Brief description of the returning value here.
-  */
+  /**
+   * Brief description of the function here.
+   * @summary If the description is long, write your summary here. Otherwise, feel free to remove this.
+   * @param {Context} context - The context to generate
+   * @return {ReturnValueDataTypeHere} Brief description of the returning value here.
+   */
   constructor(context) {
-    this.context = context
-    this.context.targetPath = path.resolve(context.targetPath)
-    this.ignoredFiles = [context.config.scfFileName]
+    this.context = context;
+    this.context.targetPath = path.resolve(context.targetPath);
+    this.ignoredFiles = [context.config.scfFileName];
     this.ignoredFolders = [
       context.config.partialsFolderName,
       context.config.hooksFolderName,
       context.config.helpersFolderName,
-      '.git',
-      'node_modules']
-    this.handlebarsProcessor = new HandlebarsProcessor()
-    this.hooks = {}
-  }
-
-  async loadHooks() {
-    if (!this.context.hooksPath || !await fsUtil.pathExists(this.context.hooksPath)) {
-      return
-    }
-
-    for (const js of await fsUtil.listFilesByExtensionDeeply(this.context.hooksPath, 'js')) {
-      try {
-        const hookFunction = fsUtil.require(js)
-        const hookName = path.basename(js, '.js')
-        this.hooks[hookName] = hookFunction
-      } catch (error) {
-        // TODO: How to feedback the user in a better way?
-        continue
-      }
-    }
+      ".git",
+      "node_modules",
+    ];
+    this.handlebarsProcessor = new HandlebarsProcessor();
+    this.hooks = {};
   }
 
   async generate() {
-    this.hooks = await fsUtil.loadScriptsAsObjects(this.context.hooksPath, true)
+    this.hooks = await fsUtil.loadScriptsAsObjects(
+      this.context.hooksPath,
+      true
+    );
 
     if (this.hooks.onGenerateStart) {
-      this.context = await this.hooks.onGenerateStart(this.context)
+      this.context = await this.hooks.onGenerateStart(this.context);
     }
 
     // Loading handlebars js custom helper
-    await HandlebarsProcessor.loadHelpersFolder(this.context.helpersPath)
+    await HandlebarsProcessor.loadHelpersFolder(this.context.helpersPath);
 
-    const tree = fsUtil.getDirTreeSync(this.context.originPath)
+    const tree = fsUtil.getDirTreeSync(this.context.originPath);
 
-    const promises = []
-    if (tree.type === 'file') {
-      promises.push(this._generate(this.context, tree))
+    const promises = [];
+    if (tree.type === "file") {
+      promises.push(this._generate(this.context, tree));
     }
 
-    if (tree.type === 'directory' && this.ignoredFolders.indexOf(tree.name) < 0) {
+    if (
+      tree.type === "directory" &&
+      this.ignoredFolders.indexOf(tree.name) < 0
+    ) {
       for (const child of tree.children) {
-        promises.push(this._generate(this.context, child))
+        promises.push(this._generate(this.context, child));
       }
     }
 
-    await Promise.all(promises)
+    await Promise.all(promises);
   }
 
   async _generate(ctx, tree) {
-    
-    if ((tree.type === 'directory' && this.ignoredFolders.indexOf(tree.name) >= 0) ||
-      (tree.type === 'file' && this.ignoredFiles.indexOf(tree.name) >= 0)) {
-      return Promise.resolve()
+    if (
+      (tree.type === "directory" &&
+        this.ignoredFolders.indexOf(tree.name) >= 0) ||
+      (tree.type === "file" && this.ignoredFiles.indexOf(tree.name) >= 0)
+    ) {
+      return Promise.resolve();
     }
 
-    const config = await this.loadConfig(tree, ctx)
+    const config = await this.loadConfig(tree, ctx);
 
     if (config.ignore) {
-      return Promise.resolve()
+      return Promise.resolve();
     }
 
-    let targetName = tree.name
+    let targetName = tree.name;
     if (config.targetName != null) {
-      targetName = config.targetName
+      targetName = config.targetName;
     }
-    targetName = Processor.runProcessorsPipeline([this.handlebarsProcessor], ctx, targetName)
-    if (targetName === '') {
-      return Promise.resolve()
+    targetName = Processor.runProcessorsPipeline(
+      [this.handlebarsProcessor],
+      ctx,
+      targetName
+    );
+    if (targetName === "") {
+      return Promise.resolve();
     }
 
     const _ctx = {
@@ -107,60 +102,77 @@ class Generator {
       ...{
         originPath: path.join(ctx.originPath, tree.name),
         targetPath: path.join(ctx.targetPath, targetName),
-        config: config
-      }
-    }
+        config: config,
+      },
+    };
 
-    const promises = []
-    if (tree.type === 'directory') {
+    const promises = [];
+    if (tree.type === "directory") {
       for (const child of tree.children) {
-        // Removing target name from context. 
+        // Removing target name from context.
         // The intens inside this folder must not be affected by this config.
-        _ctx.config.targetName = null
-        promises.push(this._generate(_ctx, child))
+        _ctx.config.targetName = null;
+        promises.push(this._generate(_ctx, child));
       }
     }
 
-    if (tree.type === 'file') {
-      const filePath = path.join(ctx.originPath, tree.name)
-      const fileContent = await fsUtil.readFileContent(filePath)
+    if (tree.type === "file") {
+      const filePath = path.join(ctx.originPath, tree.name);
+      const fileContent = await fsUtil.readFileContent(filePath);
 
-      const processors = _ctx.config.processors.map(p => new (require(p))())
-      let srcContent = Processor.runProcessorsPipeline(processors, _ctx, fileContent)
+      const processors = _ctx.config.processors.map((p) => new (require(p))());
+      let srcContent = Processor.runProcessorsPipeline(
+        processors,
+        _ctx,
+        fileContent
+      );
 
       const targetPath = path.join(ctx.targetPath, targetName);
-      let targetContent = ''
+      let targetContent = "";
       if (await fsUtil.pathExists(targetPath)) {
-        targetContent = await fsUtil.readFileContent(targetPath)
+        targetContent = await fsUtil.readFileContent(targetPath);
       }
 
-      const appenders = _ctx.config.appenders.map(a => new (require(a))())
-      const result = await Appender.runAppendersPipeline(appenders, _ctx, srcContent, targetContent)
+      const appenders = _ctx.config.appenders.map((a) => new (require(a))());
+      const result = await Appender.runAppendersPipeline(
+        appenders,
+        _ctx,
+        srcContent,
+        targetContent
+      );
 
-      promises.push(fsUtil.saveFile(targetPath, await OptionsProvider.removeConfigFromString(result, _ctx.config), false))
-
+      promises.push(
+        fsUtil.saveFile(
+          targetPath,
+          await OptionsProvider.removeConfigFromString(result, _ctx.config),
+          false
+        )
+      );
     }
 
-    return Promise.all(promises)
+    return Promise.all(promises);
   }
 
-  /** 
-  * Loads and merge the config of file or folder with the context config
-  * @param {object} tree 
-  * @param {Context} context
-  * @return {Promise<ConfigProvider>} Brief description of the returning value here.
-  */
+  /**
+   * Loads and merge the config of file or folder with the context config
+   * @param {object} tree
+   * @param {Context} context
+   * @return {Promise<ConfigProvider>} Brief description of the returning value here.
+   */
   async loadConfig(tree, context) {
-    if (tree.type === 'directory') {
-      const dirPath = path.join(context.originPath, tree.name)
-      return OptionsProvider.mergeFolderConfig(dirPath, context.config)
+    if (tree.type === "directory") {
+      const dirPath = path.join(context.originPath, tree.name);
+      return OptionsProvider.mergeFolderConfig(dirPath, context.config);
     }
 
-    if (tree.type === 'file') {
-      const filePath = path.join(context.originPath, tree.name)
-      return OptionsProvider.extractConfigFromFileContent(filePath, context.config)
+    if (tree.type === "file") {
+      const filePath = path.join(context.originPath, tree.name);
+      return OptionsProvider.extractConfigFromFileContent(
+        filePath,
+        context.config
+      );
     }
   }
 }
 
-module.exports = Generator
+module.exports = Generator;
