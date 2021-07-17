@@ -1,6 +1,6 @@
 const { Command, flags } = require("@oclif/command");
 const TemplateManager = require("scafflater/template-manager");
-const { spinner } = require("../../util");
+const { listPartials } = require("../../util");
 const fsUtil = require("scafflater/fs-util");
 const path = require("path");
 const logger = require("scafflater/logger");
@@ -10,70 +10,18 @@ const OptionsProvider = require("scafflater/options-provider");
 class ListPartialCommand extends Command {
   async run() {
     try {
-      const { flags: cmdFlags } = this.parse(ListPartialCommand);
-      const outputInfoPath = path.join(cmdFlags.output, ".scafflater");
-      if (!fsUtil.pathExistsSync(outputInfoPath)) {
-        logger.error("The template is not initialized!");
-        logger.error(
-          `Run ${chalk.bold(
-            "init"
-          )} to initialize the template at the ${chalk.bold(
-            "output folder"
-          )} before working with partials!`
-        );
-        return;
-      }
+      const { flags: listFlags } = this.parse(ListPartialCommand);
 
       const config = {
         ...new OptionsProvider(),
         ...{
-          cacheStorage: "homeDir",
+          cacheStorage: listFlags.cache,
         },
       };
-
       const manager = new TemplateManager(config);
 
-      const outputInfo = await fsUtil.readJSON("./" + outputInfoPath);
-
-      // Checking if the template is cached
-      let cachePath = await manager.templateCache.getTemplatePath(
-        outputInfo.template.name,
-        outputInfo.template.version
-      );
-      if (!cachePath) {
-        // Caching template
-        await spinner(
-          `Getting template from ${outputInfo.template.source.key}`,
-          async () => {
-            await manager.getTemplateFromSource(outputInfo.template.source.key);
-          }
-        );
-        cachePath = await manager.templateCache.getTemplatePath(
-          outputInfo.template.name,
-          outputInfo.template.version
-        );
-        if (!cachePath) {
-          logger.error(
-            `Cannot get template ${chalk.bold(
-              outputInfo.template.name
-            )} (version ${chalk.bold(outputInfo.template.version)}) on ${
-              outputInfo.template.source.key
-            }`
-          );
-          return;
-        }
-      }
-
-      let partials = await manager.listPartials(
-        outputInfo.template.name,
-        outputInfo.template.version
-      );
+      const partials = await listPartials(manager, config, listFlags.output);
       if (!partials || partials.length <= 0) {
-        logger.error(
-          `No partials available on template ${chalk.bold(
-            outputInfo.template.name
-          )} (version ${chalk.bold(outputInfo.template.version)})`
-        );
         return;
       }
 
