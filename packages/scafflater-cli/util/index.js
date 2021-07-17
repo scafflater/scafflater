@@ -38,14 +38,14 @@ const promptMissingParameters = async (parameterFlags, requireParameters) => {
 };
 
 const spinner = async (message, f) => {
-  const spinner = ora(message).start();
+  const spinnerControl = ora(message).start();
   try {
     await f();
   } catch (error) {
-    spinner.stopAndPersist({ symbol: chalk.red("✖") });
+    spinnerControl.stopAndPersist({ symbol: chalk.red("✖") });
     throw error;
   }
-  spinner.stopAndPersist({ symbol: chalk.green("✔") });
+  spinnerControl.stopAndPersist({ symbol: chalk.green("✔") });
 };
 
 const listPartials = async (manager, config, output) => {
