@@ -1,19 +1,17 @@
 const TemplateSource = require("./");
-const GitUtil = require("../git-util");
 const fsUtil = require("../fs-util");
 const path = require("path");
 const OptionsProvider = require("../options-provider");
 
-class GitTemplateSource extends TemplateSource {
+class LocalFolderTemplateSource extends TemplateSource {
   /**
    * Checks if the sourceKey is valid for this TemplateSource
    * @param {string} sourceKey - The source key to be validated.
    * @return {boolean} Returns true if the key is valid
    */
   static isValidSourceKey(sourceKey) {
-    return /https?:\/\/(www.)?github.com/.test(sourceKey);
+    return fsUtil.existsSync(sourceKey);
   }
-
   /**
    * Template Source constructor.
    * @param {?object} config - Scafflater configuration. If null, will get the default configuration.
@@ -34,12 +32,7 @@ class GitTemplateSource extends TemplateSource {
     return new Promise(async (resolve, reject) => {
       try {
         const out = outputDir ? outputDir : await fsUtil.getTempFolder();
-        await GitUtil.clone(
-          sourceKey,
-          out,
-          this.config.github_username,
-          this.config.github_password
-        );
+        await fsUtil.copy(sourceKey, out);
         const config = await fsUtil.readJSON(path.join(out, ".scafflater"));
 
         // TODO: Validate template configuration
@@ -50,12 +43,8 @@ class GitTemplateSource extends TemplateSource {
             name: config.name,
             version: config.version,
             source: {
-              name: "github",
+              name: "localFolder",
               key: sourceKey,
-              github: {
-                baseUrl: this.config.github_baseUrl,
-                baseUrlApi: this.config.github_baseUrlApi,
-              },
             },
             parameters: config.parameters,
           },
@@ -67,4 +56,4 @@ class GitTemplateSource extends TemplateSource {
   }
 }
 
-module.exports = GitTemplateSource;
+module.exports = LocalFolderTemplateSource;

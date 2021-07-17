@@ -58,4 +58,8 @@ const logger = createLogger({
   ],
 });
 
+logger.print = (str) => {
+  console.log(str);
+};
+
 module.exports = logger;

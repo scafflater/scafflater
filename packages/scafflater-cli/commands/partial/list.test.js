@@ -6,7 +6,7 @@ jest.mock("scafflater");
 const ListCommand = require("./list");
 const fsUtil = require("scafflater/fs-util");
 const logger = require("scafflater/logger");
-const TemplateManager = require("scafflater/template-manager");
+const Scafflater = require("scafflater");
 
 describe("ListCommand", () => {
   beforeEach(() => {
@@ -26,10 +26,10 @@ describe("ListCommand", () => {
         },
       },
     });
-    new TemplateManager({}).templateCache.getTemplatePath.mockResolvedValueOnce(
+    new Scafflater().templateManager.templateCache.getTemplatePath.mockResolvedValueOnce(
       "some/path"
     );
-    new TemplateManager({}).listPartials.mockResolvedValueOnce([]);
+    new Scafflater().templateManager.listPartials.mockResolvedValueOnce([]);
     const listCommand = new ListCommand([], {});
 
     // ACT
@@ -54,10 +54,10 @@ describe("ListCommand", () => {
       },
     });
     const listCommand = new ListCommand([], {});
-    new TemplateManager({}).templateCache.getTemplatePath.mockResolvedValueOnce(
+    new Scafflater().templateManager.templateCache.getTemplatePath.mockResolvedValueOnce(
       "some/path"
     );
-    new TemplateManager({}).listPartials.mockResolvedValueOnce([
+    new Scafflater().templateManager.listPartials.mockResolvedValueOnce([
       {
         config: {
           type: "partial",
@@ -77,13 +77,13 @@ describe("ListCommand", () => {
     await listCommand.run();
 
     //ASSERT
-    expect(logger.write).toHaveBeenCalledWith(
+    expect(logger.print).toHaveBeenCalledWith(
       expect.stringMatching(/PARTIALS/)
     );
-    expect(logger.write).toHaveBeenCalledWith(
+    expect(logger.print).toHaveBeenCalledWith(
       expect.stringMatching(/  partial-name\tPartial Description/)
     );
-    expect(logger.write).toHaveBeenCalledWith(
+    expect(logger.print).toHaveBeenCalledWith(
       expect.stringMatching(/  partial2-name\t/)
     );
   });

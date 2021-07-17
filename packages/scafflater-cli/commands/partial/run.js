@@ -24,15 +24,20 @@ class RunPartialCommand extends Command {
           cacheStorage: runFlags.cache,
         },
       };
-      const manager = new TemplateManager(config);
+      const outputInfoPath = path.join(runFlags.output, config.scfFileName);
+      const outputInfo = await fsUtil.readJSON(outputInfoPath);
+      config.source = outputInfo.template.source.name;
 
-      const partials = await listPartials(manager, config, runFlags.output);
+      const scafflater = new Scafflater(config);
+
+      const partials = await listPartials(
+        scafflater.templateManager,
+        config,
+        runFlags.output
+      );
       if (!partials || partials.length <= 0) {
         return;
       }
-
-      const outputInfoPath = path.join(runFlags.output, config.scfFileName);
-      const outputInfo = await fsUtil.readJSON(outputInfoPath);
 
       let partial = null;
       if (runArgs.PARTIAL_NAME && runArgs.PARTIAL_NAME.length > 0) {
@@ -77,7 +82,6 @@ class RunPartialCommand extends Command {
       );
 
       await spinner("Running partial template", async () => {
-        const scafflater = new Scafflater(config, manager);
         await scafflater.runPartial(
           partial.config.name,
           parameters,

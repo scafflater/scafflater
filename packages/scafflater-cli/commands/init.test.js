@@ -6,7 +6,6 @@ jest.mock("scafflater");
 const InitCommand = require("./init");
 const fsUtil = require("scafflater/fs-util");
 const logger = require("scafflater/logger");
-const TemplateManager = require("scafflater/template-manager");
 const Scafflater = require("scafflater");
 
 describe("InitCommand", () => {
@@ -32,8 +31,8 @@ describe("InitCommand", () => {
   test("Template is not initialized, should initialize it", async () => {
     // ARRANGE
     fsUtil.pathExistsSync.mockReturnValue(false);
-    const initCommand = new InitCommand(["some/repo"], {});
-    new TemplateManager({}).getTemplateFromSource.mockResolvedValue({
+    const initCommand = new InitCommand(["https://github.com/some/repo"], {});
+    new Scafflater().templateManager.getTemplateFromSource.mockResolvedValue({
       parameters: [],
     });
 
@@ -41,7 +40,11 @@ describe("InitCommand", () => {
     await initCommand.run();
 
     //ASSERT
-    expect(new Scafflater().init).toHaveBeenCalledWith("some/repo", {}, "./");
+    expect(new Scafflater().init).toHaveBeenCalledWith(
+      "https://github.com/some/repo",
+      {},
+      "./"
+    );
     expect(logger.log).toHaveBeenCalledWith(
       "notice",
       "Template initialized. Fell free to run partials. 🥳"

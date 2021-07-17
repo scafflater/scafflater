@@ -1,11 +1,11 @@
 const { Command, flags } = require("@oclif/command");
-const TemplateManager = require("scafflater/template-manager");
 const { listPartials } = require("../../util");
 const fsUtil = require("scafflater/fs-util");
 const path = require("path");
 const logger = require("scafflater/logger");
 const chalk = require("chalk");
 const OptionsProvider = require("scafflater/options-provider");
+const Scafflater = require("scafflater");
 
 class ListPartialCommand extends Command {
   async run() {
@@ -18,18 +18,26 @@ class ListPartialCommand extends Command {
           cacheStorage: listFlags.cache,
         },
       };
-      const manager = new TemplateManager(config);
+      const outputInfoPath = path.join(listFlags.output, config.scfFileName);
+      const outputInfo = await fsUtil.readJSON(outputInfoPath);
+      config.source = outputInfo.template.source.name;
 
-      const partials = await listPartials(manager, config, listFlags.output);
+      const scafflater = new Scafflater(config);
+
+      const partials = await listPartials(
+        scafflater.templateManager,
+        config,
+        listFlags.output
+      );
       if (!partials || partials.length <= 0) {
         return;
       }
 
-      logger.write(chalk.bold("\nPARTIALS"));
+      logger.print(chalk.bold("\nPARTIALS"));
       partials.forEach((p) =>
-        logger.write(`  ${p.config.name}\t${p.config.description ?? ""}`)
+        logger.print(`  ${p.config.name}\t${p.config.description ?? ""}`)
       );
-      logger.write("");
+      logger.print("");
     } catch (error) {
       logger.error(error);
     }
@@ -40,11 +48,18 @@ ListPartialCommand.description = `Lists available partials in template
 ...
 `;
 
+const caches = ["homeDir", "tempDir"];
 ListPartialCommand.flags = {
   output: flags.string({
     char: "o",
     description: "The output folder",
     default: "./",
+  }),
+  cache: flags.string({
+    char: "c",
+    description: "The cache strategy",
+    default: "homeDir",
+    options: caches,
   }),
 };
 

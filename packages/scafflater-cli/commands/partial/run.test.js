@@ -7,7 +7,6 @@ jest.mock("inquirer");
 const RunCommand = require("./run");
 const fsUtil = require("scafflater/fs-util");
 const logger = require("scafflater/logger");
-const TemplateManager = require("scafflater/template-manager");
 const inquirer = require("inquirer");
 const Scafflater = require("scafflater");
 
@@ -29,11 +28,14 @@ describe("ListCommand", () => {
         },
       },
     });
-    const runCommand = new RunCommand([], {});
-    new TemplateManager({}).templateCache.getTemplatePath.mockResolvedValueOnce(
+    new Scafflater().templateManager.getTemplateFromSource.mockResolvedValue({
+      parameters: [],
+    });
+    new Scafflater().templateManager.templateCache.getTemplatePath.mockResolvedValueOnce(
       "some/path"
     );
-    new TemplateManager({}).listPartials.mockResolvedValueOnce([]);
+    new Scafflater().templateManager.listPartials.mockResolvedValueOnce([]);
+    const runCommand = new RunCommand([], {});
 
     // ACT
     await runCommand.run();
@@ -57,10 +59,10 @@ describe("ListCommand", () => {
       },
     });
     const listCommand = new RunCommand(["some-invalid-partial"], {});
-    new TemplateManager({}).templateCache.getTemplatePath.mockResolvedValueOnce(
+    new Scafflater().templateManager.templateCache.getTemplatePath.mockResolvedValueOnce(
       "some/path"
     );
-    new TemplateManager({}).listPartials.mockResolvedValueOnce([
+    new Scafflater().templateManager.listPartials.mockResolvedValueOnce([
       {
         config: {
           type: "partial",
@@ -98,10 +100,10 @@ describe("ListCommand", () => {
       },
     });
     const listCommand = new RunCommand(["partial-name"], {});
-    new TemplateManager({}).templateCache.getTemplatePath.mockResolvedValueOnce(
+    new Scafflater().templateManager.templateCache.getTemplatePath.mockResolvedValueOnce(
       "some/path"
     );
-    new TemplateManager({}).listPartials.mockResolvedValueOnce([
+    new Scafflater().templateManager.listPartials.mockResolvedValueOnce([
       {
         config: {
           type: "partial",
@@ -141,10 +143,10 @@ describe("ListCommand", () => {
       },
     });
     const listCommand = new RunCommand([], {});
-    new TemplateManager({}).templateCache.getTemplatePath.mockResolvedValueOnce(
+    new Scafflater().templateManager.templateCache.getTemplatePath.mockResolvedValueOnce(
       "some/path"
     );
-    new TemplateManager({}).listPartials.mockResolvedValueOnce([
+    new Scafflater().templateManager.listPartials.mockResolvedValueOnce([
       {
         config: {
           type: "partial",
