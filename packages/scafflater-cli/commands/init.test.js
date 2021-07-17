@@ -36,13 +36,12 @@ describe("InitCommand", () => {
     new TemplateManager({}).getTemplateFromSource.mockResolvedValue({
       parameters: [],
     });
-    const scafflater = new Scafflater({}, {});
 
     // ACT
     await initCommand.run();
 
     //ASSERT
-    expect(scafflater.init).toHaveBeenCalled();
+    expect(new Scafflater().init).toHaveBeenCalledWith("some/repo", {}, "./");
     expect(logger.log).toHaveBeenCalledWith(
       "notice",
       "Template initialized. Fell free to run partials. 🥳"
