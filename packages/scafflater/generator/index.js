@@ -2,8 +2,8 @@ const path = require("path");
 const fsUtil = require("../fs-util");
 const Processor = require("./processors/processor");
 const Appender = require("./appenders/appender");
-const OptionsProvider = require("../options-provider");
 const HandlebarsProcessor = require("./processors/handlebars-processor");
+const prettier = require("prettier");
 
 /**
  * @typedef {object} Context
@@ -12,7 +12,7 @@ const HandlebarsProcessor = require("./processors/handlebars-processor");
  * @property {object} parameters The parameters to generate the output
  * @property {string} targetPath The path where generated files and folders will be saved
  * @property {string} helpersPath The folder with handlebars helpers implementations
- * @property {object} config The scafflater configuration. This is provided by ConfigProvider
+ * @property {ScafflaterOptions} options The scafflater options.
  */
 
 class Generator {
@@ -25,11 +25,11 @@ class Generator {
   constructor(context) {
     this.context = context;
     this.context.targetPath = path.resolve(context.targetPath);
-    this.ignoredFiles = [context.config.scfFileName];
+    this.ignoredFiles = [context.options.scfFileName];
     this.ignoredFolders = [
-      context.config.partialsFolderName,
-      context.config.hooksFolderName,
-      context.config.helpersFolderName,
+      context.options.partialsFolderName,
+      context.options.hooksFolderName,
+      context.options.helpersFolderName,
       ".git",
       "node_modules",
     ];
@@ -44,7 +44,7 @@ class Generator {
     );
 
     if (this.hooks.onGenerateStart) {
-      this.context = await this.hooks.onGenerateStart(this.context);
+      await this.hooks.onGenerateStart(this.context);
     }
 
     // Loading handlebars js custom helper
@@ -78,15 +78,15 @@ class Generator {
       return Promise.resolve();
     }
 
-    const config = await this.loadConfig(tree, ctx);
+    const options = await this.loadOptions(tree, ctx);
 
-    if (config.ignore) {
+    if (options.ignores(ctx.originPath, tree.path)) {
       return Promise.resolve();
     }
 
     let targetName = tree.name;
-    if (config.targetName != null) {
-      targetName = config.targetName;
+    if (options.targetName != null) {
+      targetName = options.targetName;
     }
     targetName = Processor.runProcessorsPipeline(
       [this.handlebarsProcessor],
@@ -102,7 +102,7 @@ class Generator {
       ...{
         originPath: path.join(ctx.originPath, tree.name),
         targetPath: path.join(ctx.targetPath, targetName),
-        config: config,
+        options,
       },
     };
 
@@ -111,7 +111,7 @@ class Generator {
       for (const child of tree.children) {
         // Removing target name from context.
         // The intens inside this folder must not be affected by this config.
-        _ctx.config.targetName = null;
+        _ctx.options.targetName = null;
         promises.push(this._generate(_ctx, child));
       }
     }
@@ -120,8 +120,8 @@ class Generator {
       const filePath = path.join(ctx.originPath, tree.name);
       const fileContent = await fsUtil.readFileContent(filePath);
 
-      const processors = _ctx.config.processors.map((p) => new (require(p))());
-      let srcContent = Processor.runProcessorsPipeline(
+      const processors = _ctx.options.processors.map((p) => new (require(p))());
+      const srcContent = Processor.runProcessorsPipeline(
         processors,
         _ctx,
         fileContent
@@ -133,44 +133,43 @@ class Generator {
         targetContent = await fsUtil.readFileContent(targetPath);
       }
 
-      const appenders = _ctx.config.appenders.map((a) => new (require(a))());
-      const result = await Appender.runAppendersPipeline(
+      const appenders = _ctx.options.appenders.map((a) => new (require(a))());
+      let result = await Appender.runAppendersPipeline(
         appenders,
         _ctx,
         srcContent,
         targetContent
       );
 
-      promises.push(
-        fsUtil.saveFile(
-          targetPath,
-          await OptionsProvider.removeConfigFromString(result, _ctx.config),
-          false
-        )
-      );
+      result = _ctx.options.stripConfig(result);
+
+      try {
+        result = prettier.format(result, { filepath: targetPath });
+      } catch (error) {
+        // Just to quiet prettier errors
+      }
+
+      promises.push(fsUtil.saveFile(targetPath, result, false));
     }
 
     return Promise.all(promises);
   }
 
   /**
-   * Loads and merge the config of file or folder with the context config
+   * Loads and merge the options of file or folder with the context options
    * @param {object} tree
    * @param {Context} context
-   * @return {Promise<ConfigProvider>} Brief description of the returning value here.
+   * @return {Promise<OptionsProvider.ScafflaterOptions>} Brief description of the returning value here.
    */
-  async loadConfig(tree, context) {
+  async loadOptions(tree, context) {
     if (tree.type === "directory") {
       const dirPath = path.join(context.originPath, tree.name);
-      return OptionsProvider.mergeFolderConfig(dirPath, context.config);
+      return context.options.getFolderOptions(dirPath, context.options);
     }
 
     if (tree.type === "file") {
       const filePath = path.join(context.originPath, tree.name);
-      return OptionsProvider.extractConfigFromFileContent(
-        filePath,
-        context.config
-      );
+      return context.options.getFileOptions(filePath, context.options);
     }
   }
 }
