@@ -4,6 +4,8 @@ const path = require("path");
 const { LocalTemplate } = require("../scafflater-config/local-template");
 const ScafflaterOptions = require("../options");
 const Source = require("../scafflater-config/source");
+const ScafflaterFileNotFoundError = require("../errors/ScafflaterFileNotFoundError");
+const TemplateDefinitionNotFound = require("../errors/TemplateDefinitionNotFound");
 
 class LocalFolderTemplateSource extends TemplateSource {
   /**
@@ -13,7 +15,7 @@ class LocalFolderTemplateSource extends TemplateSource {
    * @returns {boolean} Returns true if the key is valid
    */
   static isValidSourceKey(sourceKey) {
-    return fsUtil.existsSync(sourceKey);
+    return fsUtil.pathExistsSync(sourceKey);
   }
 
   /**
@@ -23,6 +25,7 @@ class LocalFolderTemplateSource extends TemplateSource {
    */
   constructor(options = {}) {
     super(options);
+    this.options.ignore = [".git", "node_modules"];
   }
 
   /**
@@ -42,10 +45,24 @@ class LocalFolderTemplateSource extends TemplateSource {
       },
     });
 
-    const outConfigPath = path.resolve(out, ".scafflater");
-    const localTemplate = (await LocalTemplate.loadFromPath(outConfigPath))[0];
+    const outConfigFolder = path.resolve(out, ".scafflater");
+    const outConfigPath = path.resolve(out, ".scafflater", "scafflater.jsonc");
+    if (!(await fsUtil.pathExists(outConfigPath))) {
+      throw new ScafflaterFileNotFoundError(
+        `${sourceKey}/.scafflater/scafflater.jsonc`
+      );
+    }
 
-    return Promise.resolve(localTemplate);
+    const availableTemplates = await LocalTemplate.loadFromPath(
+      outConfigFolder
+    );
+    if (!availableTemplates || availableTemplates.length <= 0) {
+      throw new TemplateDefinitionNotFound(
+        `${sourceKey}/.scafflater/scafflater.jsonc`
+      );
+    }
+
+    return Promise.resolve(availableTemplates[0]);
   }
 
   /**

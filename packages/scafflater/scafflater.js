@@ -6,6 +6,7 @@ const { maskParameters } = require("./util");
 const Config = require("./scafflater-config/config");
 const RanTemplate = require("./scafflater-config/ran-template");
 const RanPartial = require("./scafflater-config/ran-partial");
+const fs = require("fs-extra");
 
 /**
  * Scafflater class
@@ -36,8 +37,16 @@ class Scafflater {
   async run(originPath, parameters, templatePath, targetPath = "./", ctx = {}) {
     const options = new ScafflaterOptions(ctx.options);
 
-    const helpersPath = path.resolve(templatePath, options.helpersFolderName);
-    const hooksPath = path.resolve(templatePath, options.hooksFolderName);
+    const helpersPath = path.resolve(
+      templatePath,
+      options.scfFolderName,
+      options.helpersFolderName
+    );
+    const hooksPath = path.resolve(
+      templatePath,
+      options.scfFolderName,
+      options.hooksFolderName
+    );
 
     const _ctx = {
       ...ctx,
@@ -48,6 +57,7 @@ class Scafflater {
         helpersPath,
         hooksPath,
         options,
+        templatePath,
       },
     };
 
@@ -74,10 +84,14 @@ class Scafflater {
       localTemplate.parameters
     );
 
-    let targetConfig = (await Config.fromLocalPath(targetPath))?.config;
-    if (!targetConfig) {
-      targetConfig = new Config(null, null, []);
-    }
+    const targetConfigPath = path.resolve(
+      targetPath,
+      ".scafflater",
+      "scafflater.jsonc"
+    );
+
+    let targetConfig = (await Config.fromLocalPath(targetConfigPath, true))
+      ?.config;
 
     const ctx = {
       template: localTemplate,
@@ -93,6 +107,24 @@ class Scafflater {
       ctx
     );
 
+    const initPath = path.resolve(
+      localTemplate.folderPath,
+      localTemplate.options.scfFolderName,
+      localTemplate.options.initFolderName
+    );
+    if (await fs.pathExists(initPath)) {
+      await this.run(
+        initPath,
+        parameters,
+        localTemplate.folderPath,
+        targetPath,
+        ctx
+      );
+    }
+
+    // Reloading config, just in case it was update in generation
+    targetConfig = (await Config.fromLocalPath(targetConfigPath, true))?.config;
+
     targetConfig.templates.push(
       new RanTemplate(
         localTemplate.name,
@@ -102,7 +134,7 @@ class Scafflater {
       )
     );
 
-    await targetConfig.save(targetPath);
+    await targetConfig.save(targetConfigPath);
   }
 
   /**
@@ -116,7 +148,12 @@ class Scafflater {
    * @returns {Promise<string>} Brief description of the returning value here.
    */
   async runPartial(templateName, partialName, parameters, targetPath = "./") {
-    const targetConfig = (await Config.fromLocalPath(targetPath))?.config;
+    const targetConfigPath = path.resolve(
+      targetPath,
+      ".scafflater",
+      "scafflater.jsonc"
+    );
+    const targetConfig = (await Config.fromLocalPath(targetConfigPath))?.config;
 
     const ranTemplate = targetConfig.templates.find(
       (t) => t.name === templateName
@@ -170,14 +207,16 @@ class Scafflater {
       ctx
     );
 
-    ranTemplate.partials.push(
-      new RanPartial(
-        partialName,
-        maskParameters(parameters, localTemplate.parameters)
-      )
-    );
+    if (localPartial.options.logRun) {
+      ranTemplate.partials.push(
+        new RanPartial(
+          partialName,
+          maskParameters(parameters, localTemplate.parameters)
+        )
+      );
+    }
 
-    await targetConfig.save(targetPath);
+    await targetConfig.save(targetConfigPath);
   }
 }
 

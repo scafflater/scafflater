@@ -5,6 +5,8 @@ const Appender = require("./appenders/appender");
 const HandlebarsProcessor = require("./processors/handlebars-processor");
 const prettier = require("prettier");
 const ScafflaterOptions = require("../options");
+const { isBinaryFile } = require("isbinaryfile");
+const { ignores } = require("../util");
 
 /**
  * @typedef {object} Context
@@ -26,13 +28,21 @@ class Generator {
   constructor(context) {
     this.context = context;
     this.context.targetPath = path.resolve(context.targetPath);
-    this.ignoredFiles = [context.options.scfFileName];
+    this.ignoredPatterns = [
+      `**/${this.context.options.scfFileName}`,
+      `/${this.context.options.initFolderName}`,
+      `/${this.context.options.partialsFolderName}`,
+      `/${this.context.options.hooksFolderName}`,
+      `/${this.context.options.helpersFolderName}`,
+      "**/.git/**/*",
+      "**/node_modules/**/*",
+    ];
     this.ignoredFolders = [
-      context.options.partialsFolderName,
-      context.options.hooksFolderName,
-      context.options.helpersFolderName,
-      ".git",
-      "node_modules",
+      path.resolve(context.templatePath, context.options.partialsFolderName),
+      path.resolve(context.templatePath, context.options.hooksFolderName),
+      path.resolve(context.templatePath, context.options.helpersFolderName),
+      path.resolve(context.templatePath, ".git"),
+      path.resolve(context.templatePath, "node_modules"),
     ];
     this.handlebarsProcessor = new HandlebarsProcessor();
     this.hooks = {};
@@ -49,7 +59,9 @@ class Generator {
     }
 
     // Loading handlebars js custom helper
-    await HandlebarsProcessor.loadHelpersFolder(this.context.helpersPath);
+    await HandlebarsProcessor.loadHelpersFolder(
+      path.resolve(this.context.templatePath, this.context.helpersPath)
+    );
 
     const tree = fsUtil.getDirTreeSync(this.context.originPath);
 
@@ -58,10 +70,7 @@ class Generator {
       promises.push(this._generate(this.context, tree));
     }
 
-    if (
-      tree.type === "directory" &&
-      this.ignoredFolders.indexOf(tree.name) < 0
-    ) {
+    if (tree.type === "directory") {
       for (const child of tree.children) {
         promises.push(this._generate(this.context, child));
       }
@@ -71,11 +80,7 @@ class Generator {
   }
 
   async _generate(ctx, tree) {
-    if (
-      (tree.type === "directory" &&
-        this.ignoredFolders.indexOf(tree.name) >= 0) ||
-      (tree.type === "file" && this.ignoredFiles.indexOf(tree.name) >= 0)
-    ) {
+    if (ignores(ctx.originPath, tree.path, this.ignoredPatterns)) {
       return Promise.resolve();
     }
 
@@ -89,7 +94,7 @@ class Generator {
     if (options.targetName != null) {
       targetName = options.targetName;
     }
-    targetName = Processor.runProcessorsPipeline(
+    targetName = await Processor.runProcessorsPipeline(
       [this.handlebarsProcessor],
       ctx,
       targetName
@@ -118,39 +123,49 @@ class Generator {
     }
 
     if (tree.type === "file") {
-      const filePath = path.join(ctx.originPath, tree.name);
-      const fileContent = await fsUtil.readFileContent(filePath);
+      const originFilePath = path.join(ctx.originPath, tree.name);
 
-      const processors = _ctx.options.processors.map((p) => new (require(p))());
-      const srcContent = Processor.runProcessorsPipeline(
-        processors,
-        _ctx,
-        fileContent
-      );
-
-      const targetPath = path.join(ctx.targetPath, targetName);
-      let targetContent = "";
-      if (await fsUtil.pathExists(targetPath)) {
-        targetContent = await fsUtil.readFileContent(targetPath);
+      const targetFilePath = path.join(ctx.targetPath, targetName);
+      let targetContent;
+      if (await fsUtil.pathExists(targetFilePath)) {
+        targetContent = await fsUtil.readFileContent(targetFilePath);
       }
 
-      const appenders = _ctx.options.appenders.map((a) => new (require(a))());
-      let result = await Appender.runAppendersPipeline(
-        appenders,
-        _ctx,
-        srcContent,
-        targetContent
-      );
+      if (!(await isBinaryFile(originFilePath))) {
+        const originFileContent = await fsUtil.readFileContent(originFilePath);
 
-      result = _ctx.options.stripConfig(result);
+        const processors = _ctx.options.processors.map(
+          (p) => new (require(p))()
+        );
+        const srcContent = await Processor.runProcessorsPipeline(
+          processors,
+          _ctx,
+          originFileContent
+        );
 
-      try {
-        result = prettier.format(result, { filepath: targetPath });
-      } catch (error) {
-        // Just to quiet prettier errors
+        const appenders = _ctx.options.appenders.map((a) => new (require(a))());
+        let result = targetContent
+          ? await Appender.runAppendersPipeline(
+              appenders,
+              _ctx,
+              srcContent,
+              targetContent
+            )
+          : srcContent;
+
+        result = _ctx.options.stripConfig(result);
+
+        try {
+          result = prettier.format(result, { filepath: targetFilePath });
+        } catch (error) {
+          // Just to quiet prettier errors
+        }
+
+        promises.push(fsUtil.saveFile(targetFilePath, result, false));
+      } else {
+        await fsUtil.ensureDir(path.dirname(targetFilePath));
+        promises.push(fsUtil.copyFile(originFilePath, targetFilePath));
       }
-
-      promises.push(fsUtil.saveFile(targetPath, result, false));
     }
 
     return Promise.all(promises);

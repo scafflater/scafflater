@@ -3,6 +3,7 @@ const { Scafflater } = require("scafflater");
 const { promptMissingParameters, spinner } = require("../../util");
 const logger = require("scafflater/logger");
 const chalk = require("chalk");
+const path = require("path");
 const inquirer = require("inquirer");
 const ScafflaterOptions = require("scafflater/options");
 const Config = require("scafflater/scafflater-config/config");
@@ -40,8 +41,9 @@ class RunPartialCommand extends Command {
       const scafflater = new Scafflater(options);
 
       // Getting info from target path
-      const outputConfig = (await Config.fromLocalPath(runFlags.output))
-        ?.config;
+      const outputConfig = (
+        await Config.fromLocalPath(path.resolve(runFlags.output, ".scafflater"))
+      )?.config;
       if (!outputConfig || outputConfig.templates.length <= 0) {
         logger.info(`No initialized template found!`);
         logger.info(
@@ -62,7 +64,7 @@ class RunPartialCommand extends Command {
           for (const ranTemplate of outputConfig.templates) {
             spinnerControl.text = `Getting ${chalk.bold(
               ranTemplate.name
-            )} from ${chalk.underline(ranTemplate.key)}`;
+            )} from ${chalk.underline(ranTemplate.source.key)}`;
             let localTemplate =
               await scafflater.templateManager.templateCache.getTemplate(
                 ranTemplate.name,
@@ -153,6 +155,7 @@ class RunPartialCommand extends Command {
             runArgs.PARTIAL_NAME
           )}' is not available on any initialized template`
         );
+        return;
       }
 
       const localPartial = availablePartials[0];

@@ -3,6 +3,7 @@ const ScafflaterOptions = require("../options");
 const Generator = require("./");
 
 jest.mock("../fs-util");
+jest.mock("isbinaryfile");
 
 describe("Generator Tests", () => {
   afterEach(() => {
@@ -30,6 +31,7 @@ describe("Generator Tests", () => {
       targetPath: "/target/path",
       parameters: { test: "a sample test" },
       options: new ScafflaterOptions({ annotate: true }),
+      helpersPath: "./the-hbs-helpers",
     };
     fsUtil.getDirTreeSync.mockReturnValue({
       path: "just/a/sample/test.txt",
@@ -113,6 +115,7 @@ a sample test
         otherPassword: "other-password",
       },
       options: new ScafflaterOptions({ annotate: true }),
+      helpersPath: "./the-hbs-helpers",
     };
     fsUtil.getDirTreeSync.mockReturnValue({
       path: "just/a/sample/test.txt",
@@ -175,6 +178,7 @@ a sample test
       targetPath: "/target/path",
       parameters: { test: "a sample test" },
       options: new ScafflaterOptions(),
+      helpersPath: "./the-hbs-helpers",
     };
     fsUtil.getDirTreeSync.mockReturnValue({
       path: "just/a/sample/test.txt",
@@ -221,6 +225,7 @@ a sample test
       targetPath: "/target/path",
       parameters: { test: "a sample test" },
       options: new ScafflaterOptions(),
+      helpersPath: "./the-hbs-helpers",
     };
     fsUtil.getDirTreeSync.mockReturnValue({
       path: "just/a/sample/test.txt",
@@ -267,6 +272,7 @@ a sample test
       targetPath: "/target/path",
       parameters: { test: "a sample test" },
       options: new ScafflaterOptions(),
+      helpersPath: "./the-hbs-helpers",
     };
     fsUtil.getDirTreeSync.mockReturnValue({
       path: "just/a/sample/test.txt",
@@ -341,6 +347,7 @@ a sample test
         version: "0.0.1",
       },
       options: new ScafflaterOptions({ annotate: false }),
+      helpersPath: "./the-hbs-helpers",
     };
     fsUtil.pathExists.mockImplementation((path) => {
       if (path.startsWith(ctx.targetPath)) return false;
@@ -432,6 +439,7 @@ a sample test
         version: "0.0.1",
       },
       options: new ScafflaterOptions({ annotate: false }),
+      helpersPath: "./the-hbs-helpers",
     };
     const generator = new Generator(ctx);
 
