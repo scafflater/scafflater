@@ -56,7 +56,8 @@
   "scripts": {
     "postpack": "rm -f oclif.manifest.json",
     "prepack": "oclif-dev manifest && oclif-dev readme && npm shrinkwrap",
-    "test": "jest"
+    "test": "jest",
+    "shrinkwrap": "npm shrinkwrap"
   },
   "devDependencies": {
     "@oclif/dev-cli": "^1.26.0"

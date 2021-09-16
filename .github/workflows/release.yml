@@ -48,19 +48,19 @@ jobs:
         run: echo ${{ steps.get_version.outputs.version-without-v }}
 
       - name: Bumping package versions
-        run: |
-          npm version ${{ steps.get_version.outputs.version-without-v }} --workspaces
+        run: npm version ${{ steps.get_version.outputs.version-without-v }} --workspaces
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Shrinkwrap
+        run: npm run shrinkwrap --workspaces
+
       - name: Generate Types
-        run: |
-          npm run types
+        run: npm run types
 
       - name: Publishing packages
-        run: |
-          npm publish --workspaces
+        run: npm publish --workspaces
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
