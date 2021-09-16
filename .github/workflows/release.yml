@@ -68,7 +68,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate Types
-        run: npm run types
+        run: npm run types --workspaces
 
       - name: Publishing packages
         run: npm publish --workspaces
