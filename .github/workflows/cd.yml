@@ -50,7 +50,7 @@ jobs:
 
       - name: Test
         run: |
-          npm run Test
+          npm run test
 
       - name: Bumping package versions
         run: |
