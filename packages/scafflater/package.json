@@ -5,12 +5,12 @@
   "main": "./index.js",
   "scripts": {
     "test": "jest",
-    "types": "tsc --declaration --allowJs --emitDeclarationOnly --outDir types"
+    "types": "tsc --declaration --allowJs --emitDeclarationOnly --outDir types",
+    "prepack": "npm shrinkwrap"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chicoribas/scafflater.git",
-    "prepack": "npm shrinkwrap"
+    "url": "git+https://github.com/chicoribas/scafflater.git"
   },
   "keywords": [
     "scaffold",
