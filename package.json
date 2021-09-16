@@ -19,7 +19,7 @@
     "test": "jest --detectOpenHandles --collectCoverage --runInBand --verbose --forceExit",
     "lint": "eslint \"**/*.js\" --ignore-pattern node_modules/",
     "lint:fix": "eslint --fix \"**/*.js\" --ignore-pattern node_modules/",
-    "publish": "lerna publish from-git --yes --no-verify-access",
+    "publish": "lerna publish from-git --yes --no-git-reset --no-verify-access",
     "version": "lerna version patch --yes",
     "types": "lerna run types"
   },
