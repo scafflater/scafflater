@@ -58,7 +58,11 @@ jobs:
         run: echo ${{ steps.get_version.outputs.version-without-v }}
 
       - name: Bumping package versions
-        run: npm version ${{ steps.get_version.outputs.version-without-v }} --workspaces
+        run: |
+          npm version ${{ steps.get_version.outputs.version-without-v }} --workspaces && \
+          npm version ${{ steps.get_version.outputs.version-without-v }} --no-git-tag-version \
+          git add . \
+          git commit -m"${{ steps.get_version.outputs.version }}"
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
