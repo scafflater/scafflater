@@ -29,19 +29,33 @@ jobs:
         with:
           node-version: 15.x
 
-      - name: Generate Types
-        run: |
-          npm run types
-
       - name: NPM Authentication
         run: echo //registry.npmjs.org/:_authToken=${{secrets.NPM_AUTH_TOKEN}} > .npmrc
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      # - name: Publishing packages
-      #   run: |
-      #     npm publish --workspaces
-      #   env:
-      #     GH_TOKEN: ${{ secrets.GH_PAT }}
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      - name: Get version from label
+        id: get_version
+        uses: battila7/get-version-action@v2
+
+      - name: Version to publish
+        run: echo ${{ steps.get_version.outputs.version-without-v }}
+
+      - name: Bumping package versions
+        run: |
+          npm version ${{ steps.get_version.outputs.version-without-v }} --workspaces
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate Types
+        run: |
+          npm run types
+
+      - name: Publishing packages
+        run: |
+          npm publish --workspaces
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
