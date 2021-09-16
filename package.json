@@ -18,10 +18,7 @@
   "scripts": {
     "test": "jest --detectOpenHandles --collectCoverage --runInBand --verbose --forceExit",
     "lint": "eslint \"**/*.js\" --ignore-pattern node_modules/",
-    "lint:fix": "eslint --fix \"**/*.js\" --ignore-pattern node_modules/",
-    "publish": "lerna publish from-package --yes --no-verify-access",
-    "version": "lerna version patch --yes",
-    "types": "lerna run types"
+    "lint:fix": "eslint --fix \"**/*.js\" --ignore-pattern node_modules/"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",
