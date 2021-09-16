@@ -29,6 +29,12 @@ jobs:
         with:
           node-version: 15.x
 
+      - name: Setup npm
+        run: npm install -g npm@7.19.0
+
+      - name: Npm Version
+        run: npm --version
+
       - name: NPM Authentication
         run: echo //registry.npmjs.org/:_authToken=${{secrets.NPM_AUTH_TOKEN}} > .npmrc
         env:
