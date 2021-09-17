@@ -55,8 +55,7 @@ jobs:
 
       - name: Bumping package versions
         run: |
-          npm version ${{ steps.get_version.outputs.version-without-v }} && \
-          npm version ${{ steps.get_version.outputs.version-without-v }} && \
+          npm version ${{ steps.get_version.outputs.version-without-v }} --no-git-tag-version && \
           git add . && \
           git commit -m"Bump Scafflater: ${{ steps.get_version.outputs.version }}"
         env:
@@ -74,7 +73,8 @@ jobs:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
   release-scafflater-cli:
-    if: ${{ success() }}
+    needs: release-scafflater
+
     name: "Release Scafflater Cli"
     runs-on: ubuntu-latest
     env:
@@ -118,8 +118,7 @@ jobs:
 
       - name: Bumping package versions
         run: |
-          npm version ${{ steps.get_version.outputs.version-without-v }} && \
-          npm version ${{ steps.get_version.outputs.version-without-v }} && \
+          npm version ${{ steps.get_version.outputs.version-without-v }} --no-git-tag-version && \
           git add . && \
           git commit -m"Bump Scafflater ${{ steps.get_version.outputs.version }}"
         env:
