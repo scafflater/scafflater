@@ -54,7 +54,7 @@
   "repository": "chicoribas/scafflater",
   "scripts": {
     "postpack": "rm -f oclif.manifest.json",
-    "prepack": "oclif-dev manifest && oclif-dev readme && npm install scafflater && npm shrinkwrap",
+    "prepack": "oclif-dev manifest && oclif-dev readme && npm shrinkwrap",
     "test": "jest"
   },
   "devDependencies": {
