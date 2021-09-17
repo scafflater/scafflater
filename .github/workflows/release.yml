@@ -11,9 +11,12 @@ on:
         default: "warning"
 
 jobs:
-  release-to-npmjs:
-    name: "Releasing NPM Package"
+  release-scafflater:
+    name: "Release Scafflater"
     runs-on: ubuntu-latest
+    env:
+      working-diretory: ./packages/scafflater
+
     steps:
       - uses: actions/checkout@v2
         with:
@@ -42,36 +45,89 @@ jobs:
           key: ubuntu-latest-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: ubuntu-latest-node-
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: NPM Authentication
-        run: echo //registry.npmjs.org/:_authToken=${{secrets.NPM_AUTH_TOKEN}} > .npmrc
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
       - name: Get version from label
         id: get_version
         uses: battila7/get-version-action@v2
 
-      - name: Version to publish
-        run: echo ${{ steps.get_version.outputs.version-without-v }}
+      - name: Install dependencies
+        run: npm install
+        working-directory: ${{env.working-diretory}}
 
       - name: Bumping package versions
         run: |
-          npm version ${{ steps.get_version.outputs.version-without-v }} --workspaces && \
-          npm version ${{ steps.get_version.outputs.version-without-v }} --no-git-tag-version && \
+          npm version ${{ steps.get_version.outputs.version-without-v }} && \
+          npm version ${{ steps.get_version.outputs.version-without-v }} && \
           git add . && \
-          git commit -m"${{ steps.get_version.outputs.version }}"
+          git commit -m"Bump Scafflater: ${{ steps.get_version.outputs.version }}"
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate Types
-        run: npm run types --workspaces
+        run: npm run types
 
       - name: Publishing packages
-        run: npm publish --workspaces
+        run: npm publish
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+
+  release-scafflater-cli:
+    if: ${{ success() }}
+    name: "Release Scafflater Cli"
+    runs-on: ubuntu-latest
+    env:
+      working-diretory: ./packages/scafflater-cli
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{github.event.release.tag_name}}
+
+      - name: Configure CI Git User
+        run: |
+          git config --global user.name ${{ github.actor }}
+          git config --global user.email '${{ github.actor }}@users.noreply.github.com'
+
+      - name: Setup node 15.x
+        uses: actions/setup-node@v2.1.5
+        with:
+          node-version: 15.x
+
+      - name: Setup npm
+        run: npm install -g npm@7.19.0
+
+      - name: Get npm cache directory
+        id: npm-cache
+        run: echo "::set-output name=dir::$(npm config get cache)"
+
+      - uses: actions/cache@v2.1.6
+        with:
+          path: ${{ steps.npm-cache.outputs.dir }}
+          key: ubuntu-latest-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ubuntu-latest-node-
+
+      - name: Get version from label
+        id: get_version
+        uses: battila7/get-version-action@v2
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ${{env.working-diretory}}
+
+      - name: Bumping package versions
+        run: |
+          npm version ${{ steps.get_version.outputs.version-without-v }} && \
+          npm version ${{ steps.get_version.outputs.version-without-v }} && \
+          git add . && \
+          git commit -m"Bump Scafflater ${{ steps.get_version.outputs.version }}"
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publishing packages
+        run: npm publish
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
