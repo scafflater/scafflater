@@ -58,15 +58,18 @@ jobs:
           npm version ${{ steps.get_version.outputs.version-without-v }} --no-git-tag-version && \
           git add . && \
           git commit -m"Bump Scafflater: ${{ steps.get_version.outputs.version }}"
+        working-directory: ${{env.working-diretory}}
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate Types
         run: npm run types
+        working-directory: ${{env.working-diretory}}
 
       - name: Publishing packages
         run: npm publish
+        working-directory: ${{env.working-diretory}}
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -121,12 +124,14 @@ jobs:
           npm version ${{ steps.get_version.outputs.version-without-v }} --no-git-tag-version && \
           git add . && \
           git commit -m"Bump Scafflater ${{ steps.get_version.outputs.version }}"
+        working-directory: ${{env.working-diretory}}
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publishing packages
         run: npm publish
+        working-directory: ${{env.working-diretory}}
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
