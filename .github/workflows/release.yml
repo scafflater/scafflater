@@ -67,6 +67,12 @@ jobs:
         run: npm run types
         working-directory: ${{env.working-diretory}}
 
+      - name: NPM Authentication
+        run: echo //registry.npmjs.org/:_authToken=${{secrets.NPM_AUTH_TOKEN}} > .npmrc
+        working-directory: ${{env.working-diretory}}
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Publishing packages
         run: npm publish
         working-directory: ${{env.working-diretory}}
@@ -128,6 +134,12 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: NPM Authentication
+        run: echo //registry.npmjs.org/:_authToken=${{secrets.NPM_AUTH_TOKEN}} > .npmrc
+        working-directory: ${{env.working-diretory}}
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publishing packages
         run: npm publish
