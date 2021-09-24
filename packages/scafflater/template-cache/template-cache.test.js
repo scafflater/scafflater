@@ -23,3 +23,19 @@ test("Gets the template storage in config", () => {
   expect(result.__proto__ instanceof TemplateCache).toBe(true);
   expect(result instanceof LocalTemplateCache).toBe(true);
 });
+
+test("Constructor call must throw", () => {
+  expect(() => {
+    // NOSONAR
+    // eslint-disable-next-line no-new
+    new TemplateCache();
+  }).toThrow();
+});
+
+test("Implementation Constructor call must throw", () => {
+  expect(() => {
+    // NOSONAR
+    // eslint-disable-next-line no-new
+    new LocalTemplateCache();
+  }).not.toThrow();
+});

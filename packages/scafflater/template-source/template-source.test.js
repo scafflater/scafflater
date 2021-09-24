@@ -1,6 +1,28 @@
 /* eslint-disable no-undef */
-const TemplateSource = require("./");
-const GitTemplateSource = require("./git-template-source");
+const TemplateSource = require("./template-source");
+const IsomorphicGitTemplateSource = require("./isomorphic-git-template-source");
+
+test("Resolve template source", () => {
+  // ARRANGE
+  const config = {
+    source: "isomorphicGit",
+    sources: {
+      git: "./git-template-source",
+      githubClient: "./github-client-template-source",
+      isomorphicGit: "./isomorphic-git-template-source",
+      localFolder: "./local-folder-template-source",
+    },
+  };
+
+  // ACT
+  const out = TemplateSource.resolveTemplateSourceFromSourceKey(
+    config,
+    "https://github.com/chicoribas/scafflater-template"
+  );
+
+  // ASSERT
+  expect(out).toBeInstanceOf(IsomorphicGitTemplateSource);
+});
 
 test("Throws an exception when the source does not exists", () => {
   // ARRANGE
@@ -14,7 +36,7 @@ test("Throws an exception when the source does not exists", () => {
 
 test("Gets the template source in config", () => {
   // ARRANGE
-  const config = { source: "github" };
+  const config = { source: "isomorphicGit" };
 
   // ACT
   const result = TemplateSource.getTemplateSource(config);
@@ -22,7 +44,7 @@ test("Gets the template source in config", () => {
   // ASSERT
   // eslint-disable-next-line no-proto
   expect(result.__proto__ instanceof TemplateSource).toBe(true);
-  expect(result instanceof GitTemplateSource).toBe(true);
+  expect(result instanceof IsomorphicGitTemplateSource).toBe(true);
 });
 
 test("Gets the github source from a github source key", () => {
@@ -36,5 +58,5 @@ test("Gets the github source from a github source key", () => {
   // ASSERT
   // eslint-disable-next-line no-proto
   expect(result.__proto__ instanceof TemplateSource).toBe(true);
-  expect(result instanceof GitTemplateSource).toBe(true);
+  expect(result instanceof IsomorphicGitTemplateSource).toBe(true);
 });
