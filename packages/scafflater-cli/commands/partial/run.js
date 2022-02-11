@@ -6,7 +6,7 @@ const {
   Config,
   LocalTemplate,
   LocalPartial,
-} = require("scafflater");
+} = require("@scafflater/scafflater");
 const { promptMissingParameters, spinner } = require("../../util");
 const chalk = require("chalk");
 const path = require("path");

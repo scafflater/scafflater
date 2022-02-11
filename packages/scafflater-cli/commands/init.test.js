@@ -1,5 +1,5 @@
 const InitCommand = require("./init");
-const scafflater = require("scafflater");
+const scafflater = require("@scafflater/scafflater");
 
 jest.mock("scafflater");
 

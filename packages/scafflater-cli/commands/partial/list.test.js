@@ -1,5 +1,10 @@
 const ListCommand = require("./list");
-const { Scafflater, TemplateManager, logger, Config } = require("scafflater");
+const {
+  Scafflater,
+  TemplateManager,
+  logger,
+  Config,
+} = require("@scafflater/scafflater");
 
 jest.mock("scafflater");
 

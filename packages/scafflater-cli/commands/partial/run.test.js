@@ -5,7 +5,7 @@ const {
   TemplateCache,
   logger,
   Config,
-} = require("scafflater");
+} = require("@scafflater/scafflater");
 const inquirer = require("inquirer");
 
 jest.mock("inquirer");

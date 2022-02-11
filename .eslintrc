@@ -26,7 +26,7 @@
     "node/no-extraneous-require": [
       "error",
       {
-        "allowModules": ["scafflater"]
+        "allowModules": ["@scafflater/scafflater"]
       }
     ]
   },
