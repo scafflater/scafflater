@@ -74,7 +74,7 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publishing packages
-        run: npm publish
+        run: npm publish --access=public
         working-directory: ${{env.working-diretory}}
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
@@ -144,7 +144,7 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publishing packages
-        run: npm publish
+        run: npm publish --access=public
         working-directory: ./packages/scafflater-cli
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
