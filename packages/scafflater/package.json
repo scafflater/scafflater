@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "types": "tsc --declaration --allowJs --emitDeclarationOnly --outDir types",
-    "prepack": "npm shrinkwrap"
+    "prepack": "npm shrinkwrap && cp ../../README.md ."
   },
   "repository": {
     "type": "git",
