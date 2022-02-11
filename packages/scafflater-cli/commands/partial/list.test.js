@@ -6,7 +6,7 @@ const {
   Config,
 } = require("@scafflater/scafflater");
 
-jest.mock("scafflater");
+jest.mock("@scafflater/scafflater");
 
 describe("ListCommand", () => {
   beforeEach(() => {
@@ -50,19 +50,19 @@ describe("ListCommand", () => {
       },
     });
     templateManager.getTemplate.mockResolvedValue(
-      new (jest.requireActual("scafflater").LocalTemplate)(
+      new (jest.requireActual("@scafflater/scafflater").LocalTemplate)(
         "/some/template/path",
         "/some/template/path/.scafflater/scafflater.jsonc",
         "some-template",
         "The template",
         "0.0.1",
         [
-          new (jest.requireActual("scafflater").LocalPartial)(
+          new (jest.requireActual("@scafflater/scafflater").LocalPartial)(
             "/some/partial/path",
             "the-partial",
             "This is an partial"
           ),
-          new (jest.requireActual("scafflater").LocalPartial)(
+          new (jest.requireActual("@scafflater/scafflater").LocalPartial)(
             "/some/partial/path",
             "the-partial"
           ),
@@ -96,7 +96,7 @@ describe("ListCommand", () => {
       },
     });
     templateManager.getTemplate.mockResolvedValue(
-      new (jest.requireActual("scafflater").LocalTemplate)(
+      new (jest.requireActual("@scafflater/scafflater").LocalTemplate)(
         "/some/template/path",
         "some-template",
         "The template",

@@ -3,11 +3,11 @@ const { parseParametersFlags, promptMissingParameters } = require(".");
 const inquirer = require("inquirer");
 
 jest.mock("inquirer");
-jest.mock("scafflater/fs-util");
-jest.mock("scafflater/logger");
-jest.mock("scafflater/template-manager");
-jest.mock("scafflater/template-cache");
-jest.mock("scafflater");
+jest.mock("@scafflater/scafflater/fs-util");
+jest.mock("@scafflater/scafflater/logger");
+jest.mock("@scafflater/scafflater/template-manager");
+jest.mock("@scafflater/scafflater/template-cache");
+jest.mock("@scafflater/scafflater");
 
 test("Parse Parameters Flags", () => {
   // ARRANGE

@@ -1,7 +1,7 @@
 const InitCommand = require("./init");
 const scafflater = require("@scafflater/scafflater");
 
-jest.mock("scafflater");
+jest.mock("@scafflater/scafflater");
 
 const templateManager = new scafflater.TemplateManager();
 const mockedScafflater = {
@@ -33,7 +33,7 @@ describe("InitCommand", () => {
     jest
       .spyOn(templateManager, "getTemplateFromSource")
       .mockResolvedValue(
-        new (jest.requireActual("scafflater").LocalTemplate)(
+        new (jest.requireActual("@scafflater/scafflater").LocalTemplate)(
           "/some/path",
           "/some/path/.scafflater/scafflater.jsonc",
           "some-new-template"
