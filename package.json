@@ -3,10 +3,10 @@
   "description": "Scafflater",
   "version": "0.0.69",
   "author": "Chico Ribas (chicoribas)",
-  "bugs": "https://github.com/chicoribas/scafflater/issues",
-  "homepage": "https://github.com/chicoribas/scafflater",
+  "bugs": "https://github.com/scafflater/scafflater/issues",
+  "homepage": "https://github.com/scafflater/scafflater",
   "license": "MIT",
-  "repository": "chicoribas/scafflater",
+  "repository": "scafflater/scafflater",
   "type": "commonjs",
   "private": true,
   "workspaces": [

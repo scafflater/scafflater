@@ -10,8 +10,7 @@
   },
   "cSpell.words": ["Appender", "appenders", "deepmerge"],
   "sonarlint.connectedMode.project": {
-    "connectionId": "chicoribas_SonarCloud",
-    "projectKey": "chicoribas_scafflater"
+    "projectKey": "scafflater"
   },
   "editor.formatOnSave": true,
   "sonarlint.disableTelemetry": true,

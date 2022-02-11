@@ -1,10 +1,10 @@
 {
-  "name": "scafflater-cli",
+  "name": "@scafflater/scafflater-cli",
   "description": "The Scafflater Cli",
   "version": "0.0.79",
-  "author": "chicoribas @chicoribas",
+  "author": "Chico Ribas (chicoribas)",
   "bin": "./bin/run",
-  "bugs": "https://github.com/chicoribas/scafflater/issues",
+  "bugs": "https://github.com/scafflater/scafflater/issues",
   "dependencies": {
     "@oclif/command": "1.8.0",
     "@oclif/config": "1.17.0",
@@ -22,7 +22,7 @@
     "/index.js",
     "/util"
   ],
-  "homepage": "https://github.com/chicoribas/scafflater",
+  "homepage": "https://github.com/scafflater/scafflater",
   "keywords": [
     "oclif",
     "scaffold",
@@ -51,7 +51,7 @@
       }
     }
   },
-  "repository": "chicoribas/scafflater",
+  "repository": "scafflater/scafflater",
   "scripts": {
     "postpack": "rm -f oclif.manifest.json",
     "prepack": "oclif-dev manifest && oclif-dev readme && npm shrinkwrap",

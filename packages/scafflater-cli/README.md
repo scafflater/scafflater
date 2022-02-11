@@ -4,7 +4,7 @@ Scafflater Cli
 [![Scafflater Cli](https://img.shields.io/badge/dynamic/json?color=green&label=scafflater-cli&query=%24.collected.metadata.version&url=https%3A%2F%2Fapi.npms.io%2Fv2%2Fpackage%2Fscafflater-cli)](https://npmjs.org/package/scafflater-cli)
 [![Downloads/week](https://img.shields.io/npm/dw/scafflater-cli.svg)](https://npmjs.org/package/scafflater-cli)
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![License](https://img.shields.io/npm/l/scafflater-cli.svg)](https://github.com/chicoribas/scafflater-cli/blob/main/package.json)
+[![License](https://img.shields.io/npm/l/scafflater-cli.svg)](https://github.com/scafflater/scafflater-cli/blob/main/package.json)
 
 <!-- toc -->
 * [Usage](#usage)
@@ -68,7 +68,7 @@ DESCRIPTION
   ...
 ```
 
-_See code: [commands/init.js](https://github.com/chicoribas/scafflater/blob/v0.0.79/commands/init.js)_
+_See code: [commands/init.js](https://github.com/scafflater/scafflater/blob/v0.0.79/commands/init.js)_
 
 ## `scafflater-cli partial:list`
 
@@ -86,7 +86,7 @@ DESCRIPTION
   ...
 ```
 
-_See code: [commands/partial/list.js](https://github.com/chicoribas/scafflater/blob/v0.0.79/commands/partial/list.js)_
+_See code: [commands/partial/list.js](https://github.com/scafflater/scafflater/blob/v0.0.79/commands/partial/list.js)_
 
 ## `scafflater-cli partial:run [PARTIAL_NAME]`
 
@@ -109,5 +109,5 @@ DESCRIPTION
   ...
 ```
 
-_See code: [commands/partial/run.js](https://github.com/chicoribas/scafflater/blob/v0.0.79/commands/partial/run.js)_
+_See code: [commands/partial/run.js](https://github.com/scafflater/scafflater/blob/v0.0.79/commands/partial/run.js)_
 <!-- commandsstop -->

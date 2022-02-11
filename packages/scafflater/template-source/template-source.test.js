@@ -17,7 +17,7 @@ test("Resolve template source", () => {
   // ACT
   const out = TemplateSource.resolveTemplateSourceFromSourceKey(
     config,
-    "https://github.com/chicoribas/scafflater-template"
+    "https://github.com/scafflater/scafflater-template"
   );
 
   // ASSERT
