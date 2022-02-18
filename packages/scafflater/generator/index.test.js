@@ -539,8 +539,7 @@ test("Strip config", async () => {
     ],
   });
   fsUtil.readFileContent.mockReturnValue(
-    `# @scf-option  { "appenders": ["./appenders/json-appender"] }
-# @scf-option { "option": "option-value" }
+    `# @scf-option { "option": "option-value" }
 # @scf-option { "option2": "option2-value" }
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <test>
