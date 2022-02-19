@@ -1,17 +1,20 @@
-Scafflater Cli
-=======
+# Scafflater Cli
 
-[![Scafflater Cli](https://img.shields.io/badge/dynamic/json?color=green&label=scafflater-cli&query=%24.collected.metadata.version&url=https%3A%2F%2Fapi.npms.io%2Fv2%2Fpackage%2Fscafflater-cli)](https://npmjs.org/package/scafflater-cli)
+[![Scafflater Cli](https://img.shields.io/badge/dynamic/xml?color=green&label=scafflater-cli&query=%2F%2F%2A%5B%40id%3D%22top%22%5D%2Fdiv%5B1%5D%2Fspan%5B1%5D&url=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2F%40scafflater%2Fscafflater)](https://npmjs.org/package/@scafflater/scafflater-cli)
 [![Downloads/week](https://img.shields.io/npm/dw/scafflater-cli.svg)](https://npmjs.org/package/scafflater-cli)
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![License](https://img.shields.io/npm/l/scafflater-cli.svg)](https://github.com/scafflater/scafflater-cli/blob/main/package.json)
 
 <!-- toc -->
-* [Usage](#usage)
-* [Commands](#commands)
+
+- [Usage](#usage)
+- [Commands](#commands)
 <!-- tocstop -->
+
 # Usage
+
 <!-- usage -->
+
 ```sh-session
 $ npm install -g scafflater-cli
 $ scafflater-cli COMMAND
@@ -23,13 +26,17 @@ USAGE
   $ scafflater-cli COMMAND
 ...
 ```
+
 <!-- usagestop -->
+
 # Commands
+
 <!-- commands -->
-* [`scafflater-cli help [COMMAND]`](#scafflater-cli-help-command)
-* [`scafflater-cli init [SOURCE]`](#scafflater-cli-init-source)
-* [`scafflater-cli partial:list`](#scafflater-cli-partiallist)
-* [`scafflater-cli partial:run [PARTIAL_NAME]`](#scafflater-cli-partialrun-partial_name)
+
+- [`scafflater-cli help [COMMAND]`](#scafflater-cli-help-command)
+- [`scafflater-cli init [SOURCE]`](#scafflater-cli-init-source)
+- [`scafflater-cli partial:list`](#scafflater-cli-partiallist)
+- [`scafflater-cli partial:run [PARTIAL_NAME]`](#scafflater-cli-partialrun-partial_name)
 
 ## `scafflater-cli help [COMMAND]`
 
@@ -110,4 +117,5 @@ DESCRIPTION
 ```
 
 _See code: [commands/partial/run.js](https://github.com/scafflater/scafflater/blob/v0.0.79/commands/partial/run.js)_
+
 <!-- commandsstop -->

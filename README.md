@@ -1,7 +1,7 @@
 # Scafflater
 
-[![npm version](https://badge.fury.io/js/scafflater.svg)](https://badge.fury.io/js/scafflater)
-[![Scafflater Cli](https://img.shields.io/badge/dynamic/json?color=green&label=scafflater-cli&query=%24.collected.metadata.version&url=https%3A%2F%2Fapi.npms.io%2Fv2%2Fpackage%2Fscafflater-cli)](https://npmjs.org/package/scafflater-cli)
+[![Scafflater](https://img.shields.io/badge/dynamic/xml?color=green&label=scafflater&query=%2F%2F%2A%5B%40id%3D%22top%22%5D%2Fdiv%5B1%5D%2Fspan%5B1%5D&url=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2F%40scafflater%2Fscafflater)](https://npmjs.org/package/@scafflater/scafflater)
+[![Scafflater Cli](https://img.shields.io/badge/dynamic/xml?color=green&label=scafflater-cli&query=%2F%2F%2A%5B%40id%3D%22top%22%5D%2Fdiv%5B1%5D%2Fspan%5B1%5D&url=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2F%40scafflater%2Fscafflater)](https://npmjs.org/package/@scafflater/scafflater-cli)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=scafflater&metric=alert_status)](https://sonarcloud.io/dashboard?id=scafflater)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=scafflater&metric=code_smells)](https://sonarcloud.io/dashboard?id=scafflater)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=scafflater&metric=coverage)](https://sonarcloud.io/dashboard?id=scafflater)
