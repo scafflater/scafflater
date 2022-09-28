@@ -118,6 +118,7 @@ class ScafflaterOptions {
     githubClient: "./github-client-template-source",
     isomorphicGit: "./isomorphic-git-template-source",
     localFolder: "./local-folder-template-source",
+    package: "./package-template-source"
   };
 
   githubBaseUrlApi = "https://api.github.com";
