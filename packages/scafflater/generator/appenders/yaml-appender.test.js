@@ -269,3 +269,62 @@ spec:
   system: pdd`)
   );
 });
+
+test("Merge complex arrays", async () => {
+  // ARRANGE
+  const srcYaml = `
+app:
+  env:
+    - name: NEW_RELIC_ENV
+      value: dev
+    - name: NEW_RELIC_CONFIG_FILE
+      value: ./newrelic.ini
+    - name: PYTHONPATH
+      value: .
+    - name: PYTHONUNBUFFERED
+      value: '1'
+    - name: PYTHONDONTWRITEBYTECODE
+      value: '1'
+    - name: POETRY_VIRTUALENVS_CREATE
+      value: 'false'
+    - name: LOG_LEVEL_ENABLED
+      value: ERROR
+  `;
+
+  const destinyYaml = `
+app:
+  env:
+    - name: DOCKER_CMD
+      value: sudo execute`;
+
+  const yamlAppender = new YamlAppender();
+
+  // ACT
+  const result = await yamlAppender.append(
+    { options: new ScafflaterOptions({ arrayAppendStrategy: "key(name)" }) },
+    srcYaml,
+    destinyYaml
+  );
+
+  // ASSERT
+  expect(yaml.load(result.result)).toStrictEqual(
+    yaml.load(`app:
+    env:
+      - name: DOCKER_CMD
+        value: sudo execute
+      - name: NEW_RELIC_ENV
+        value: dev
+      - name: NEW_RELIC_CONFIG_FILE
+        value: ./newrelic.ini
+      - name: PYTHONPATH
+        value: .
+      - name: PYTHONUNBUFFERED
+        value: '1'
+      - name: PYTHONDONTWRITEBYTECODE
+        value: '1'
+      - name: POETRY_VIRTUALENVS_CREATE
+        value: 'false'
+      - name: LOG_LEVEL_ENABLED
+        value: ERROR`)
+  );
+});
