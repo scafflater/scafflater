@@ -5,6 +5,8 @@ const exec = util.promisify(require("child_process").exec);
 const ScafflaterFileNotFoundError = require("../../errors/scafflater-file-not-found-error");
 const { TemplateDefinitionNotFound } = require("../../errors");
 const logger = require("winston");
+const fsUtil = require("../../fs-util");
+
 /**
  * Gets the template and copies it in a local folder.
  *
@@ -15,27 +17,24 @@ const logger = require("winston");
 class PackageTemplateSource extends LocalFolderTemplateSource {
   async getTemplate(sourceKey, outputDir = null) {
     try {
-      await exec("mkdir temp", {
-        timeout: 30000,
-      });
+      const tempPath = fsUtil.getTempFolderSync();
 
-      const packageStatus = await exec(`cd temp && npm pack ${sourceKey}`, {
+      const packageStatus = await exec(`cd ${tempPath} && npm pack ${sourceKey}`, {
         timeout: 30000,
       });
 
       await exec(
-        `cd temp && tar -xvzf ${packageStatus.stdout.replace("/n", "")}`,
+        `cd ${tempPath} && tar -xvzf ${packageStatus.stdout.replace("/n", "")}`,
         {
           timeout: 30000,
         }
       );
 
-      await exec(`cd temp/package && npm install -D ${sourceKey}`, {
+      await exec(`cd ${tempPath}/package && npm install -D ${sourceKey}`, {
         timeout: 60000,
       });
 
-      const path = process.cwd();
-      const pathToClone = `${path}/temp/package`;
+      const pathToClone = `${tempPath}/package`;
 
       return await super.getTemplate(pathToClone, outputDir);
     } catch (error) {
@@ -50,10 +49,6 @@ class PackageTemplateSource extends LocalFolderTemplateSource {
         );
       }
       throw error;
-    } finally {
-      await exec("rm -rf temp", {
-        timeout: 30000,
-      });
     }
   }
 
