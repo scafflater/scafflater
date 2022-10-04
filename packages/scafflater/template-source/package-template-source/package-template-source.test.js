@@ -1,28 +1,26 @@
 /* eslint-disable no-undef */
-const PackageTemplateSource = require('./package-template-source');
-const util = require('util');
+const PackageTemplateSource = require("./package-template-source");
+const util = require("util");
 const {
   ScafflaterFileNotFoundError,
   TemplateDefinitionNotFound,
-} = require('../../errors');
-const fsUtil = require('../../fs-util');
-const {LocalTemplate} = require('../../scafflater-config/local-template');
+} = require("../../errors");
+const fsUtil = require("../../fs-util");
+const { LocalTemplate } = require("../../scafflater-config/local-template");
 
-jest.mock('../../fs-util');
+jest.mock("../../fs-util");
 
-describe('getTemplate', () => {
+describe("getTemplate", () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
   jest.setTimeout(15000);
 
-  test('get template', async () => {
-    jest.spyOn(util, 'promisify').mockReturnValue(() => {
-      return {stdout: '', stderr: ''};
+  test("get template", async () => {
+    jest.spyOn(util, "promisify").mockReturnValue(() => {
+      return { stdout: "", stderr: "" };
     });
     const packageTemplateSource = new PackageTemplateSource();
-    expect(
-      packageTemplateSource.getTemplate('@gbsandbox/template-fastify')
-    ).toBeTruthy();
+    expect(packageTemplateSource.getTemplate("template-fastify")).toBeTruthy();
   });
 });
