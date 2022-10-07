@@ -1,1 +1,1 @@
-const m = (module.exports = require('./package-template-source'));
+module.exports = require("./package-template-source");

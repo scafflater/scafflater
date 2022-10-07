@@ -1,12 +1,6 @@
 /* eslint-disable no-undef */
 const PackageTemplateSource = require("./package-template-source");
 const util = require("util");
-const {
-  ScafflaterFileNotFoundError,
-  TemplateDefinitionNotFound,
-} = require("../../errors");
-const fsUtil = require("../../fs-util");
-const { LocalTemplate } = require("../../scafflater-config/local-template");
 
 jest.mock("../../fs-util");
 

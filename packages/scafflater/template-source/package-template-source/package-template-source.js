@@ -1,6 +1,5 @@
 const { LocalFolderTemplateSource } = require("..");
 const util = require("util");
-const fs = require("fs-extra");
 const exec = util.promisify(require("child_process").exec);
 const ScafflaterFileNotFoundError = require("../../errors/scafflater-file-not-found-error");
 const { TemplateDefinitionNotFound } = require("../../errors");
@@ -19,9 +18,12 @@ class PackageTemplateSource extends LocalFolderTemplateSource {
     try {
       const tempPath = fsUtil.getTempFolderSync();
 
-      const packageStatus = await exec(`cd ${tempPath} && npm pack ${sourceKey}`, {
-        timeout: 30000,
-      });
+      const packageStatus = await exec(
+        `cd ${tempPath} && npm pack ${sourceKey}`,
+        {
+          timeout: 30000,
+        }
+      );
 
       await exec(
         `cd ${tempPath} && tar -xvzf ${packageStatus.stdout.replace("/n", "")}`,
