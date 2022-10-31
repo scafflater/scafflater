@@ -12,11 +12,11 @@ describe("getTemplate", () => {
   jest.setTimeout(15000);
 
   test("get template", async () => {
+    const packageTemplateSource = new PackageTemplateSource();
     jest.spyOn(fsUtil, "getTempFolderSync").mockReturnValue("some/temp/folder");
     jest.spyOn(util, "promisify").mockReturnValue(() => {
       return { stdout: "", stderr: "" };
     });
-    const packageTemplateSource = new PackageTemplateSource();
     expect(packageTemplateSource.getTemplate("template-fastify")).toBeTruthy();
   });
 });
