@@ -3,6 +3,7 @@ const PackageTemplateSource = require("./package-template-source");
 const util = require("util");
 const fsUtil = require("../../fs-util");
 const { LocalTemplate } = require("../../scafflater-config/local-template");
+const { ScafflaterFileNotFoundError } = require("../../errors");
 
 jest.mock("../../fs-util");
 
@@ -33,8 +34,8 @@ describe("getTemplate", () => {
     jest.spyOn(util, "promisify").mockReturnValue(() => {
       return { stdout: "username", stderr: "" };
     });
-    expect(
+    await expect(
       packageTemplateSource.getTemplate("template-fastify", virtualFolder)
-    ).toBeTruthy();
+    ).rejects.toBeInstanceOf(ScafflaterFileNotFoundError);
   });
 });
