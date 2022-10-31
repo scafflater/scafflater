@@ -12,7 +12,7 @@ describe("getTemplate", () => {
   jest.setTimeout(15000);
 
   test("get template", async () => {
-    jest.spyOn(fsUtil, "getTempFolder").mockReturnValue("some/temp/folder");
+    jest.spyOn(fsUtil, "getTempFolderSync").mockReturnValue("some/temp/folder");
     jest.spyOn(util, "promisify").mockReturnValue(() => {
       return { stdout: "", stderr: "" };
     });
