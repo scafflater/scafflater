@@ -15,7 +15,7 @@ describe("getTemplate", () => {
     const packageTemplateSource = new PackageTemplateSource();
     jest.spyOn(fsUtil, "getTempFolderSync").mockReturnValue("some/temp/folder");
     jest.spyOn(util, "promisify").mockReturnValue(() => {
-      return { stdout: "", stderr: "" };
+      return { stdout: "username", stderr: "" };
     });
     expect(packageTemplateSource.getTemplate("template-fastify")).toBeTruthy();
   });
