@@ -1,6 +1,5 @@
 const { LocalFolderTemplateSource } = require("..");
 const util = require("util");
-const exec = util.promisify(require("child_process").exec);
 const ScafflaterFileNotFoundError = require("../../errors/scafflater-file-not-found-error");
 const { TemplateDefinitionNotFound } = require("../../errors");
 const logger = require("winston");
@@ -16,6 +15,7 @@ const fsUtil = require("../../fs-util");
 class PackageTemplateSource extends LocalFolderTemplateSource {
   async getTemplate(sourceKey, outputDir = null) {
     try {
+      const exec = util.promisify(require("child_process").exec);
       const tempPath = fsUtil.getTempFolderSync();
 
       const packageStatus = await exec(
@@ -56,6 +56,7 @@ class PackageTemplateSource extends LocalFolderTemplateSource {
 
   static async isValidSourceKey(sourceKey) {
     try {
+      const exec = util.promisify(require("child_process").exec);
       await exec(`npm view ${sourceKey}`, {
         timeout: 30000,
       });

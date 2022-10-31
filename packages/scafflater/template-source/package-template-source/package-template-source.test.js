@@ -2,6 +2,7 @@
 const PackageTemplateSource = require("./package-template-source");
 const util = require("util");
 const fsUtil = require("../../fs-util");
+const { LocalTemplate } = require("../../scafflater-config/local-template");
 
 jest.mock("../../fs-util");
 
@@ -13,10 +14,27 @@ describe("getTemplate", () => {
 
   test("get template", async () => {
     const packageTemplateSource = new PackageTemplateSource();
+    const virtualFolder = "/some/virtual/folder";
     jest.spyOn(fsUtil, "getTempFolderSync").mockReturnValue("some/temp/folder");
+    jest.spyOn(fsUtil, "getTempFolder").mockReturnValue("some/temp/folder");
+    jest
+      .spyOn(LocalTemplate, "loadFromPath")
+      .mockResolvedValue([
+        new LocalTemplate(
+          "/some/virtual/folder",
+          "template-name",
+          "the template",
+          "0.0.0",
+          [],
+          {},
+          [{ name: "some-parameter" }]
+        ),
+      ]);
     jest.spyOn(util, "promisify").mockReturnValue(() => {
       return { stdout: "username", stderr: "" };
     });
-    expect(packageTemplateSource.getTemplate("template-fastify")).toBeTruthy();
+    expect(
+      packageTemplateSource.getTemplate("template-fastify", virtualFolder)
+    ).toBeTruthy();
   });
 });
