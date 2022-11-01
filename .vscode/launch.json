@@ -11,7 +11,7 @@
       "program": "${workspaceFolder}/packages/scafflater-cli/bin/run",
       "args": [
         "init",
-        "@gbsandbox/pdd-template-javascript-fastify",
+        "https://github.com/scafflater/scafflater-template",
         "-p=name:template-name",
         "-p=description:Template Description"
       ]
