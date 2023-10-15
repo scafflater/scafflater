@@ -1,17 +1,21 @@
 /* eslint import/namespace: ['error', { allowComputed: true }] */
 import * as changeCase from "change-case";
+// eslint-disable-next-line import/no-unresolved
 import { titleCase } from "title-case";
 import { lowerCase } from "lower-case";
-import { upperCase } from "upper-case";
-import { lowerCaseFirst } from "lower-case-first";
-import { upperCaseFirst } from "upper-case-first";
 
 const customCases = {
   titleCase,
   lowerCase,
-  upperCase,
-  lowerCaseFirst,
-  upperCaseFirst,
+  upperCase: (str) => {
+    return str.toUpperCase();
+  },
+  lowerCaseFirst: (str) => {
+    return str.charAt(0).toLowerCase() + str.slice(1);
+  },
+  upperCaseFirst: (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  },
   noCaseAndTitle: (str) => {
     return titleCase(changeCase.noCase(str));
   },
