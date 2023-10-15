@@ -2,6 +2,7 @@
 import * as changeCase from "change-case";
 // eslint-disable-next-line import/no-unresolved
 import { titleCase } from "title-case";
+// eslint-disable-next-line import/no-unresolved
 import { lowerCase } from "lower-case";
 
 const customCases = {
