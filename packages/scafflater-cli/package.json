@@ -54,10 +54,10 @@
   "repository": "scafflater/scafflater",
   "scripts": {
     "postpack": "rm -f oclif.manifest.json",
-    "prepack": "oclif-dev manifest && oclif-dev readme && npm shrinkwrap",
+    "prepack": "oclif manifest && oclif readme && npm shrinkwrap",
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest --collectCoverage"
   },
   "devDependencies": {
-    "@oclif/dev-cli": "^1.26.10"
+    "oclif": "4.0.2"
   }
 }
