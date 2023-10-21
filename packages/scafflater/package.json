@@ -35,7 +35,8 @@
     "node": ">=18"
   },
   "files": [
-    "/dist"
+    "/dist",
+    "/types"
   ],
   "dependencies": {
     "@ltd/j-toml": "1.38.0",
