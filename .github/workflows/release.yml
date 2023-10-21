@@ -63,9 +63,9 @@ jobs:
         run: npm install
         working-directory: ${{env.working-diretory}}
 
-      - name: Generate Types
-        run: npm run types
-        working-directory: ${{env.working-diretory}}
+      # - name: Generate Types
+      #   run: npm run types
+      #   working-directory: ${{env.working-diretory}}
 
       - name: NPM Authentication
         run: echo //registry.npmjs.org/:_authToken=${{secrets.NPM_AUTH_TOKEN}} > .npmrc
