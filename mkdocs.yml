@@ -1,0 +1,15 @@
+site_name: 'Scafflater'
+edit_uri: 'https://github.com/grupoboticario/scafflater/edit/main/docs/'
+
+nav:
+  - Overview: README.md
+  - Options: Options.md
+  - Parameters: Parameters.md
+  - Template: Template.md
+  - Generation: Generation-Process.md
+  - Troubleshooting: Troubleshooting.md
+plugins:
+  - techdocs-core
+  - kroki:
+      ServerURL: 'https://dev.gb.tech/api/proxy/kroki'
+      FencePrefix: ''

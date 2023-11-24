@@ -16,13 +16,20 @@
     "test:dev": "jest --detectOpenHandles --collectCoverage --runInBand --verbose --forceExit",
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest --collectCoverage",
     "lint": "eslint \"**/*.js\" --ignore-pattern node_modules/",
-    "lint:fix": "eslint --fix \"**/*.js\" --ignore-pattern node_modules/"
+    "lint:fix": "eslint --fix \"**/*.js\" --ignore-pattern node_modules/",
+    "techdocs:help": "techdocs-cli --help",
+    "techdocs:generate": "techdocs-cli generate",
+    "techdocs:publish": "techdocs-cli publish",
+    "techdocs:serve:mkdocs": "techdocs-cli serve:mkdocs --no-docker",
+    "techdocs:serve": "techdocs-cli serve --no-docker",
+    "techdocs:mkdocs": "mkdocs serve"
   },
   "devDependencies": {
     "@babel/core": "7.23.2",
     "@babel/eslint-parser": "7.22.15",
     "@babel/eslint-plugin": "7.22.10",
     "@jest/globals": "29.7.0",
+    "@techdocs/cli": "1.7.0",
     "@types/jest": "29.5.5",
     "eslint": "8.51.0",
     "eslint-config-oclif": "5.0.0",
