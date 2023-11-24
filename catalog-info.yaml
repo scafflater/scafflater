@@ -7,7 +7,7 @@ apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
   name: scafflater
-  description: Templater and Scafflater tool used by Alquimia
+  description: Templater and Scaffold tool used by Alquimia
   tags:
     - templater
     - scaffold
