@@ -58,6 +58,9 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_PAT }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Remove package.json
+        run: rm -f package.json
+
       - name: Install dependencies
         run: npm install
         working-directory: ${{env.working-diretory}}
@@ -75,9 +78,6 @@ jobs:
         working-directory: ${{env.working-diretory}}
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Remove package.json
-        run: rm -f package.json
 
       - name: Publishing packages
         run: npm publish --access=public
@@ -134,6 +134,9 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_PAT }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Remove package.json to remove workspace dependencies
+        run: rm -f package.json
+
       - name: Install dependencies
         run: npm install
         working-directory: ./packages/scafflater-cli
@@ -147,9 +150,6 @@ jobs:
         working-directory: ./packages/scafflater-cli
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Remove package.json
-        run: rm -f package.json
 
       - name: Publishing packages
         run: npm publish --access=public
