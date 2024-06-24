@@ -1,6 +1,5 @@
 import Appender from "./appender.js";
 import YAML, { YAMLMap, Scalar, YAMLSeq } from "yaml";
-import merge from "deepmerge";
 
 /**
  * Combine arrays. Combine the array item by item.
