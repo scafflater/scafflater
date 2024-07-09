@@ -42,7 +42,7 @@
     "@ltd/j-toml": "1.38.0",
     "@octokit/rest": "20.1.1",
     "@prettier/plugin-xml": "3.4.1",
-    "chalk": "5.3.0",
+    "chalk": "4.1.2",
     "change-case": "5.4.4",
     "deepmerge": "4.3.1",
     "directory-tree": "3.5.1",

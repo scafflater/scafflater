@@ -12,7 +12,9 @@ updates:
     schedule:
       interval: weekly
     ignore:
-      - dependency-name: 'strip-json-comments' # Ignore this package due to this https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
+      # Ignore this package due to this https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
+      - dependency-name: 'strip-json-comments'
+      - dependency-name: '4.1.2'
     groups:
       non-major:
         update-types:
