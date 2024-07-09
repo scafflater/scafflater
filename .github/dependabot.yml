@@ -16,6 +16,7 @@ updates:
       - dependency-name: 'strip-json-comments'
       - dependency-name: 'chalk'
       - dependency-name: 'change-case'
+      - dependency-name: 'title-case'
     groups:
       non-major:
         update-types:
