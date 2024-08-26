@@ -5,6 +5,10 @@ import path from "path";
 import Case from "./hbs-builtin-helpers/case.js";
 import lineComment from "./hbs-builtin-helpers/lineComment.js";
 import echo from "./hbs-builtin-helpers/echo.js";
+import {
+  stringEquals,
+  stringNotEquals,
+} from "./hbs-builtin-helpers/stringCompare.js";
 
 /**
  * Compile and apply the handlebar js on input
@@ -16,6 +20,8 @@ export default class HandlebarsProcessor extends Processor {
     Handlebars.registerHelper("case", Case);
     Handlebars.registerHelper("lineComment", lineComment);
     Handlebars.registerHelper("echo", echo);
+    Handlebars.registerHelper("stringEquals", stringEquals);
+    Handlebars.registerHelper("stringNotEquals", stringNotEquals);
   }
 
   async process(context, input) {
